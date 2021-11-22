@@ -14,7 +14,7 @@ public class Reviewer {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "work_item_id", nullable = false)
-    private Workitem workItem;
+    private WorkItem workItem;
 
     @ManyToOne
     @JoinColumn(name = "status_id")
@@ -28,11 +28,11 @@ public class Reviewer {
         this.status = status;
     }
 
-    public Workitem getWorkItem() {
+    public WorkItem getWorkItem() {
         return workItem;
     }
 
-    public void setWorkItem(Workitem workItem) {
+    public void setWorkItem(WorkItem workItem) {
         this.workItem = workItem;
     }
 

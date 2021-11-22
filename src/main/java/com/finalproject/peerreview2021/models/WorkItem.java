@@ -1,10 +1,13 @@
 package com.finalproject.peerreview2021.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Table(name = "workitems")
 @Entity
-public class Workitem {
+public class WorkItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "work_item_id", nullable = false)
@@ -27,6 +30,19 @@ public class Workitem {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private Status status;
+
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Team getTeam() {
         return team;

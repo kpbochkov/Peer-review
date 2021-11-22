@@ -16,7 +16,7 @@ public class Comment {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "work_item_id", nullable = false)
-    private Workitem workItem;
+    private WorkItem workItem;
 
     @Lob
     @Column(name = "content", nullable = false)
@@ -30,11 +30,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Workitem getWorkItem() {
+    public WorkItem getWorkItem() {
         return workItem;
     }
 
-    public void setWorkItem(Workitem workItem) {
+    public void setWorkItem(WorkItem workItem) {
         this.workItem = workItem;
     }
 
