@@ -1,5 +1,7 @@
 package com.finalproject.peerreview2021.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -21,6 +23,7 @@ public class Notification {
     @Column(name = "seen", nullable = false)
     private Boolean seen = false;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @Column(name = "time", nullable = false)
     private Instant time;
 

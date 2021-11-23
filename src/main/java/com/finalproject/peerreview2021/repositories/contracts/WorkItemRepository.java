@@ -5,7 +5,7 @@ import com.finalproject.peerreview2021.models.WorkItem;
 import java.util.List;
 import java.util.Optional;
 
-public interface WorkItemRepository extends BaseReadRepository<WorkItem> {
+public interface WorkItemRepository extends BaseCRUDRepository<WorkItem> {
 
     //ToDo add method "assign additional reviewers"
 

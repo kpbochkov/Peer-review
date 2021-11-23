@@ -5,9 +5,11 @@ import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> implements WorkItemRepository {
 
     private final SessionFactory sessionFactory;
