@@ -38,7 +38,7 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
             });
 
             reviewer.ifPresent(value -> {
-                filter.add(" u.name like :reviewer ");
+                filter.add(" u.username like :reviewer ");
                 params.put("reviewer", "%" + value + "%");
             });
 
@@ -47,8 +47,8 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
                 sortParamStr = generateQueryStringFromSortParam(sortParam);
             }
 
-            stringBuilder.append(" from WorkItem w join Reviewer r on w.id=r.workItem " +
-                    "join User u on r.user=u.id where ").append(String.join(" and ", filter));
+            stringBuilder.append(" select w from WorkItem w left join Reviewer r on w.id=r.workItem " +
+                    "left join User u on r.user=u.id where ").append(String.join(" and ", filter));
             stringBuilder.append(sortParamStr);
 
 //            stringBuilder.append(" from WorkItem where ").append(String.join(" and ", filter));
