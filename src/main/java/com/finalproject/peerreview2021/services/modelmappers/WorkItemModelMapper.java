@@ -44,7 +44,6 @@ public class WorkItemModelMapper {
     }
 
     private void dtoToObject(WorkItemDto dto, WorkItem workItem) {
-        workItem.setName(dto.getName());
         workItem.setTitle(dto.getTitle());
         workItem.setDescription(dto.getDescription());
         workItem.setCreatedBy(userRepository.getById(dto.getCreatedBy()));

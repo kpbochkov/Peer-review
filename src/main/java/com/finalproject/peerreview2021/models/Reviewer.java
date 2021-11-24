@@ -1,13 +1,16 @@
 package com.finalproject.peerreview2021.models;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "reviewers")
 @Entity
 public class Reviewer {
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reviewer_id", nullable = false)
+    private int id;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -19,6 +22,14 @@ public class Reviewer {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private Status status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Status getStatus() {
         return status;

@@ -28,18 +28,6 @@ public class User {
     @Column(name = "photo")
     private byte[] photo;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "team_id", nullable = false)
-    private Team team;
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     public byte[] getPhoto() {
         return photo;
     }

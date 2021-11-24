@@ -30,15 +30,15 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void create(WorkItem entity) {
-        boolean nameAlreadyTaken = true;
-        try {
-            workItemRepository.getByField("name", entity.getName());
-        } catch (EntityNotFoundException e) {
-            nameAlreadyTaken = false;
-        }
-        if (nameAlreadyTaken) {
-            throw new DuplicateEntityException("WorkItem", "name", entity.getName());
-        }
+//        boolean nameAlreadyTaken = true;
+//        try {
+//            workItemRepository.getByField("name", entity.getName());
+//        } catch (EntityNotFoundException e) {
+//            nameAlreadyTaken = false;
+//        }
+//        if (nameAlreadyTaken) {
+//            throw new DuplicateEntityException("WorkItem", "name", entity.getName());
+//        }
         workItemRepository.create(entity);
     }
 
@@ -54,18 +54,18 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void update(WorkItem entity) {
-        boolean nameAlreadyTaken = true;
-        try {
-            WorkItem entityInRepository = workItemRepository.getByField("name", entity.getName());
-            if(Objects.equals(entityInRepository.getId(), entity.getId())){
-                nameAlreadyTaken = false;
-            }
-        } catch (EntityNotFoundException e) {
-            nameAlreadyTaken = false;
-        }
-        if (nameAlreadyTaken) {
-            throw new DuplicateEntityException("WorkItem", "name", entity.getName());
-        }
+//        boolean nameAlreadyTaken = true;
+//        try {
+//            WorkItem entityInRepository = workItemRepository.getByField("name", entity.getName());
+//            if(Objects.equals(entityInRepository.getId(), entity.getId())){
+//                nameAlreadyTaken = false;
+//            }
+//        } catch (EntityNotFoundException e) {
+//            nameAlreadyTaken = false;
+//        }
+//        if (nameAlreadyTaken) {
+//            throw new DuplicateEntityException("WorkItem", "name", entity.getName());
+//        }
         WorkItem entityInRepository = workItemRepository.getById(entity.getId());
         if (!Objects.equals(entityInRepository.getCreatedBy().getId(), entity.getCreatedBy().getId())) {
             throw new UpdateEntityException("WorkItem", "createdBy");

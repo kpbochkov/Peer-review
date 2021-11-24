@@ -30,7 +30,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.telerikacademy.web.springdemo.models");
+        sessionFactory.setPackagesToScan("com.finalproject.peerreview2021.models");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

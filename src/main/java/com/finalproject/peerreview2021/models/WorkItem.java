@@ -13,9 +13,6 @@ public class WorkItem {
     @Column(name = "work_item_id", nullable = false)
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 30)
-    private String name;
-
     @Column(name = "title", length = 80)
     private String title;
 
@@ -74,14 +71,6 @@ public class WorkItem {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getId() {
