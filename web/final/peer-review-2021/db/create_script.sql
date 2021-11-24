@@ -1,3 +1,7 @@
+drop database `peer_review_2021`;
+create database if not exists `peer_review_2021`;
+use `peer_review_2021`;
+
 create table statuses
 (
     status_id int auto_increment

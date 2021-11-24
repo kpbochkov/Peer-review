@@ -2,6 +2,9 @@ package com.finalproject.peerreview2021.services.contracts;
 
 import com.finalproject.peerreview2021.models.WorkItem;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Created with IntelliJ IDEA.
  * User: gog
@@ -9,4 +12,6 @@ import com.finalproject.peerreview2021.models.WorkItem;
  * Time: 11:28
  */
 public interface WorkItemService extends BaseCRUDService<WorkItem> {
+    List<WorkItem> filter(Optional<String> title, Optional<String> status,
+                          Optional<String> reviewer, Optional<String> sortParam);
 }

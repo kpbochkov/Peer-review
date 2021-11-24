@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class TeamRepositoryImpl extends AbstractCRUDRepository<Team> implements TeamRepository {
-
     public TeamRepositoryImpl(SessionFactory sessionFactory) {
         super(Team.class, sessionFactory);
     }

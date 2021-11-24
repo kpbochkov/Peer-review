@@ -17,7 +17,7 @@ public class Team {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "owner")
     private User user;
 
 

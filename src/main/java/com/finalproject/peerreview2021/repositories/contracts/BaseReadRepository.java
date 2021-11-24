@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface BaseReadRepository<T> {
 
-
     List<T> getAll();
 
     T getById(int id);

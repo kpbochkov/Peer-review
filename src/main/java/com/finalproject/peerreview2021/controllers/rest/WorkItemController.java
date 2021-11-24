@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,5 +81,16 @@ public class WorkItemController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+
+    @ApiOperation(value = "Filter Work Item by title, status and reviewer")
+    @GetMapping("/filter")
+    public List<WorkItem> filter(
+            @RequestParam(required = false) Optional<String> title,
+            @RequestParam(required = false) Optional<String> status,
+            @RequestParam(required = false) Optional<String> reviewer,
+            @RequestParam(required = false) Optional<String> sortParam) {
+        return workItemService.filter(title, status, reviewer, sortParam);
     }
 }

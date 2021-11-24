@@ -1,6 +1,7 @@
 package com.finalproject.peerreview2021.repositories;
 
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.repositories.contracts.BaseReadRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -55,7 +56,6 @@ public abstract class AbstractReadRepository<T> implements BaseReadRepository<T>
     }
 
 
-
     @Override
     public T getById(int id) {
         return getByField("id", id);
@@ -64,8 +64,12 @@ public abstract class AbstractReadRepository<T> implements BaseReadRepository<T>
     @Override
     public List<T> getAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(String.format("from %s ", clazz.getName()), clazz).list();
+            List<T> list = session.createQuery(String.format("from %s ", clazz.getName()), clazz).list();
+            for (T t : list) {
+                System.out.println(t.toString());
+            }
+            return list;
         }
-    }
 
+    }
 }

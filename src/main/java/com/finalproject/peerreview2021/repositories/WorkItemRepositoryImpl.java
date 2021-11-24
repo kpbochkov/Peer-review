@@ -20,27 +20,39 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
     }
 
     @Override
-    public List<WorkItem> filter(Optional<String> name, Optional<String> status,
-                                 Optional<String> sortParam) {
+    public List<WorkItem> filter(Optional<String> title, Optional<String> status,
+                                 Optional<String> reviewer, Optional<String> sortParam) {
         try (Session session = sessionFactory.openSession()) {
             StringBuilder stringBuilder = new StringBuilder();
             List<String> filter = new ArrayList<>();
             Map<String, Object> params = new HashMap<>();
 
-            name.ifPresent(value -> {
-                filter.add(" name like :name ");
-                params.put("name", "%" + value + "%");
+            title.ifPresent(value -> {
+                filter.add(" w.title like :title ");
+                params.put("title", "%" + value + "%");
             });
 
             status.ifPresent(value -> {
-                filter.add(" status.name like :status ");
+                filter.add(" w.status.name like :status ");
                 params.put("status", "%" + value + "%");
             });
 
-            String sortParamStr = generateQueryStringFromSortParam(sortParam);
+            reviewer.ifPresent(value -> {
+                filter.add(" u.name like :reviewer ");
+                params.put("reviewer", "%" + value + "%");
+            });
 
-            stringBuilder.append(" from WorkItem where ").append(String.join(" and ", filter));
+            String sortParamStr = "";
+            if (sortParam.isPresent()) {
+                sortParamStr = generateQueryStringFromSortParam(sortParam);
+            }
+
+            stringBuilder.append(" from WorkItem w join Reviewer r on w.id=r.workItem " +
+                    "join User u on r.user=u.id where ").append(String.join(" and ", filter));
             stringBuilder.append(sortParamStr);
+
+//            stringBuilder.append(" from WorkItem where ").append(String.join(" and ", filter));
+//            stringBuilder.append(sortParamStr);
 
             Query<WorkItem> query = session.createQuery(stringBuilder.toString(), WorkItem.class);
             query.setProperties(params);
@@ -69,5 +81,4 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
         }
         return "Did not enter switch case.";
     }
-
 }

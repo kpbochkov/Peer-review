@@ -9,7 +9,7 @@ public interface WorkItemRepository extends BaseCRUDRepository<WorkItem> {
 
     //ToDo add method "assign additional reviewers"
 
-    List<WorkItem> filter(Optional<String> name, Optional<String> status,
-                          Optional<String> sortParam);
+    List<WorkItem> filter(Optional<String> title, Optional<String> status,
+                          Optional<String> reviewer, Optional<String> sortParam);
 
 }

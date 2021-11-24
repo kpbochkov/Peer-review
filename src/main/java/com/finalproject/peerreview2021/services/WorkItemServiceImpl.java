@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,5 +80,10 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Override
     public void delete(int id) {
         workItemRepository.delete(id);
+    }
+
+    @Override
+    public List<WorkItem> filter(Optional<String> title, Optional<String> status, Optional<String> reviewer, Optional<String> sortParam) {
+        return workItemRepository.filter(title, status, reviewer, sortParam);
     }
 }

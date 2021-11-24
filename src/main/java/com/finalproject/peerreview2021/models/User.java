@@ -25,14 +25,14 @@ public class User {
     @Column(name = "phone_number", nullable = false)
     private Integer phoneNumber;
 
-    @Column(name = "photo")
-    private byte[] photo;
+    @Column(name = "photo", length = 64)
+    private String photo;
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

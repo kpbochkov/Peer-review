@@ -17,11 +17,10 @@ public class UserDto {
     @Email
     private String email;
 
-//    @Size(max = 10)
     @Positive(message = "Phone number should contain positive digits")
     private int phoneNumber;
 
-    private byte[] photo;
+    private String photo;
 
 
     public UserDto() {
@@ -59,11 +58,11 @@ public class UserDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 }
