@@ -1,6 +1,8 @@
 package com.finalproject.peerreview2021.repositories;
 
+import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -47,6 +49,22 @@ public class UserRepositoryImpl extends AbstractCRUDRepository<User> implements 
 
             Query<User> query = session.createQuery(stringBuilder.toString(), User.class);
             query.setProperties(params);
+
+            List<User> result = query.list();
+            if (result.size() == 0) {
+                throw new EntityNotFoundException("Filter", "with this name or", "value");
+            }
+
+            return result;
+        }
+    }
+
+    @Override
+    public List<WorkItem> getAllWorkitemsForUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<WorkItem> query = session.createQuery(
+                    "from WorkItem" + " where createdBy.id = :userId", WorkItem.class);
+            query.setParameter("userId", user.getId());
 
             return query.list();
         }

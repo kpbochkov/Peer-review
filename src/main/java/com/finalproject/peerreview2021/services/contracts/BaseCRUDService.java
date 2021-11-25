@@ -14,6 +14,8 @@ public interface BaseCRUDService<T> {
 
     List<T> getAll();
 
+    <V> T getByField(String name, V value);
+
     T getById(int id);
 
     void update(T entity);
