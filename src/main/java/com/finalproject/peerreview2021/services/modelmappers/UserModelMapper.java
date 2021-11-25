@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper {
+public class UserModelMapper {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserMapper(UserRepository userRepository) {
+    public UserModelMapper(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

@@ -1,6 +1,9 @@
 package com.finalproject.peerreview2021.models.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.*;
+import java.io.IOException;
 
 public class UserDto {
 
@@ -20,8 +23,7 @@ public class UserDto {
     @Positive(message = "Phone number should contain positive digits")
     private int phoneNumber;
 
-    private String photo;
-
+    private byte[] photo;
 
     public UserDto() {
     }
@@ -58,11 +60,15 @@ public class UserDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public void store(MultipartFile photo) throws IOException {
+       this.photo = photo.getBytes();
     }
 }
