@@ -4,14 +4,18 @@ import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.UserDto;
 import com.finalproject.peerreview2021.services.contracts.UserService;
-import com.finalproject.peerreview2021.services.modelmappers.UserMapper;
+import com.finalproject.peerreview2021.services.modelmappers.UserModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +23,14 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
+    private final UserModelMapper userMapper;
+    private final AuthenticationHelper authenticationHelper;
 
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService, UserModelMapper userMapper,
+                          AuthenticationHelper authenticationHelper) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.authenticationHelper = authenticationHelper;
     }
 
     @GetMapping()
@@ -41,12 +48,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@Valid @RequestBody UserDto userDto) {
+    public User create(@RequestPart MultipartFile photo,
+                       @Valid @RequestPart UserDto userDto) {
         try {
-            User user = userMapper.fromDto(userDto);
+            User user = userMapper.fromDto(userDto, photo);
             userService.create(user);
             return user;
-        } catch (DuplicateEntityException e) {
+        } catch (DuplicateEntityException | IOException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
@@ -84,4 +92,12 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @GetMapping("/workitems")
+    public List<WorkItem> showAllWorkitemsForUser(@RequestHeader HttpHeaders headers) {
+        User user = authenticationHelper.tryGetUser(headers);
+        return userService.getAllWorkitemsForUser(user);
+    }
+
+
 }

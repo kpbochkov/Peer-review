@@ -1,7 +1,5 @@
 package com.finalproject.peerreview2021.services;
 
-import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
-import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
@@ -46,6 +44,11 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Override
     public List<WorkItem> getAll() {
         return workItemRepository.getAll();
+    }
+
+    @Override
+    public <V> WorkItem getByField(String name, V value) {
+        return workItemRepository.getByField(name, value);
     }
 
     @Override

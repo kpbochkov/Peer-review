@@ -5,19 +5,23 @@ import com.finalproject.peerreview2021.models.dto.UserDto;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Component
-public class UserMapper {
+public class UserModelMapper {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserMapper(UserRepository userRepository) {
+    public UserModelMapper(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User fromDto(UserDto userDto) {
+    public User fromDto(UserDto userDto, MultipartFile photo) throws IOException {
         User user = new User();
+        userDto.store(photo);
         dtoToObject(userDto, user);
         return user;
     }

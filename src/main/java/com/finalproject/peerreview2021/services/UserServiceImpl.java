@@ -2,8 +2,8 @@ package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
-import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     public void update(User user) {
         if (!duplicateExist(user)) {
             userRepository.update(user);
@@ -41,6 +40,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return userRepository.getAll();
+    }
+
+    @Override
+    public <V> User getByField(String name, V value) {
+        return userRepository.getByField(name, value);
     }
 
     @Override
@@ -56,7 +60,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> filter(Optional<String> username, Optional<String> email, Optional<Integer> phone) {
-        return userRepository.filter(username, email, phone);
+        try {
+            return userRepository.filter(username, email, phone);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Filter", "with this name or", "value");
+        }
+    }
+
+    @Override
+    public List<WorkItem> getAllWorkitemsForUser(User user) {
+        return userRepository.getAllWorkitemsForUser(user);
     }
 
     private boolean duplicateExist(User user) {
