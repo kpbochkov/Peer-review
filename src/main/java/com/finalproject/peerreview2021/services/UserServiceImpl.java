@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     public void update(User user) {
         if (!duplicateExist(user)) {
             userRepository.update(user);

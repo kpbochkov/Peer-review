@@ -98,4 +98,6 @@ public class UserController {
         User user = authenticationHelper.tryGetUser(headers);
         return userService.getAllWorkitemsForUser(user);
     }
+
+
 }

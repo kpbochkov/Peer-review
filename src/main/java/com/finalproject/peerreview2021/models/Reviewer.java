@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 public class Reviewer {
 
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reviewer_id", nullable = false)
     private int id;
