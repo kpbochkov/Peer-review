@@ -4,28 +4,37 @@ import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
 import com.finalproject.peerreview2021.models.Team;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.dto.TeamDto;
 import com.finalproject.peerreview2021.services.contracts.TeamService;
+import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.TeamModelMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
-
     private final TeamService teamService;
     private final TeamModelMapper teamModelMapper;
+    private final AuthenticationHelper authenticationHelper;
+    private final UserService userService;
 
     @Autowired
-    public TeamController(TeamService teamService, TeamModelMapper teamModelMapper) {
+    public TeamController(TeamService teamService, TeamModelMapper teamModelMapper,
+                          AuthenticationHelper authenticationHelper, UserService userService) {
         this.teamService = teamService;
         this.teamModelMapper = teamModelMapper;
+        this.authenticationHelper = authenticationHelper;
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Get Team by ID")
@@ -78,10 +87,55 @@ public class TeamController {
 
 
     /*
-    •	Add new members to a team (must)
+•	Add new members to a team (must)
 •	Remove members from the team (must)
 •	List team members (must)
-
      */
 
+    @ApiOperation(value = "Add new members to a team")
+    @PostMapping("/{teamId}")
+    public void addUserToTeam(@RequestHeader HttpHeaders headers,
+                                    @PathVariable int teamId,
+                                    @RequestBody Map<String, Object> body) {
+        User user = authenticationHelper.tryGetUser(headers);
+        var team = teamService.getById(teamId);
+        var user1 = (int) body.get("userId");
+
+        User userToAdd;
+        try {
+            userToAdd = userService.getById(user1);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+
+        try {
+            teamService.addUserToTeam(userToAdd, user, team);
+        } catch (DuplicateEntityException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Get Team members by Team ID")
+    @GetMapping("/{id}/members")
+    public List<User> getTeamMembers(@PathVariable int id) {
+        try {
+            Team team = teamService.getById(id);
+            return teamService.getTeamMembers(team);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Delete Team members by User ID")
+    @DeleteMapping("/{teamId}/members/{userId}")
+    public void deleteTeamMember(@PathVariable int teamId,
+                                 @PathVariable int userId) {
+        try {
+            Team team = teamService.getById(teamId);
+            User user = userService.getById(userId);
+            teamService.deleteTeamMember(user, team);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

@@ -17,10 +17,6 @@ public class WorkItemDto {
     @JsonIgnore
     private Integer id;
 
-    @NotNull(message = "Work item name can't be empty")
-    @Size(min = 3, max = 30, message = "Work item name should be between 3 and 30 symbols")
-    private String name;
-
     @NotNull(message = "Work item title can't be empty")
     @Size(min = 10, max = 80, message = "Work item title should be between 10 and 80 symbols")
     private String title;
@@ -43,14 +39,6 @@ public class WorkItemDto {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getTitle() {

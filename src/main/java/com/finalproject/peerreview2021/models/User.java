@@ -1,6 +1,8 @@
 package com.finalproject.peerreview2021.models;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Table(name = "users", indexes = {
         @Index(name = "users_phone_number_uindex", columnList = "phone_number", unique = true),
@@ -75,5 +77,21 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) &&
+                Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, username, password, email, phoneNumber);
+        result = 31 * result + Arrays.hashCode(photo);
+        return result;
     }
 }

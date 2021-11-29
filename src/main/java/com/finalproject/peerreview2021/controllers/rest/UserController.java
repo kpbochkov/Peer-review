@@ -8,6 +8,7 @@ import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.UserDto;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.UserModelMapper;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +34,13 @@ public class UserController {
         this.authenticationHelper = authenticationHelper;
     }
 
+    @ApiOperation(value = "Get all Users")
     @GetMapping()
     public List<User> getAll() {
         return userService.getAll();
     }
 
+    @ApiOperation(value = "Get User by ID")
     @GetMapping("/{id}")
     public User getById(@PathVariable int id) {
         try {
@@ -46,7 +49,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-
+    @ApiOperation(value = "Create new User")
     @PostMapping
     public User create(@RequestPart MultipartFile photo,
                        @Valid @RequestPart UserDto userDto) {
@@ -59,6 +62,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Update existing User with the given id")
     @PutMapping("/{id}")
     public User update(@PathVariable int id, @Valid @RequestBody UserDto userDto) {
         try {
@@ -74,6 +78,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Delete User with the given id")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         try {
@@ -83,6 +88,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Filter User by username, email and phone number")
     @GetMapping("/filter")
     public List<User> filter(@RequestParam(required = false) Optional<String> username,
                              Optional<String> email, Optional<Integer> phone) {
@@ -93,11 +99,10 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Get all Work Items for the logged User")
     @GetMapping("/workitems")
     public List<WorkItem> showAllWorkitemsForUser(@RequestHeader HttpHeaders headers) {
         User user = authenticationHelper.tryGetUser(headers);
         return userService.getAllWorkitemsForUser(user);
     }
-
-
 }

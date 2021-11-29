@@ -30,7 +30,6 @@ public class Team {
     )
     private Set<User> members;
 
-
     public String getName() {
         return name;
     }
@@ -53,5 +52,13 @@ public class Team {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
     }
 }

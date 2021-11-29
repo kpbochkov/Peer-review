@@ -6,8 +6,8 @@ import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException
 import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.dto.ReviewerDto;
 import com.finalproject.peerreview2021.services.contracts.ReviewerService;
-import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.ReviewerModelMapper;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,11 +27,13 @@ public class ReviewerController {
         this.reviewerService = reviewerService;
     }
 
+    @ApiOperation(value = "Get all Reviewers")
     @GetMapping()
     public List<Reviewer> getAll() {
         return reviewerService.getAll();
     }
 
+    @ApiOperation(value = "Get Reviewer by ID")
     @GetMapping("/{id}")
     public Reviewer getById(@PathVariable int id) {
         try {
@@ -41,6 +43,7 @@ public class ReviewerController {
         }
     }
 
+    @ApiOperation(value = "Create new Reviewer")
     @PostMapping
     public Reviewer create(@Valid @RequestBody ReviewerDto reviewerDto) {
         try {
@@ -49,9 +52,12 @@ public class ReviewerController {
             return reviewer;
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        } catch (UnauthorizedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 
+    @ApiOperation(value = "Update existing Reviewer with the given id")
     @PutMapping("/{id}")
     public Reviewer update(@PathVariable int id, @Valid @RequestBody ReviewerDto reviewerDto) {
         try {
@@ -67,6 +73,7 @@ public class ReviewerController {
         }
     }
 
+    @ApiOperation(value = "Delete Reviewer with the given id")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         try {

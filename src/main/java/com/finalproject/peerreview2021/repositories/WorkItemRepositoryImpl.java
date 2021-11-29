@@ -51,9 +51,6 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
                     "left join User u on r.user=u.id where ").append(String.join(" and ", filter));
             stringBuilder.append(sortParamStr);
 
-//            stringBuilder.append(" from WorkItem where ").append(String.join(" and ", filter));
-//            stringBuilder.append(sortParamStr);
-
             Query<WorkItem> query = session.createQuery(stringBuilder.toString(), WorkItem.class);
             query.setProperties(params);
 
