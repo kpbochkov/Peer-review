@@ -1,13 +1,13 @@
 package com.finalproject.peerreview2021.repositories;
 
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
+import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -17,7 +17,7 @@ public class UserRepositoryImpl extends AbstractCRUDRepository<User> implements 
 
     private final SessionFactory sessionFactory;
 
-    @Autowired
+
     public UserRepositoryImpl(SessionFactory sessionFactory) {
         super(User.class, sessionFactory);
         this.sessionFactory = sessionFactory;
@@ -56,17 +56,6 @@ public class UserRepositoryImpl extends AbstractCRUDRepository<User> implements 
             }
 
             return result;
-        }
-    }
-
-    @Override
-    public List<WorkItem> getAllWorkitemsForUser(User user) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<WorkItem> query = session.createQuery(
-                    "from WorkItem" + " where createdBy.id = :userId", WorkItem.class);
-            query.setParameter("userId", user.getId());
-
-            return query.list();
         }
     }
 }

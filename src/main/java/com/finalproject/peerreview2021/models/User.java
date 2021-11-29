@@ -27,10 +27,10 @@ public class User {
     @Column(name = "phone_number", nullable = false)
     private Integer phoneNumber;
 
+    @Lob
     @Column(name = "photo")
     private byte[] photo;
 
-    @Lob
     public byte[] getPhoto() {
         return photo;
     }

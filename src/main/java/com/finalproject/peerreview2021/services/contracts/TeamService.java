@@ -6,7 +6,7 @@ import com.finalproject.peerreview2021.models.User;
 import java.util.List;
 
 public interface TeamService extends BaseCRUDService<Team> {
-    void addUserToTeam(User user, User owner, Team team);
+    void addUserToTeam(User user, Team team);
 
     List<User> getTeamMembers(Team team);
 

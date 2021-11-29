@@ -1,6 +1,8 @@
 package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
+import com.finalproject.peerreview2021.models.Team;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
@@ -88,5 +90,15 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Override
     public List<WorkItem> filter(Optional<String> title, Optional<String> status, Optional<String> reviewer, Optional<String> sortParam) {
         return workItemRepository.filter(title, status, reviewer, sortParam);
+    }
+
+    @Override
+    public List<WorkItem> getAllWorkitemsForUser(User user) {
+        return workItemRepository.getAllWorkitemsForUser(user);
+    }
+
+    @Override
+    public List<WorkItem> getAllWorkitemsForTeam(Team team) {
+        return workItemRepository.showAllWorkitemsForTeam(team);
     }
 }

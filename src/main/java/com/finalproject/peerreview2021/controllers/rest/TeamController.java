@@ -11,7 +11,6 @@ import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.TeamModelMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -94,10 +93,9 @@ public class TeamController {
 
     @ApiOperation(value = "Add new members to a team")
     @PostMapping("/{teamId}")
-    public void addUserToTeam(@RequestHeader HttpHeaders headers,
-                                    @PathVariable int teamId,
-                                    @RequestBody Map<String, Object> body) {
-        User user = authenticationHelper.tryGetUser(headers);
+    public void addUserToTeam(
+            @PathVariable int teamId,
+            @RequestBody Map<String, Object> body) {
         var team = teamService.getById(teamId);
         var user1 = (int) body.get("userId");
 
@@ -109,7 +107,7 @@ public class TeamController {
         }
 
         try {
-            teamService.addUserToTeam(userToAdd, user, team);
+            teamService.addUserToTeam(userToAdd, team);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

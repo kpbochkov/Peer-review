@@ -49,6 +49,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
     @ApiOperation(value = "Create new User")
     @PostMapping
     public User create(@RequestPart MultipartFile photo,
@@ -99,10 +100,4 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "Get all Work Items for the logged User")
-    @GetMapping("/workitems")
-    public List<WorkItem> showAllWorkitemsForUser(@RequestHeader HttpHeaders headers) {
-        User user = authenticationHelper.tryGetUser(headers);
-        return userService.getAllWorkitemsForUser(user);
-    }
 }

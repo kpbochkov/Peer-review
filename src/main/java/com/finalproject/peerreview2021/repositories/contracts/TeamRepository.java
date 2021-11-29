@@ -1,6 +1,9 @@
 package com.finalproject.peerreview2021.repositories.contracts;
 
 import com.finalproject.peerreview2021.models.Team;
+import com.finalproject.peerreview2021.models.WorkItem;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,4 +12,5 @@ import com.finalproject.peerreview2021.models.Team;
  * Time: 14:22
  */
 public interface TeamRepository extends BaseCRUDRepository<Team> {
+
 }

@@ -1,5 +1,7 @@
 package com.finalproject.peerreview2021.repositories;
 
+import com.finalproject.peerreview2021.models.Team;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
 import org.hibernate.Session;
@@ -77,5 +79,27 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
                 return " order by status.id desc";
         }
         return "Did not enter switch case.";
+    }
+
+    @Override
+    public List<WorkItem> getAllWorkitemsForUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<WorkItem> query = session.createQuery(
+                    "from WorkItem" + " where createdBy.id = :userId", WorkItem.class);
+            query.setParameter("userId", user.getId());
+
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<WorkItem> showAllWorkitemsForTeam(Team team) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<WorkItem> query = session.createQuery(
+                    "from WorkItem" + " where team.id = :teamId", WorkItem.class);
+            query.setParameter("teamId", team.getId());
+
+            return query.list();
+        }
     }
 }

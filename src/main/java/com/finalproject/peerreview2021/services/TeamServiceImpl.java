@@ -70,11 +70,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void addUserToTeam(User user, User owner, Team team) {
-        if (!team.getUser().equals(owner)) {
-            throw new UnauthorizedOperationException(
-                    String.format("Only the owner of the team %s can add users", team.getName()));
-        }
+    public void addUserToTeam(User user, Team team) {
         var newMembers = team.getMembers();
         if (newMembers.contains(user)) {
             throw new DuplicateEntityException(
@@ -99,5 +95,6 @@ public class TeamServiceImpl implements TeamService {
             System.out.println("++++++++++");
         }
         team.getMembers().remove(user);
+        teamRepository.update(team);
     }
 }

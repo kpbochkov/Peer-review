@@ -4,11 +4,13 @@ import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
+import com.finalproject.peerreview2021.repositories.contracts.CommentRepository;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,8 +20,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final CommentRepository commentRepository;
+
+    public UserServiceImpl(UserRepository userRepository, CommentRepository commentRepository) {
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
 
@@ -55,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(int id) {
+        commentRepository.deleteUserComments(id);
         userRepository.delete(id);
     }
 
@@ -67,11 +73,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public List<WorkItem> getAllWorkitemsForUser(User user) {
-        return userRepository.getAllWorkitemsForUser(user);
-    }
-
     private boolean duplicateExist(User user) {
         boolean duplicateUsernameExists = true;
         boolean duplicateEmailExists = true;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             User existingUser = userRepository.getByField("username", user.getUsername());
-            if (existingUser.getId() == user.getId()) {
+            if (Objects.equals(existingUser.getId(), user.getId())) {
                 duplicateUsernameExists = false;
             }
         } catch (EntityNotFoundException e) {
@@ -88,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             User existingUser = userRepository.getByField("email", user.getEmail());
-            if (existingUser.getId() == user.getId()) {
+            if (Objects.equals(existingUser.getId(), user.getId())) {
                 duplicateEmailExists = false;
             }
         } catch (EntityNotFoundException e) {

@@ -3,11 +3,15 @@ package com.finalproject.peerreview2021.controllers.rest;
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
+import com.finalproject.peerreview2021.models.Team;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.WorkItemDto;
+import com.finalproject.peerreview2021.services.contracts.TeamService;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
 import com.finalproject.peerreview2021.services.modelmappers.WorkItemModelMapper;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,11 +32,16 @@ public class WorkItemController {
 
     private final WorkItemService workItemService;
     private final WorkItemModelMapper workItemModelMapper;
+    private final AuthenticationHelper authenticationHelper;
+    private final TeamService teamService;
 
 
-    public WorkItemController(WorkItemService workItemService, WorkItemModelMapper workItemModelMapper) {
+    public WorkItemController(WorkItemService workItemService, WorkItemModelMapper workItemModelMapper,
+                              AuthenticationHelper authenticationHelper, TeamService teamService) {
         this.workItemService = workItemService;
         this.workItemModelMapper = workItemModelMapper;
+        this.authenticationHelper = authenticationHelper;
+        this.teamService = teamService;
     }
 
     @ApiOperation(value = "Get Work Item by ID")
@@ -92,5 +101,19 @@ public class WorkItemController {
             @RequestParam(required = false) Optional<String> reviewer,
             @RequestParam(required = false) Optional<String> sortParam) {
         return workItemService.filter(title, status, reviewer, sortParam);
+    }
+
+    @ApiOperation(value = "Get all Work Items for the logged User")
+    @GetMapping("/user")
+    public List<WorkItem> showAllWorkitemsForUser(@RequestHeader HttpHeaders headers) {
+        User user = authenticationHelper.tryGetUser(headers);
+        return workItemService.getAllWorkitemsForUser(user);
+    }
+
+    @ApiOperation(value = "Get all Work Items for the Team")
+    @GetMapping("/team/{teamId}")
+    public List<WorkItem> showAllWorkitemsForTeam(@PathVariable int teamId) {
+        Team team = teamService.getById(teamId);
+        return workItemService.getAllWorkitemsForTeam(team);
     }
 }
