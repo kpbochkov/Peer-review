@@ -82,7 +82,7 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
     }
 
     @Override
-    public List<WorkItem> getAllWorkitemsForUser(User user) {
+    public List<WorkItem> getAllWorkItemsForUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             Query<WorkItem> query = session.createQuery(
                     "from WorkItem" + " where createdBy.id = :userId", WorkItem.class);
@@ -93,10 +93,10 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
     }
 
     @Override
-    public List<WorkItem> showAllWorkitemsForTeam(Team team) {
+    public List<WorkItem> showAllWorkItemsForTeam(Team team) {
         try (Session session = sessionFactory.openSession()) {
             Query<WorkItem> query = session.createQuery(
-                    "from WorkItem" + " where team.id = :teamId", WorkItem.class);
+                    "from WorkItem" + " where team.id = :teamId and status.name like 'Pending'", WorkItem.class);
             query.setParameter("teamId", team.getId());
 
             return query.list();

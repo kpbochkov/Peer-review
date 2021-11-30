@@ -17,7 +17,7 @@ public interface WorkItemService extends BaseCRUDService<WorkItem> {
     List<WorkItem> filter(Optional<String> title, Optional<String> status,
                           Optional<String> reviewer, Optional<String> sortParam);
 
-    List<WorkItem> getAllWorkitemsForUser(User user);
+    List<WorkItem> getAllWorkItemsForUser(User user);
 
-    List<WorkItem> getAllWorkitemsForTeam(Team team);
+    List<WorkItem> getAllWorkItemsForTeam(Team team);
 }

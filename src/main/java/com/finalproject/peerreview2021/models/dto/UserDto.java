@@ -12,6 +12,7 @@ public class UserDto {
     private String username;
 
     @NotBlank
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*)(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$")
     @Size(min = 8, max = 500, message = "Password must be at least 8 symbols and should contain " +
             "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
     private String password;

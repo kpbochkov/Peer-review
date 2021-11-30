@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
     private static final String MODIFY_USER_ERROR_MESSAGE = "You are not allowed to change other user information";
 
     private final UserRepository userRepository;
-
     private final CommentRepository commentRepository;
 
     public UserServiceImpl(UserRepository userRepository, CommentRepository commentRepository) {

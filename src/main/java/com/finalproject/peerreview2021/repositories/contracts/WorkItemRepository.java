@@ -14,8 +14,8 @@ public interface WorkItemRepository extends BaseCRUDRepository<WorkItem> {
     List<WorkItem> filter(Optional<String> title, Optional<String> status,
                           Optional<String> reviewer, Optional<String> sortParam);
 
-    List<WorkItem> showAllWorkitemsForTeam(Team team);
+    List<WorkItem> showAllWorkItemsForTeam(Team team);
 
-    List<WorkItem> getAllWorkitemsForUser(User user);
+    List<WorkItem> getAllWorkItemsForUser(User user);
 
 }

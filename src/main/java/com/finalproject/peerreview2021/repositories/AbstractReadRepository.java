@@ -70,6 +70,5 @@ public abstract class AbstractReadRepository<T> implements BaseReadRepository<T>
             }
             return list;
         }
-
     }
 }

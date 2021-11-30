@@ -21,14 +21,6 @@ public class ReviewerServiceImpl implements ReviewerService {
 
     @Override
     public void create(Reviewer entity) {
-        Set<User> users = entity.getWorkItem().getTeam().getMembers();
-        for (User user : users) {
-            System.out.println(user.getUsername());
-        }
-        System.out.println("----------");
-        User user = entity.getUser();
-        System.out.println(user.getUsername());
-        System.out.println(users.contains(user));
         if (entity.getWorkItem().getTeam().getMembers().contains((entity.getUser()))) {
             reviewerRepository.create(entity);
         } else {

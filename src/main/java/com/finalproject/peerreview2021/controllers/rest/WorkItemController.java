@@ -105,15 +105,15 @@ public class WorkItemController {
 
     @ApiOperation(value = "Get all Work Items for the logged User")
     @GetMapping("/user")
-    public List<WorkItem> showAllWorkitemsForUser(@RequestHeader HttpHeaders headers) {
+    public List<WorkItem> showAllWorkItemsForUser(@RequestHeader HttpHeaders headers) {
         User user = authenticationHelper.tryGetUser(headers);
-        return workItemService.getAllWorkitemsForUser(user);
+        return workItemService.getAllWorkItemsForUser(user);
     }
 
     @ApiOperation(value = "Get all Work Items for the Team")
     @GetMapping("/team/{teamId}")
-    public List<WorkItem> showAllWorkitemsForTeam(@PathVariable int teamId) {
+    public List<WorkItem> showAllWorkItemsForTeam(@PathVariable int teamId) {
         Team team = teamService.getById(teamId);
-        return workItemService.getAllWorkitemsForTeam(team);
+        return workItemService.getAllWorkItemsForTeam(team);
     }
 }

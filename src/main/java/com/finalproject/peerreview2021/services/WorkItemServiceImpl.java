@@ -93,12 +93,12 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public List<WorkItem> getAllWorkitemsForUser(User user) {
-        return workItemRepository.getAllWorkitemsForUser(user);
+    public List<WorkItem> getAllWorkItemsForUser(User user) {
+        return workItemRepository.getAllWorkItemsForUser(user);
     }
 
     @Override
-    public List<WorkItem> getAllWorkitemsForTeam(Team team) {
-        return workItemRepository.showAllWorkitemsForTeam(team);
+    public List<WorkItem> getAllWorkItemsForTeam(Team team) {
+        return workItemRepository.showAllWorkItemsForTeam(team);
     }
 }
