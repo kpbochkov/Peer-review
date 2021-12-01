@@ -1,5 +1,6 @@
 package com.finalproject.peerreview2021.controllers.rest;
 
+import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;

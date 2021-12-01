@@ -1,6 +1,7 @@
 package com.finalproject.peerreview2021.services.modelmappers;
 
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.dto.RegisterDto;
 import com.finalproject.peerreview2021.models.dto.UserDto;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,17 @@ public class UserModelMapper {
         user.setEmail(userDto.getEmail());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setPhoto(userDto.getPhoto());
+    }
+
+    public User dtoToObject(RegisterDto registerDto,MultipartFile photo) throws IOException {
+        User user = new User();
+        registerDto.store(photo);
+        user.setUsername(registerDto.getUsername());
+        user.setPassword(registerDto.getPassword());
+        user.setEmail(registerDto.getEmail());
+        user.setPhoneNumber(registerDto.getPhoneNumber());
+        user.setPhoto(registerDto.getPhoto());
+
+        return user;
     }
 }

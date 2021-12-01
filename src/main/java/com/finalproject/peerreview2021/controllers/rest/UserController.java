@@ -1,15 +1,14 @@
 package com.finalproject.peerreview2021.controllers.rest;
 
+import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.User;
-import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.UserDto;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.UserModelMapper;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
