@@ -41,7 +41,7 @@ public class UserModelMapper {
         user.setPhoto(userDto.getPhoto());
     }
 
-    public User dtoToObject(RegisterDto registerDto,MultipartFile photo) throws IOException {
+    public User dtoToObject(RegisterDto registerDto, MultipartFile photo) throws IOException {
         User user = new User();
         registerDto.store(photo);
         user.setUsername(registerDto.getUsername());

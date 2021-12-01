@@ -1,16 +1,14 @@
 package com.finalproject.peerreview2021.models.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class LoginDto {
-    @NotEmpty
+    @NotBlank
+    @Size(min = 2, max = 20, message = "Username should be between 2 and 20 symbols")
     private String username;
 
-    @NotEmpty(message = "Password must be at least 8 symbols and should contain " +
-            "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*)(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$")
+    @NotBlank
     private String password;
 
     public String getUsername() {
@@ -28,4 +26,5 @@ public class LoginDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

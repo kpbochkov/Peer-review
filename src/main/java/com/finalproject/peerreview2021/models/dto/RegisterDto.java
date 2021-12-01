@@ -2,19 +2,22 @@ package com.finalproject.peerreview2021.models.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.io.IOException;
 
-public class RegisterDto extends LoginDto{
+public class RegisterDto {
+    @NotBlank
+    @Size(min = 2, max = 20, message = "Username should be between 2 and 20 symbols")
+    private String username;
+
+    @NotBlank
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*)(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$")
+    @Size(min = 8, max = 500, message = "Password must be at least 8 symbols and should contain " +
+            "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
+    private String password;
+
     @NotEmpty(message = "Password confirmation can't be empty")
     private String passwordConfirm;
-
-    @NotEmpty(message = "First name can't be empty")
-    private String firstName;
-
-    @NotEmpty(message = "Last name can't be empty")
-    private String lastName;
 
     @NotEmpty(message = "Email can't be empty")
     private String email;
@@ -24,12 +27,36 @@ public class RegisterDto extends LoginDto{
 
     private byte[] photo;
 
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public byte[] getPhoto() {
         return photo;
     }
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPasswordConfirm() {
@@ -40,22 +67,6 @@ public class RegisterDto extends LoginDto{
         this.passwordConfirm = passwordConfirm;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -64,17 +75,7 @@ public class RegisterDto extends LoginDto{
         this.email = email;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public void store(MultipartFile photo) throws IOException {
         this.photo = photo.getBytes();
     }
-
-
 }
