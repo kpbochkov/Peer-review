@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Work Item</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{../vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" th:href="@{../css/sb-admin-2.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<ul>
+    <li><h3><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work Items</a></h3></li>
+</ul>
+
+<h2>New Work Item</h2>
+<form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${workitem}"
+      method="post">
+
+    <label >Title</label>
+    <br/>
+    <input type="text" th:field="*{title}"/>
+    <label class="error-custom" th:errors="*{title}">Title error placeholder</label>
+    <br/><br/>
+
+    <label >Description</label>
+    <br/>
+    <input type="text" th:field="*{description}"/>
+    <label class="error-custom" th:errors="*{description}">Description error placeholder</label>
+    <br/><br/>
+
+
+    <label >Created by</label>
+    <br/>
+    <input type="text" th:field="*{createdBy}"/>
+    <label class="error" th:errors="*{createdBy}">Created by error placeholder</label>
+    <br/><br/>
+
+    <label >Team</label>
+    <br/>
+    <input type="text" th:field="*{teamId}"/>
+    <label class="error" th:errors="*{teamId}">Team ID error placeholder</label>
+    <br/><br/>
+
+    <input type="submit" value="Save"/>
+</form>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js" th:href="@{../vendor/jquery/jquery.min.js}"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js" th:href="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js" th:href="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js" th:href="@{../js/sb-admin-2.min.js}"></script>
+
+</body>
+</html>
