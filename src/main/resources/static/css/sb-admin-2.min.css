@@ -342,7 +342,7 @@ template {
 }
 
 .h3, h3 {
-    font-size: 1.75rem
+    font-size: 1.33rem
 }
 
 .h4, h4 {
@@ -2427,8 +2427,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #347dbe;
+    border-color: #347dbe
 }
 
 .btn-primary:hover {
@@ -10038,8 +10038,8 @@ a:focus {
 }
 
 .bg-gradient-primary {
-    background-color: #4e73df;
-    background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    background-color: #347dbe;
+    background-image: linear-gradient(180deg, #347dbe 10%, #125a99cf 100%);
     background-size: cover
 }
 
@@ -10301,7 +10301,7 @@ a:focus {
 }
 
 .topbar {
-    height: 4.375rem
+    height: 3.075rem
 }
 
 .topbar #sidebarToggleTop {
@@ -10579,9 +10579,9 @@ a:focus {
 }
 
 .sidebar .sidebar-brand {
-    height: 4.375rem;
+    height: .375rem;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.64rem;
     font-weight: 800;
     padding: 1.5rem 1rem;
     text-align: center;
@@ -10639,7 +10639,7 @@ a:focus {
 
 @media (min-width: 768px) {
     .sidebar {
-        width: 14rem !important
+        width: 9rem !important
     }
 
     .sidebar .nav-item .collapse {
@@ -11123,6 +11123,12 @@ form.user .btn-user {
     position: relative;
     line-height: 1;
     width: 12.5rem
+}
+
+
+.error-custom  {
+    color: red; !important;
+    font-size: 0.8rem;
 }
 
 @-webkit-keyframes noise-anim {

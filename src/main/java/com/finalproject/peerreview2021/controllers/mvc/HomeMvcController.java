@@ -48,7 +48,7 @@ public class HomeMvcController {
         try {
             authenticationHelper.verifyAuthentication(login.getUsername(), login.getPassword());
             session.setAttribute("currentUser", login.getUsername());
-            return "redirect:/";
+            return "redirect:/dashboard";
         } catch (AuthenticationFailureException e) {
             bindingResult.rejectValue("username", "auth_error", e.getMessage());
             return "login";

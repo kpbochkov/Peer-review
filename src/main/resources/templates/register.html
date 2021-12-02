@@ -42,13 +42,13 @@
                                     <input type="text" class="form-control form-control-user" id="exampleUsername"
                                            th:field="*{username}"
                                            placeholder="Username">
-                                <label class="error" th:errors="*{username}">Username error placeholder</label>
+                                <label class="error-custom" th:errors="*{username}">Username error placeholder</label>
                             </div>
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                                        th:field="*{email}"
                                        placeholder="Email Address">
-                                <label class="error" th:errors="*{email}">Username error placeholder</label>
+                                <label class="error-custom" th:errors="*{email}">Username error placeholder</label>
                             </div>
                             <div class="form-group">
                                     <input type="tel" class="form-control form-control-user" id="examplePhoneNumber"
@@ -59,7 +59,7 @@
                                     <input type="file" class="form-control form-control-user" id="examplePhoto"
                                            th:field="*{photo}"
                                            placeholder="Photo">
-                                <label class="error" th:errors="*{photo}">Username error placeholder</label>
+                                <label class="error-custom" th:errors="*{photo}">Username error placeholder</label>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
