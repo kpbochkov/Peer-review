@@ -150,4 +150,59 @@ public class WorkItemMvcController {
             return "access-denied";
         }
     }
+
+    @GetMapping("/{id}/update")
+    public String showEditWorkItemPage(@PathVariable int id, Model model,
+                                       HttpSession session) {
+        try {
+            WorkItem workItem = workItemService.getById(id);
+            WorkItemDto workItemDto = workItemModelMapper.toDto(workItem);
+            model.addAttribute("workitemId", id);
+            model.addAttribute("workitem", workItemDto);
+            model.addAttribute("teams", workItem.getCreatedBy().getTeams());
+            return "workitem-update";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "not-found";
+        }
+    }
+
+    @PostMapping("/{id}/update")
+    public String updateShipment(@PathVariable int id,
+                                 @Valid @ModelAttribute("workitem") WorkItemDto workItemDto,
+                                 BindingResult errors,
+                                 Model model,
+                                 HttpSession session) {
+        try {
+            WorkItem workItem = workItemModelMapper.fromDto(workItemDto, id);
+            workItemService.update(workItem);
+
+            return "redirect:/workitems";
+        } catch (DuplicateEntityException e) {
+            errors.rejectValue("name", "duplicate_workitem", e.getMessage());
+            return "workitem-update";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "not-found";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteShipment(@PathVariable int id, Model model,
+                                 HttpSession session) {
+        try {
+            workItemService.delete(id);
+
+            return "redirect:/workitems";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "not-found";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
 }

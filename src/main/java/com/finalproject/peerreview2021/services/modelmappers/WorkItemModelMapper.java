@@ -43,10 +43,18 @@ public class WorkItemModelMapper {
         return workItem;
     }
 
+    public WorkItemDto toDto(WorkItem workItem) {
+        WorkItemDto workItemDto = new WorkItemDto();
+        workItemDto.setTitle(workItem.getTitle());
+        workItemDto.setDescription(workItem.getDescription());
+        workItemDto.setCreatedBy(workItem.getCreatedBy().getId());
+        workItemDto.setTeamId(workItem.getTeam().getId());
+        return workItemDto;
+    }
+
     private void dtoToObject(WorkItemDto dto, WorkItem workItem) {
         workItem.setTitle(dto.getTitle());
         workItem.setDescription(dto.getDescription());
-//        workItem.setCreatedBy(userRepository.getById(dto.getCreatedBy()));
         workItem.setTeam(teamRepository.getById(dto.getTeamId()));
         if(workItem.getStatus() == null) {
             workItem.setStatus(statusRepository.getByField("name", "Pending"));
