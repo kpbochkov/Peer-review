@@ -12,5 +12,4 @@ import java.util.List;
  * Time: 14:22
  */
 public interface TeamRepository extends BaseCRUDRepository<Team> {
-
 }

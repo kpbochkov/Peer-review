@@ -3,6 +3,7 @@ package com.finalproject.peerreview2021.services;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,10 @@ public class ReviewerServiceImpl implements ReviewerService {
     @Override
     public void delete(int id) {
         reviewerRepository.delete(id);
+    }
+
+    @Override
+    public List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem) {
+        return reviewerRepository.getAllReviewersForWorkItem(workItem);
     }
 }

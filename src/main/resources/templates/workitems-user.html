@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User's Work Items</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{../vendor/fontawesome-free/css/all.min.css}"
+          rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" th:href="@{../css/sb-admin-2.min.css}" rel="stylesheet">
+</head>
+<body>
+<ul>
+    <li><h3><a href="/" th:href="@{/dashboard}">Dashboard</a></h3></li>
+</ul>
+
+<div th:if="${workitems.isEmpty()}">
+    <h2>No Open Work Items yet</h2>
+</div>
+<table class="table table-hover" th:unless="${workitems.isEmpty()}">
+    <h2 th:text="#{workitems.title}">All Work Items</h2>
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Created by</th>
+        <th scope="col">Team</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody th:each="workitem : ${workitems}">
+    <tr>
+        <td class="cell">
+            <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}" th:text="${workitem.title}">Work Item
+                title</a>
+        </td>
+        <td th:text="${workitem.createdBy.username}">Created by</td>
+        <td th:text="${workitem.team.name}">Team</td>
+        <td th:text="${workitem.status.name}">Status</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

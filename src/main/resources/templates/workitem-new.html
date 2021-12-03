@@ -34,18 +34,13 @@
     <label class="error-custom" th:errors="*{description}">Description error placeholder</label>
     <br/><br/>
 
-
-    <label >Created by</label>
-    <br/>
-    <input type="text" th:field="*{createdBy}"/>
-    <label class="error" th:errors="*{createdBy}">Created by error placeholder</label>
-    <br/><br/>
-
     <label >Team</label>
-    <br/>
-    <input type="text" th:field="*{teamId}"/>
-    <label class="error" th:errors="*{teamId}">Team ID error placeholder</label>
-    <br/><br/>
+    <div class="col-2 float-left">
+        <select class="form-select" aria-label="Default select example" th:field="*{teamId}">
+            <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name</option>
+        </select>
+        <label class="error-custom" th:errors="*{teamId}">Team error placeholder</label>
+    </div>
 
     <input type="submit" value="Save"/>
 </form>

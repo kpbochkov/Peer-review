@@ -46,7 +46,7 @@ public class WorkItemModelMapper {
     private void dtoToObject(WorkItemDto dto, WorkItem workItem) {
         workItem.setTitle(dto.getTitle());
         workItem.setDescription(dto.getDescription());
-        workItem.setCreatedBy(userRepository.getById(dto.getCreatedBy()));
+//        workItem.setCreatedBy(userRepository.getById(dto.getCreatedBy()));
         workItem.setTeam(teamRepository.getById(dto.getTeamId()));
         if(workItem.getStatus() == null) {
             workItem.setStatus(statusRepository.getByField("name", "Pending"));

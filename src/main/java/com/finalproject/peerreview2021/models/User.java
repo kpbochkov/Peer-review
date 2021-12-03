@@ -1,8 +1,11 @@
 package com.finalproject.peerreview2021.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 
 @Table(name = "users", indexes = {
         @Index(name = "users_phone_number_uindex", columnList = "phone_number", unique = true),
@@ -30,6 +33,23 @@ public class User {
     @Lob
     @Column(name = "photo")
     private byte[] photo;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_teams",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id")
+    )
+    private Set<Team> teams;
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
 
     public byte[] getPhoto() {
         return photo;

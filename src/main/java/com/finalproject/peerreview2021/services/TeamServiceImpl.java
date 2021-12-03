@@ -88,6 +88,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public List<Team> getUserTeams(User user) {
+        return new ArrayList<>(user.getTeams());
+    }
+
+    @Override
     public void deleteTeamMember(User user, Team team) {
         for (User o : team.getMembers()) {
             System.out.println("+++++++++");
@@ -97,4 +102,6 @@ public class TeamServiceImpl implements TeamService {
         team.getMembers().remove(user);
         teamRepository.update(team);
     }
+
+
 }
