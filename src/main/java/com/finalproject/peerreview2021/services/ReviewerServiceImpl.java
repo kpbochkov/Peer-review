@@ -2,14 +2,12 @@ package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.Reviewer;
-import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ReviewerServiceImpl implements ReviewerService {
@@ -22,12 +20,14 @@ public class ReviewerServiceImpl implements ReviewerService {
 
     @Override
     public void create(Reviewer entity) {
-        if (entity.getWorkItem().getTeam().getMembers().contains((entity.getUser()))) {
-            reviewerRepository.create(entity);
-        } else {
-            throw new UnauthorizedOperationException(" Reviewers must be part of the team" +
+        if (entity.getWorkItem().getCreatedBy().getUsername().equals(entity.getUser().getUsername())) {
+            throw new UnauthorizedOperationException("Reviewers must be part of the team" +
                     " where the work item is created");
         }
+        if (getAllReviewersForWorkItem(entity.getWorkItem()).contains(entity)) {
+            throw new UnauthorizedOperationException("This Reviewer is already assigned to the Work Item!");
+        }
+        reviewerRepository.create(entity);
     }
 
     @Override

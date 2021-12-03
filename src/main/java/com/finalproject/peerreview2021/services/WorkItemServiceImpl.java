@@ -1,5 +1,7 @@
 package com.finalproject.peerreview2021.services;
 
+import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
+import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
@@ -31,15 +33,15 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void create(WorkItem entity) {
-//        boolean nameAlreadyTaken = true;
-//        try {
-//            workItemRepository.getByField("name", entity.getName());
-//        } catch (EntityNotFoundException e) {
-//            nameAlreadyTaken = false;
-//        }
-//        if (nameAlreadyTaken) {
-//            throw new DuplicateEntityException("WorkItem", "name", entity.getName());
-//        }
+        boolean titleAlreadyTaken = true;
+        try {
+            workItemRepository.getByField("title", entity.getTitle());
+        } catch (EntityNotFoundException e) {
+            titleAlreadyTaken = false;
+        }
+        if (titleAlreadyTaken) {
+            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
+        }
         workItemRepository.create(entity);
     }
 
@@ -60,18 +62,18 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void update(WorkItem entity) {
-//        boolean nameAlreadyTaken = true;
-//        try {
-//            WorkItem entityInRepository = workItemRepository.getByField("name", entity.getName());
-//            if(Objects.equals(entityInRepository.getId(), entity.getId())){
-//                nameAlreadyTaken = false;
-//            }
-//        } catch (EntityNotFoundException e) {
-//            nameAlreadyTaken = false;
-//        }
-//        if (nameAlreadyTaken) {
-//            throw new DuplicateEntityException("WorkItem", "name", entity.getName());
-//        }
+        boolean titleAlreadyTaken = true;
+        try {
+            WorkItem entityInRepository = workItemRepository.getByField("title", entity.getTitle());
+            if(Objects.equals(entityInRepository.getId(), entity.getId())){
+                titleAlreadyTaken = false;
+            }
+        } catch (EntityNotFoundException e) {
+            titleAlreadyTaken = false;
+        }
+        if (titleAlreadyTaken) {
+            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
+        }
         WorkItem entityInRepository = workItemRepository.getById(entity.getId());
         if (!Objects.equals(entityInRepository.getCreatedBy().getId(), entity.getCreatedBy().getId())) {
             throw new UpdateEntityException("WorkItem", "createdBy");

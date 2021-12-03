@@ -33,14 +33,18 @@ public class WorkItemMvcController {
     private final WorkItemService workItemService;
     private final ReviewerService reviewerService;
     private final UserService userService;
+    private final TeamService teamService;
 
 
-    public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper, WorkItemService workItemService, TeamService teamService, ReviewerService reviewerService, UserService userService) {
+    public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper,
+                                 WorkItemService workItemService, TeamService teamService,
+                                 ReviewerService reviewerService, UserService userService) {
         this.authenticationHelper = authenticationHelper;
         this.workItemModelMapper = workItemModelMapper;
         this.workItemService = workItemService;
         this.reviewerService = reviewerService;
         this.userService = userService;
+        this.teamService = teamService;
     }
 
     @GetMapping()
@@ -102,7 +106,8 @@ public class WorkItemMvcController {
     }
 
     @GetMapping("/{id}")
-    public String showSingleWorkItem(@PathVariable int id, Model model,
+    public String showSingleWorkItem(@ModelAttribute("reviewer") ReviewerDto reviewerDto,
+                                     @PathVariable int id, Model model,
                                      HttpSession session) {
         try {
             authenticationHelper.tryGetUser(session);
@@ -115,9 +120,8 @@ public class WorkItemMvcController {
         try {
             WorkItem workItem = workItemService.getById(id);
             Team team = workItem.getTeam();
-            Reviewer reviewer = new Reviewer();
             model.addAttribute("workitem", workItem);
-            model.addAttribute("members", team.getMembers());
+            model.addAttribute("members", teamService.getTeamMembers(team));
             return "workitem";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
@@ -125,9 +129,9 @@ public class WorkItemMvcController {
         }
     }
 
-    @PostMapping("/reviewer/{id}")
-    public String addReviewer(@PathVariable int userId,
-                              @Valid @ModelAttribute("reviewer") ReviewerDto reviewerDto,
+    @PostMapping("/reviewer/{workItemId}")
+    public String addReviewer(@Valid @ModelAttribute("reviewer") ReviewerDto reviewerDto,
+                              @PathVariable int workItemId,
                               BindingResult errors, Model model,
                               HttpSession session) {
         if (errors.hasErrors()) {
@@ -135,15 +139,15 @@ public class WorkItemMvcController {
         }
 
         try {
-            WorkItem workItem = (WorkItem) model.getAttribute("workitem");
+            WorkItem workItem = workItemService.getById(workItemId);
             Reviewer reviewer = new Reviewer();
             reviewer.setWorkItem(workItem);
-            reviewer.setUser(userService.getById(userId));
+            reviewer.setUser(userService.getById(reviewerDto.getReviewerId()));
             reviewerService.create(reviewer);
-            return "redirect:/workitem";
+            return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
-            errors.rejectValue("reviewer", "not_allowed", e.getMessage());
-            return "workitem";
+            errors.rejectValue("reviewerId", "not_allowed", e.getMessage());
+            return "access-denied";
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.finalproject.peerreview2021.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Table(name = "reviewers")
 @Entity
@@ -53,5 +54,21 @@ public class Reviewer {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reviewer reviewer = (Reviewer) o;
+        return id == reviewer.id &&
+                Objects.equals(user, reviewer.user) &&
+                Objects.equals(workItem, reviewer.workItem) &&
+                Objects.equals(status, reviewer.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, workItem, status);
     }
 }
