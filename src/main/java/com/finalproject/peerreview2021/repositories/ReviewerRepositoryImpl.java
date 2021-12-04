@@ -2,6 +2,7 @@ package com.finalproject.peerreview2021.repositories;
 
 import com.finalproject.peerreview2021.models.Comment;
 import com.finalproject.peerreview2021.models.Reviewer;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import org.hibernate.Session;
@@ -22,10 +23,11 @@ public class ReviewerRepositoryImpl extends AbstractCRUDRepository<Reviewer> imp
     }
 
     @Override
-    public List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem) {
+    public List<User> getAllReviewersForWorkItem(WorkItem workItem) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Reviewer> query = session.createQuery(
-                    "from Reviewer" + " where workItem.id = :workitemId", Reviewer.class);
+            Query<User> query = session.createQuery(
+                    "from User u join Reviewer r on u.id = r.user.id " +
+                            "where r.workItem.id = :workitemId", User.class);
             query.setParameter("workitemId", workItem.getId());
 
             return query.list();

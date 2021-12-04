@@ -2,6 +2,7 @@ package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.Reviewer;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import com.finalproject.peerreview2021.services.contracts.ReviewerService;
@@ -20,11 +21,15 @@ public class ReviewerServiceImpl implements ReviewerService {
 
     @Override
     public void create(Reviewer entity) {
-        if (entity.getWorkItem().getCreatedBy().getUsername().equals(entity.getUser().getUsername())) {
+        if (entity.getWorkItem().getCreatedBy().getId().equals(entity.getUser().getId())) {
+            throw new UnauthorizedOperationException("Creator of work item cannot be assigned as" +
+                    " a reviewer thereof");
+        }
+        if (!entity.getWorkItem().getTeam().getMembers().contains(entity.getUser())) {
             throw new UnauthorizedOperationException("Reviewers must be part of the team" +
                     " where the work item is created");
         }
-        if (getAllReviewersForWorkItem(entity.getWorkItem()).contains(entity)) {
+        if (getAllReviewersForWorkItem(entity.getWorkItem()).contains(entity.getUser())) {
             throw new UnauthorizedOperationException("This Reviewer is already assigned to the Work Item!");
         }
         reviewerRepository.create(entity);
@@ -55,8 +60,13 @@ public class ReviewerServiceImpl implements ReviewerService {
         reviewerRepository.delete(id);
     }
 
-    @Override
+    /*@Override
     public List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem) {
+        return reviewerRepository.getAllReviewersForWorkItem(workItem);
+    }*/
+
+    @Override
+    public List<User> getAllReviewersForWorkItem(WorkItem workItem) {
         return reviewerRepository.getAllReviewersForWorkItem(workItem);
     }
 }

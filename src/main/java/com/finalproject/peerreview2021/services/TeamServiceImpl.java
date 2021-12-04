@@ -35,6 +35,7 @@ public class TeamServiceImpl implements TeamService {
         if (nameAlreadyTaken) {
             throw new DuplicateEntityException("Team", "name", entity.getName());
         }
+        teamRepository.create(entity);
     }
 
     @Override
