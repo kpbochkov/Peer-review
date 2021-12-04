@@ -1,7 +1,9 @@
 package com.finalproject.peerreview2021.services;
 
+import com.finalproject.peerreview2021.Helpers;
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
 import org.junit.jupiter.api.Assertions;
@@ -78,7 +80,7 @@ public class WorkItemServiceImplTests {
     }
 
     @Test
-    public void create_should_throw_when_workItemWithSameNameExists() {
+    public void create_should_throw_when_workItemWithSameTitleExists() {
         // Arrange
         WorkItem mockWorkItem = createMockWorkItem();
 
@@ -90,7 +92,7 @@ public class WorkItemServiceImplTests {
     }
 
     @Test
-    public void create_should_callRepository_when_beerWithSameNameDoesNotExist() {
+    public void create_should_callRepository_when_workItemWithSameTitleDoesNotExist() {
         // Arrange
         WorkItem mockWorkItem = createMockWorkItem();
 
@@ -105,93 +107,53 @@ public class WorkItemServiceImplTests {
                 .create(mockWorkItem);
     }
 
+    @Test
+    void create_shouldCreate_when_noDuplicateExists(){
+        // Arrange
+        WorkItem workItemToBeCreated = createMockWorkItem();
+        workItemToBeCreated.setId(0);
+        Mockito.when(mockRepository.getByField("title",
+                workItemToBeCreated.getTitle())).thenThrow(EntityNotFoundException.class);
+        // Act
+        service.create(workItemToBeCreated);
+        // Assert
+        Mockito.verify(mockRepository, Mockito.times(1))
+                .create(workItemToBeCreated);
+    }
+
 
     @Test
     public void update_should_throwException_when_workItemTitleIsTaken() {
         // Arrange
         WorkItem mockWorkItem = createMockWorkItem();
         mockWorkItem.setTitle("test-title-with-twenty-chars");
-        WorkItem anotherMockWorkItem = createMockWorkItem();
-        anotherMockWorkItem.setId(2);
-        anotherMockWorkItem.setTitle("test-title-with-twenty-chars");
+        WorkItem workItemToBeUpdated = createMockWorkItem();
+        workItemToBeUpdated.setId(2);
+        workItemToBeUpdated.setTitle("test-title-with-twenty-chars");
 
-        Mockito.when(mockRepository.getById(Mockito.anyInt()))
-                .thenReturn(mockWorkItem);
-
-        Mockito.when(mockRepository.getByField("title", anotherMockWorkItem.getTitle()))
-                .thenReturn(anotherMockWorkItem);
+        Mockito.when(mockRepository.getByField("title", workItemToBeUpdated.getTitle()))
+                .thenReturn(workItemToBeUpdated);
 
         // Act, Assert
         Assertions.assertThrows(DuplicateEntityException.class,
                 () -> service.update(mockWorkItem));
     }
-//
-//    @Test
-//    public void update_should_callRepository_when_tryingToUpdateExistingBeer() {
-//        // Arrange
-//        Beer mockBeer = createMockBeer();
-//
-//        Mockito.when(mockRepository.getById(Mockito.anyInt()))
-//                .thenReturn(mockBeer);
-//
-//        Mockito.when(mockRepository.getByName(Mockito.anyString()))
-//                .thenReturn(mockBeer);
-//
-//
-//        // Act
-//        service.update(mockBeer, mockBeer.getCreatedBy());
-//
-//        // Assert
-//        Mockito.verify(mockRepository, Mockito.times(1))
-//                .update(mockBeer);
-//    }
-//
-//    @Test
-//    void delete_should_throwException_when_initiatorIsNotAdminOrCreator() {
-//        // Arrange
-//        Beer mockBeer = createMockBeer();
-//        User mockInitiator = createMockUser();
-//        mockInitiator.setUsername("MockInitiator");
-//
-//        Mockito.when(mockRepository.getById(mockBeer.getId()))
-//                .thenReturn(mockBeer);
-//
-//        // Act, Assert
-//        Assertions.assertThrows(UnauthorizedOperationException.class,
-//                () -> service.delete(mockBeer.getId(), mockInitiator));
-//    }
-//
-//    @Test
-//    void delete_should_callRepository_when_initiatorIsAdminAndIsNotCreator() {
-//        // Arrange
-//        Beer mockBeer = createMockBeer();
-//        User mockInitiator = createMockAdmin();
-//        mockInitiator.setUsername("MockInitiator");
-//
-//        Mockito.when(mockRepository.getById(mockBeer.getId()))
-//                .thenReturn(mockBeer);
-//
-//        // Act
-//        service.delete(mockBeer.getId(), mockInitiator);
-//
-//        // Assert
-//        Mockito.verify(mockRepository, Mockito.times(1))
-//                .delete(mockBeer.getId());
-//    }
-//
-//    @Test
-//    void delete_should_callRepository_when_initiatorIsNotAdminAndIsCreator() {
-//        // Arrange
-//        Beer mockBeer = createMockBeer();
-//
-//        Mockito.when(mockRepository.getById(mockBeer.getId()))
-//                .thenReturn(mockBeer);
-//
-//        // Act
-//        service.delete(mockBeer.getId(), mockBeer.getCreatedBy());
-//
-//        // Assert
-//        Mockito.verify(mockRepository, Mockito.times(1))
-//                .delete(mockBeer.getId());
-//    }
+
+
+    @Test
+    void update_shouldUpdate_when_noDuplicateExists() {
+        // Arrange
+        WorkItem workItemToBeUpdated = createMockWorkItem();
+        Mockito.when(mockRepository.getByField("title",
+                workItemToBeUpdated.getTitle())).thenThrow(EntityNotFoundException.class);
+        Mockito.when(mockRepository.getById(workItemToBeUpdated.getId())).thenReturn(workItemToBeUpdated);
+//        Mockito.when(mockRepository.getByField("phoneNumber",
+//                userToBeUpdated.getPhoneNumber())).thenThrow(EntityNotFoundException.class);
+        // Act
+        service.update(workItemToBeUpdated);
+        // Assert
+        Mockito.verify(mockRepository, Mockito.times(1))
+                .update(workItemToBeUpdated);
+    }
+
 }
