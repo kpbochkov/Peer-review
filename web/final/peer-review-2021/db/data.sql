@@ -23,6 +23,13 @@ VALUES (2, 'HR', 2);
 INSERT INTO teams (team_id, name, owner)
 VALUES (3, 'Finance', 3);
 
+INSERT INTO users_teams (user_id, team_id)
+VALUES (1, 1);
+INSERT INTO users_teams (user_id, team_id)
+VALUES (1, 2);
+INSERT INTO users_teams (user_id, team_id)
+VALUES (2, 1);
+
 INSERT INTO workitems (work_item_id, title, description, created_by, team_id)
 VALUES (1, 'testtitle', 'some random description', 1, 1);
 INSERT INTO workitems (work_item_id, title, description, created_by, team_id)

@@ -26,7 +26,15 @@
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
 </h3>
-<form action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}" th:object="${reviewer}"
+<br>
+<span th:if="${assignees.isEmpty()}">
+    <i><h5>Currently no reviewers are assigned to this work item</h5></i>
+</span>
+<div th:unless="${assignees.isEmpty()}">
+    <label> Current reviewers</label>
+    <div th:each="assignee : ${assignees}" th:text="${assignee.username}"></div>
+</div>
+<form th:unless="${members.isEmpty()}" action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}" th:object="${reviewer}"
       method="post">
 
     <label >Reviewer</label>

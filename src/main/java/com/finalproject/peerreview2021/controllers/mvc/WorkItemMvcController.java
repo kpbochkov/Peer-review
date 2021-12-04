@@ -11,10 +11,7 @@ import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.ReviewerDto;
 import com.finalproject.peerreview2021.models.dto.WorkItemDto;
-import com.finalproject.peerreview2021.services.contracts.ReviewerService;
-import com.finalproject.peerreview2021.services.contracts.TeamService;
-import com.finalproject.peerreview2021.services.contracts.UserService;
-import com.finalproject.peerreview2021.services.contracts.WorkItemService;
+import com.finalproject.peerreview2021.services.contracts.*;
 import com.finalproject.peerreview2021.services.modelmappers.WorkItemModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,17 +31,19 @@ public class WorkItemMvcController {
     private final ReviewerService reviewerService;
     private final UserService userService;
     private final TeamService teamService;
+    private final StatusService statusService;
 
 
     public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper,
                                  WorkItemService workItemService, TeamService teamService,
-                                 ReviewerService reviewerService, UserService userService) {
+                                 ReviewerService reviewerService, UserService userService, StatusService statusService) {
         this.authenticationHelper = authenticationHelper;
         this.workItemModelMapper = workItemModelMapper;
         this.workItemService = workItemService;
         this.reviewerService = reviewerService;
         this.userService = userService;
         this.teamService = teamService;
+        this.statusService = statusService;
     }
 
     @GetMapping()
@@ -120,8 +119,10 @@ public class WorkItemMvcController {
         try {
             WorkItem workItem = workItemService.getById(id);
             Team team = workItem.getTeam();
+            
             model.addAttribute("workitem", workItem);
-            model.addAttribute("members", teamService.getTeamMembers(team));
+            model.addAttribute("members", userService.getPossibleAssignees(workItem));
+            model.addAttribute("assignees", reviewerService.getAllReviewersForWorkItem(workItem));
             return "workitem";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
@@ -143,6 +144,7 @@ public class WorkItemMvcController {
             Reviewer reviewer = new Reviewer();
             reviewer.setWorkItem(workItem);
             reviewer.setUser(userService.getById(reviewerDto.getReviewerId()));
+            reviewer.setStatus(statusService.getById(1));
             reviewerService.create(reviewer);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {

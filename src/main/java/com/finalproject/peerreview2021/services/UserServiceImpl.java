@@ -5,10 +5,12 @@ import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.CommentRepository;
+import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,10 +22,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final ReviewerRepository reviewerRepository;
 
-    public UserServiceImpl(UserRepository userRepository, CommentRepository commentRepository) {
+    public UserServiceImpl(UserRepository userRepository, CommentRepository commentRepository, ReviewerRepository reviewerRepository) {
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
+        this.reviewerRepository = reviewerRepository;
     }
 
 
@@ -70,6 +74,14 @@ public class UserServiceImpl implements UserService {
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Filter", "with this name or", "value");
         }
+    }
+
+    @Override
+    public List<User> getPossibleAssignees(WorkItem workItem) {
+        List<User> possibleAssignees = new ArrayList<>(workItem.getTeam().getMembers());
+        possibleAssignees.remove(workItem.getCreatedBy());
+        possibleAssignees.removeAll(reviewerRepository.getAllReviewersForWorkItem(workItem));
+        return possibleAssignees;
     }
 
     private boolean duplicateExist(User user) {

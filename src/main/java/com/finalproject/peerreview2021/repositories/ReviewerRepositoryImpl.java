@@ -26,7 +26,7 @@ public class ReviewerRepositoryImpl extends AbstractCRUDRepository<Reviewer> imp
     public List<User> getAllReviewersForWorkItem(WorkItem workItem) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery(
-                    "from User u join Reviewer r on u.id = r.user.id " +
+                    "select u from User u join Reviewer r on u.id = r.user.id " +
                             "where r.workItem.id = :workitemId", User.class);
             query.setParameter("workitemId", workItem.getId());
 
