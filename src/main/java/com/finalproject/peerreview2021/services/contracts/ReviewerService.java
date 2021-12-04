@@ -7,5 +7,7 @@ import com.finalproject.peerreview2021.models.WorkItem;
 import java.util.List;
 
 public interface ReviewerService extends BaseCRUDService<Reviewer> {
-    List<User> getAllReviewersForWorkItem(WorkItem workItem);
+    List<User> getAllReviewersForWorkItemAsUsers(WorkItem workItem);
+
+    List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem);
 }

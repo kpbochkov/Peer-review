@@ -23,11 +23,22 @@ public class ReviewerRepositoryImpl extends AbstractCRUDRepository<Reviewer> imp
     }
 
     @Override
-    public List<User> getAllReviewersForWorkItem(WorkItem workItem) {
+    public List<User> getAllReviewersForWorkItemAsUsers(WorkItem workItem) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery(
                     "select u from User u join Reviewer r on u.id = r.user.id " +
                             "where r.workItem.id = :workitemId", User.class);
+            query.setParameter("workitemId", workItem.getId());
+
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Reviewer> query = session.createQuery(
+                    "from Reviewer where workItem.id = :workitemId", Reviewer.class);
             query.setParameter("workitemId", workItem.getId());
 
             return query.list();

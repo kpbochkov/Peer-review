@@ -29,7 +29,7 @@ public class ReviewerServiceImpl implements ReviewerService {
             throw new UnauthorizedOperationException("Reviewers must be part of the team" +
                     " where the work item is created");
         }
-        if (getAllReviewersForWorkItem(entity.getWorkItem()).contains(entity.getUser())) {
+        if (getAllReviewersForWorkItemAsUsers(entity.getWorkItem()).contains(entity.getUser())) {
             throw new UnauthorizedOperationException("This Reviewer is already assigned to the Work Item!");
         }
         reviewerRepository.create(entity);
@@ -60,13 +60,13 @@ public class ReviewerServiceImpl implements ReviewerService {
         reviewerRepository.delete(id);
     }
 
-    /*@Override
+    @Override
     public List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem) {
         return reviewerRepository.getAllReviewersForWorkItem(workItem);
-    }*/
+    }
 
     @Override
-    public List<User> getAllReviewersForWorkItem(WorkItem workItem) {
-        return reviewerRepository.getAllReviewersForWorkItem(workItem);
+    public List<User> getAllReviewersForWorkItemAsUsers(WorkItem workItem) {
+        return reviewerRepository.getAllReviewersForWorkItemAsUsers(workItem);
     }
 }

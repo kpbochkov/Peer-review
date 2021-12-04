@@ -32,7 +32,39 @@
 </span>
 <div th:unless="${assignees.isEmpty()}">
     <label> Current reviewers</label>
-    <div th:each="assignee : ${assignees}" th:text="${assignee.username}"></div>
+    <table class="table table-sm shadow table-condensed table-hover">
+        <thead>
+        <tr class="table-light">
+            <th class="text-center">Reviewer name</th>
+            <th class="text-center">Status</th>
+        </tr>
+        </thead>
+        <tbody class="table-hover">
+        <tr th:each="assignee : ${assignees}">
+            <td class="text-center" th:text="${assignee.user.username}">Username</td>
+            <td class="text-center">
+                <th:block th:switch="${assignee.status.name.toUpperCase()}">
+                    <div th:case="'PENDING'">
+                        <span class="badge bg-info rounded-pill">pending</span>
+                    </div>
+                    <div th:case="'UNDER REVIEW'">
+                        <span class="badge bg-secondary rounded-pill">under review</span>
+                    </div>
+                    <div th:case="'CHANGE REQUESTED'">
+                        <span class="badge bg-warning rounded-pill">change requested</span>
+                    </div>
+                    <div th:case="'ACCEPTED'">
+                        <span class="badge bg-success rounded-pill">accepted</span>
+                    </div>
+                    <div th:case="'REJECTED'">
+                        <span class="badge bg-danger rounded-pill">rejected</span>
+                    </div>
+                </th:block>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
 </div>
 <form th:unless="${members.isEmpty()}" action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}" th:object="${reviewer}"
       method="post">

@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getPossibleAssignees(WorkItem workItem) {
         List<User> possibleAssignees = new ArrayList<>(workItem.getTeam().getMembers());
         possibleAssignees.remove(workItem.getCreatedBy());
-        possibleAssignees.removeAll(reviewerRepository.getAllReviewersForWorkItem(workItem));
+        possibleAssignees.removeAll(reviewerRepository.getAllReviewersForWorkItemAsUsers(workItem));
         return possibleAssignees;
     }
 

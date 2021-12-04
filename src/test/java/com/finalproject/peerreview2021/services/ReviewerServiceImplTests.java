@@ -73,7 +73,7 @@ public class ReviewerServiceImplTests {
         reviewer.setUser(user);
         reviewer.setWorkItem(workItem);
 
-        Mockito.when(mockRepository.getAllReviewersForWorkItem(workItem))
+        Mockito.when(mockRepository.getAllReviewersForWorkItemAsUsers(workItem))
                 .thenReturn(List.of(user));
         // Act & Assert
         Assertions.assertThrows(UnauthorizedOperationException.class,
