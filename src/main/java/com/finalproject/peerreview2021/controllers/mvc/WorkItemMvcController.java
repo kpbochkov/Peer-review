@@ -30,20 +30,21 @@ public class WorkItemMvcController {
     private final WorkItemService workItemService;
     private final ReviewerService reviewerService;
     private final UserService userService;
-    private final TeamService teamService;
     private final StatusService statusService;
+    private final CommentService commentService;
 
 
     public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper,
-                                 WorkItemService workItemService, TeamService teamService,
-                                 ReviewerService reviewerService, UserService userService, StatusService statusService) {
+                                 WorkItemService workItemService, ReviewerService reviewerService,
+                                 UserService userService, StatusService statusService,
+                                 CommentService commentService) {
         this.authenticationHelper = authenticationHelper;
         this.workItemModelMapper = workItemModelMapper;
         this.workItemService = workItemService;
         this.reviewerService = reviewerService;
         this.userService = userService;
-        this.teamService = teamService;
         this.statusService = statusService;
+        this.commentService = commentService;
     }
 
     @GetMapping()
@@ -91,7 +92,7 @@ public class WorkItemMvcController {
             WorkItem workItem = workItemModelMapper.fromDto(workItemDto);
             workItem.setCreatedBy(user);
             workItemService.create(workItem);
-            return "redirect:/dashboard";
+            return "redirect:/workitems";
         } catch (DuplicateEntityException e) {
             errors.rejectValue("name", "duplicate_workitem", e.getMessage());
             return "workitem-new";
@@ -123,6 +124,7 @@ public class WorkItemMvcController {
             model.addAttribute("workitem", workItem);
             model.addAttribute("members", userService.getPossibleAssignees(workItem));
             model.addAttribute("assignees", reviewerService.getAllReviewersForWorkItem(workItem));
+            model.addAttribute("comments", commentService.getAllWorkItemComments(workItem));
             return "workitem";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());

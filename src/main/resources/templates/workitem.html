@@ -25,6 +25,7 @@
 
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
+    <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Add comment</a>
 </h3>
 <br>
 <span th:if="${assignees.isEmpty()}">
@@ -82,5 +83,46 @@
 <h3>
 
 </h3>
+<br>
+<span th:if="${comments.isEmpty()}">
+    <i><h5>No comments</h5></i>
+</span>
+<div th:unless="${comments.isEmpty()}">
+    <label> Current comments</label>
+    <table class="table table-sm shadow table-condensed table-hover">
+        <thead>
+        <tr class="table-light">
+            <th class="text-center">Reviewer name</th>
+            <th class="text-center">Date</th>
+        </tr>
+        </thead>
+        <tbody class="table-hover">
+        <tr th:each="comment : ${comments}">
+            <td class="text-center" th:text="${comment.content}">Comment</td>
+            <td class="text-center" th:text="${comment.user.username}">Username</td>
+            <td class="text-center">
+                <th:block th:switch="${comment.workItem.status.name.toUpperCase()}">
+                    <div th:case="'PENDING'">
+                        <span class="badge bg-info rounded-pill">pending</span>
+                    </div>
+                    <div th:case="'UNDER REVIEW'">
+                        <span class="badge bg-secondary rounded-pill">under review</span>
+                    </div>
+                    <div th:case="'CHANGE REQUESTED'">
+                        <span class="badge bg-warning rounded-pill">change requested</span>
+                    </div>
+                    <div th:case="'ACCEPTED'">
+                        <span class="badge bg-success rounded-pill">accepted</span>
+                    </div>
+                    <div th:case="'REJECTED'">
+                        <span class="badge bg-danger rounded-pill">rejected</span>
+                    </div>
+                </th:block>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
