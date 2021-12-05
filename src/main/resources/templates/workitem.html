@@ -19,8 +19,9 @@
 </ul>
 
 <h2 th:text="${workitem.getTitle}">Work Item Title</h2>
-<h2 th:text="${workitem.getDescription}">Work Item Description</h2>
-
+<div class="container-xl overflow-hidden">
+    <p th:text="${workitem.getDescription}">Work Item Description</p>
+</div>
 <h3>
 
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
@@ -31,7 +32,7 @@
 <span th:if="${assignees.isEmpty()}">
     <i><h5>Currently no reviewers are assigned to this work item</h5></i>
 </span>
-<div th:unless="${assignees.isEmpty()}">
+<div th:unless="${assignees.isEmpty()}" class="container-sm">
     <label> Current reviewers</label>
     <table class="table table-sm shadow table-condensed table-hover">
         <thead>

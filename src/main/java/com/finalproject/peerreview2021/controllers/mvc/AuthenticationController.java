@@ -66,7 +66,7 @@ public class AuthenticationController {
         try {
             User user = userModelMapper.dtoToObject(register);
             userService.create(user);
-            return "redirect:/auth/login";
+            return "redirect:/";
         } catch (DuplicateEntityException e) {
             bindingResult.rejectValue("username", "username_error", e.getMessage());
             return "register";
