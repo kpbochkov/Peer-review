@@ -11,10 +11,12 @@ public class RegisterDto {
     private String username;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*)(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
     @Size(min = 8, max = 500, message = "Password must be at least 8 symbols and should contain " +
             "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
     private String password;
+
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
 
     @NotEmpty(message = "Password confirmation can't be empty")
     private String passwordConfirm;

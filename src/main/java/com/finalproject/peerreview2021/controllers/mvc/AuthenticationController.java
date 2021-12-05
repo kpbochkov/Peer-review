@@ -1,10 +1,8 @@
 package com.finalproject.peerreview2021.controllers.mvc;
 
 import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
-import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.models.User;
-import com.finalproject.peerreview2021.models.dto.LoginDto;
 import com.finalproject.peerreview2021.models.dto.RegisterDto;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.UserModelMapper;
@@ -12,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Controller
 @RequestMapping("/auth")
@@ -38,7 +37,6 @@ public class AuthenticationController {
     }
 
 
-
     @GetMapping("/logout")
     public String handleLogout(HttpSession session) {
         session.removeAttribute("currentUser");
@@ -55,7 +53,6 @@ public class AuthenticationController {
     @PostMapping("/register")
     public String handleRegister(@Valid @ModelAttribute("register") RegisterDto register,
                                  BindingResult bindingResult,
-                                 @RequestParam("photo") MultipartFile photo,
                                  HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "register";
@@ -67,15 +64,13 @@ public class AuthenticationController {
         }
 
         try {
-            User user = userModelMapper.dtoToObject(register, photo);
+            User user = userModelMapper.dtoToObject(register);
             userService.create(user);
             return "redirect:/auth/login";
         } catch (DuplicateEntityException e) {
             bindingResult.rejectValue("username", "username_error", e.getMessage());
             return "register";
-        } catch (IOException e) {
-            bindingResult.rejectValue("photo", "photo_error", e.getMessage());
-            return "register";
         }
     }
 }
+
