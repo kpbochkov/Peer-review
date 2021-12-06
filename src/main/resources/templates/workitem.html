@@ -86,80 +86,60 @@
             <input type="submit" value="Assign"/>
         </form>
         <h3>
-
-        </h3>
-        <br>
-        <span th:if="${comments.isEmpty()}">
-            <i><h5>No comments</h5></i>
-        </span>
-        <div th:unless="${comments.isEmpty()}" class="container-sm">
-            <label> Current comments</label>
-            <table class="table table-sm shadow table-condensed table-hover">
-                <thead>
-                <tr class="table-light">
-                    <th class="text-center">Comment</th>
-                    <th class="text-center">User</th>
-                </tr>
-                </thead>
-                <tbody class="table-hover">
-                <tr th:each="comment : ${comments}">
-                    <td class="text-center" th:text="${comment.content}">Comment</td>
-                    <td class="text-center" th:text="${comment.user.username}">Username</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</h3>
-<br>
-<span th:if="${comments.isEmpty()}">
+            <span th:if="${comments.isEmpty()}">
     <i><h5>No comments</h5></i>
 </span>
-<div th:unless="${comments.isEmpty()}" class="container-sm">
-    <label> Current comments</label>
-    <table class="table table-sm shadow table-condensed table-hover">
-        <thead>
-        <tr class="table-light">
-            <th class="text-center">Name</th>
-            <th class="text-center">Content</th>
-            <th class="text-center">Date</th>
-        </tr>
-        </thead>
-        <tbody class="table-hover">
-        <tr th:each="comment : ${comments}">
+            <div th:unless="${comments.isEmpty()}" class="container-sm">
+                <label> Current comments</label>
+                <table class="table table-sm shadow table-condensed table-hover">
+                    <thead>
+                    <tr class="table-light">
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Content</th>
+                        <th class="text-center">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                    <tr th:each="comment : ${comments}">
             <span>
                 <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
                 <small>Reply</small>
             </button>
             </span>
-            <td class="text-center" th:text="${comment.user.username}">Username</td>
-            <td class="text-center" th:text="${comment.content}">Comment</td>
-            <td class="text-center" th:text="${comment.user.username}">Username</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Your comment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                        <td class="text-center" th:text="${comment.user.username}">Username</td>
+                        <td class="text-center" th:text="${comment.content}">Comment</td>
+                        <td class="text-center" th:text="${comment.user.username}">Username</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="modal-body">
-                ...
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Your comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
+        </h3>
+        <br>
+
     </div>
-</div>
+</h3>
+<br>
 <script src="js/modal.js"></script>
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
