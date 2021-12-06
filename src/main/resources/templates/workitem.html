@@ -27,11 +27,11 @@
         </div>
         <h3>
 
-    <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
-    <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
-</h3>
-<br>
-<span th:if="${assignees.isEmpty()}">
+            <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
+            <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
+        </h3>
+        <br>
+        <span th:if="${assignees.isEmpty()}">
     <i><h5>Currently no reviewers are assigned to this work item</h5></i>
 </span>
         <div th:unless="${assignees.isEmpty()}" class="container-sm">
@@ -88,7 +88,7 @@
         <h3>
             <span th:if="${comments.isEmpty()}">
     <i><h5>No comments</h5></i>
-</span>
+            </span>
             <div th:unless="${comments.isEmpty()}" class="container-sm">
                 <label> Current comments</label>
                 <table class="table table-sm shadow table-condensed table-hover">
@@ -125,11 +125,17 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <form action="#" th:action="@{/workitems/comment/{id}(id=${workitem.id})}"
+                                  th:object="${comment}"
+                                  method="post">
+                                <label for="exampleFormControlTextarea1">Example textarea</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-secondary" value="Save"/>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -138,26 +144,26 @@
         <br>
 
     </div>
-</h3>
-<br>
-<script src="js/modal.js"></script>
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    </h3>
+    <br>
+    <script src="js/modal.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
