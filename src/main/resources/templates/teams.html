@@ -75,7 +75,8 @@
                                 <div>
                                     <span th:each="member : ${teamWorkItems.team.members}" th:text="${member.username} + ' '"></span>
                                     <hr>
-                                    <span th:each="workitem : ${teamWorkItems.workItems}" th:text="${workitem.title} + ' '"></span>
+                                    <a th:each="workitem : ${teamWorkItems.workItems}" th:text="${workitem.title} + ' '"
+                                    th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>
                                 </div>
                             </div>
                         </div>

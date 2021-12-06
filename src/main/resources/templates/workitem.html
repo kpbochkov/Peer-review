@@ -14,17 +14,18 @@
     <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">
 </head>
 <body>
-<ul>
-    <li><h3><a href="/" th:href="@{/dashboard}" th:text="#{navigation.home}">Dashboard</a></h3></li>
-    <li><h3><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work Items</a></h3>
-    </li>
-</ul>
 
-<h2 th:text="${workitem.getTitle}">Work Item Title</h2>
-<div class="container-xl overflow-hidden">
-    <p th:text="${workitem.getDescription}">Work Item Description</p>
-</div>
-<h3>
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <div th:replace="fragments.html :: navbar"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <h2 th:text="${workitem.getTitle}">Work Item Title</h2>
+        <div class="container-xl" style="height: 300px; overflow-y: scroll">
+            <p th:text="${workitem.getDescription}">Work Item Description</p>
+        </div>
+        <h3>
 
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
@@ -33,58 +34,82 @@
 <span th:if="${assignees.isEmpty()}">
     <i><h5>Currently no reviewers are assigned to this work item</h5></i>
 </span>
-<div th:unless="${assignees.isEmpty()}" class="container-sm">
-    <label> Current reviewers</label>
-    <table class="table table-sm shadow table-condensed table-hover">
-        <thead>
-        <tr class="table-light">
-            <th class="text-center">Reviewer name</th>
-            <th class="text-center">Status</th>
-        </tr>
-        </thead>
-        <tbody class="table-hover">
-        <tr th:each="assignee : ${assignees}">
-            <td class="text-center" th:text="${assignee.user.username}">Username</td>
-            <td class="text-center">
-                <th:block th:switch="${assignee.status.name.toUpperCase()}">
-                    <div th:case="'PENDING'">
-                        <span class="badge bg-info rounded-pill">pending</span>
-                    </div>
-                    <div th:case="'UNDER REVIEW'">
-                        <span class="badge bg-secondary rounded-pill">under review</span>
-                    </div>
-                    <div th:case="'CHANGE REQUESTED'">
-                        <span class="badge bg-warning rounded-pill">change requested</span>
-                    </div>
-                    <div th:case="'ACCEPTED'">
-                        <span class="badge bg-success rounded-pill">accepted</span>
-                    </div>
-                    <div th:case="'REJECTED'">
-                        <span class="badge bg-danger rounded-pill">rejected</span>
-                    </div>
-                </th:block>
-            </td>
+        <div th:unless="${assignees.isEmpty()}" class="container-sm">
+            <label> Current reviewers</label>
+            <table class="table table-sm shadow table-condensed table-hover">
+                <thead>
+                <tr class="table-light">
+                    <th class="text-center">Reviewer name</th>
+                    <th class="text-center">Status</th>
+                </tr>
+                </thead>
+                <tbody class="table-hover">
+                <tr th:each="assignee : ${assignees}">
+                    <td class="text-center" th:text="${assignee.user.username}">Username</td>
+                    <td class="text-center">
+                        <th:block th:switch="${assignee.status.name.toUpperCase()}">
+                            <div th:case="'PENDING'">
+                                <span class="badge bg-info rounded-pill">pending</span>
+                            </div>
+                            <div th:case="'UNDER REVIEW'">
+                                <span class="badge bg-secondary rounded-pill">under review</span>
+                            </div>
+                            <div th:case="'CHANGE REQUESTED'">
+                                <span class="badge bg-warning rounded-pill">change requested</span>
+                            </div>
+                            <div th:case="'ACCEPTED'">
+                                <span class="badge bg-success rounded-pill">accepted</span>
+                            </div>
+                            <div th:case="'REJECTED'">
+                                <span class="badge bg-danger rounded-pill">rejected</span>
+                            </div>
+                        </th:block>
+                    </td>
 
-        </tr>
-        </tbody>
-    </table>
-</div>
-<form th:unless="${members.isEmpty()}" action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}"
-      th:object="${reviewer}"
-      method="post">
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <form th:unless="${members.isEmpty()}" action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}"
+              th:object="${reviewer}"
+              method="post">
 
-    <label>Reviewer</label>
-    <div class="col-2 float-left">
-        <select class="form-select" aria-label="Default select example" th:field="*{reviewerId}">
-            <option th:each="user : ${members}" th:text="${user.username}" th:value="${user.id}">Reviewer name</option>
-        </select>
-        <label class="error-custom" th:errors="*{reviewerId}">Reviewer error placeholder</label>
+            <label>Reviewer</label>
+            <div class="col-2 float-left">
+                <select class="form-select" aria-label="Default select example" th:field="*{reviewerId}">
+                    <option th:each="user : ${members}" th:text="${user.username}" th:value="${user.id}">Reviewer name
+                    </option>
+                </select>
+                <label class="error-custom" th:errors="*{reviewerId}">Reviewer error placeholder</label>
+            </div>
+
+            <input type="submit" value="Assign"/>
+        </form>
+        <h3>
+
+        </h3>
+        <br>
+        <span th:if="${comments.isEmpty()}">
+            <i><h5>No comments</h5></i>
+        </span>
+        <div th:unless="${comments.isEmpty()}" class="container-sm">
+            <label> Current comments</label>
+            <table class="table table-sm shadow table-condensed table-hover">
+                <thead>
+                <tr class="table-light">
+                    <th class="text-center">Comment</th>
+                    <th class="text-center">User</th>
+                </tr>
+                </thead>
+                <tbody class="table-hover">
+                <tr th:each="comment : ${comments}">
+                    <td class="text-center" th:text="${comment.content}">Comment</td>
+                    <td class="text-center" th:text="${comment.user.username}">Username</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <input type="submit" value="Assign"/>
-</form>
-<h3>
-
 </h3>
 <br>
 <span th:if="${comments.isEmpty()}">
