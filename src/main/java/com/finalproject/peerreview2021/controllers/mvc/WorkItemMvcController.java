@@ -5,13 +5,12 @@ import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
-import com.finalproject.peerreview2021.models.Reviewer;
-import com.finalproject.peerreview2021.models.Team;
-import com.finalproject.peerreview2021.models.User;
-import com.finalproject.peerreview2021.models.WorkItem;
+import com.finalproject.peerreview2021.models.*;
+import com.finalproject.peerreview2021.models.dto.CommentDto;
 import com.finalproject.peerreview2021.models.dto.ReviewerDto;
 import com.finalproject.peerreview2021.models.dto.WorkItemDto;
 import com.finalproject.peerreview2021.services.contracts.*;
+import com.finalproject.peerreview2021.services.modelmappers.CommentModelMapper;
 import com.finalproject.peerreview2021.services.modelmappers.WorkItemModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,12 +31,13 @@ public class WorkItemMvcController {
     private final UserService userService;
     private final StatusService statusService;
     private final CommentService commentService;
+    private final CommentModelMapper commentModelMapper;
 
 
     public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper,
                                  WorkItemService workItemService, ReviewerService reviewerService,
                                  UserService userService, StatusService statusService,
-                                 CommentService commentService) {
+                                 CommentService commentService, CommentModelMapper commentModelMapper) {
         this.authenticationHelper = authenticationHelper;
         this.workItemModelMapper = workItemModelMapper;
         this.workItemService = workItemService;
@@ -45,6 +45,7 @@ public class WorkItemMvcController {
         this.userService = userService;
         this.statusService = statusService;
         this.commentService = commentService;
+        this.commentModelMapper = commentModelMapper;
     }
 
     @GetMapping()
@@ -206,6 +207,43 @@ public class WorkItemMvcController {
             return "not-found";
         } catch (UnauthorizedOperationException e) {
             model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @GetMapping("/comment/{workItemId}")
+    public String showAddCommentPage(@PathVariable int id, Model model,
+                                 HttpSession session) {
+        try {
+            workItemService.delete(id);
+
+            return "redirect:/workitems";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "not-found";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @PostMapping("/comment/{workItemId}")
+    public String addComment(@Valid @ModelAttribute("comment") CommentDto commentDto,
+                              @PathVariable int workItemId,
+                              BindingResult errors, Model model,
+                              HttpSession session) {
+        if (errors.hasErrors()) {
+            return "workitem";
+        }
+
+        try {
+            WorkItem workItem = workItemService.getById(workItemId);
+            commentDto.setWorkItemId(workItemId);
+            Comment comment = commentModelMapper.fromDto(commentDto);
+            commentService.create(comment);
+            return "redirect:/workitems/" + workItemId;
+        } catch (UnauthorizedOperationException e) {
+            errors.rejectValue("createdBy", "not_allowed", e.getMessage());
             return "access-denied";
         }
     }

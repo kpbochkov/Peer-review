@@ -4,12 +4,16 @@ import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
+import com.finalproject.peerreview2021.models.Comment;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
+import com.finalproject.peerreview2021.models.dto.CommentDto;
 import com.finalproject.peerreview2021.models.dto.WorkItemDto;
+import com.finalproject.peerreview2021.services.contracts.CommentService;
 import com.finalproject.peerreview2021.services.contracts.TeamService;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
+import com.finalproject.peerreview2021.services.modelmappers.CommentModelMapper;
 import com.finalproject.peerreview2021.services.modelmappers.WorkItemModelMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpHeaders;
@@ -35,14 +39,18 @@ public class WorkItemController {
     private final WorkItemModelMapper workItemModelMapper;
     private final AuthenticationHelper authenticationHelper;
     private final TeamService teamService;
+    private final CommentService commentService;
+    private final CommentModelMapper commentModelMapper;
 
 
     public WorkItemController(WorkItemService workItemService, WorkItemModelMapper workItemModelMapper,
-                              AuthenticationHelper authenticationHelper, TeamService teamService) {
+                              AuthenticationHelper authenticationHelper, TeamService teamService, CommentService commentService, CommentModelMapper commentModelMapper) {
         this.workItemService = workItemService;
         this.workItemModelMapper = workItemModelMapper;
         this.authenticationHelper = authenticationHelper;
         this.teamService = teamService;
+        this.commentService = commentService;
+        this.commentModelMapper = commentModelMapper;
     }
 
     @ApiOperation(value = "Get Work Item by ID")
@@ -116,5 +124,13 @@ public class WorkItemController {
     public List<WorkItem> showAllWorkItemsForTeam(@PathVariable int teamId) {
         Team team = teamService.getById(teamId);
         return workItemService.getAllWorkItemsForTeam(team);
+    }
+
+    @ApiOperation(value = "Add Comment to Work Item")
+    @PostMapping("/comment")
+    public Comment addComment(@Valid @RequestBody CommentDto commentDto) {
+        Comment comment = commentModelMapper.fromDto(commentDto);
+        commentService.create(comment);
+        return comment;
     }
 }

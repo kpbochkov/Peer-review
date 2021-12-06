@@ -10502,7 +10502,7 @@ a:focus {
 
 .sidebar .nav-item .collapse .collapse-inner, .sidebar .nav-item .collapsing .collapse-inner {
     padding: .5rem 0;
-    min-width: 10rem;
+    min-width: 7rem;
     font-size: .85rem;
     margin: 0 0 1rem 0
 }

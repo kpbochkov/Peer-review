@@ -11,11 +11,13 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" th:href="@{../css/sb-admin-2.min.css}" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">
 </head>
 <body>
 <ul>
     <li><h3><a href="/" th:href="@{/dashboard}" th:text="#{navigation.home}">Dashboard</a></h3></li>
-    <li><h3><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work Items</a></h3></li>
+    <li><h3><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work Items</a></h3>
+    </li>
 </ul>
 
 <h2 th:text="${workitem.getTitle}">Work Item Title</h2>
@@ -26,7 +28,6 @@
 
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
-    <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Add comment</a>
 </h3>
 <br>
 <span th:if="${assignees.isEmpty()}">
@@ -68,10 +69,11 @@
         </tbody>
     </table>
 </div>
-<form th:unless="${members.isEmpty()}" action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}" th:object="${reviewer}"
+<form th:unless="${members.isEmpty()}" action="#" th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}"
+      th:object="${reviewer}"
       method="post">
 
-    <label >Reviewer</label>
+    <label>Reviewer</label>
     <div class="col-2 float-left">
         <select class="form-select" aria-label="Default select example" th:field="*{reviewerId}">
             <option th:each="user : ${members}" th:text="${user.username}" th:value="${user.id}">Reviewer name</option>
@@ -88,42 +90,69 @@
 <span th:if="${comments.isEmpty()}">
     <i><h5>No comments</h5></i>
 </span>
-<div th:unless="${comments.isEmpty()}">
+<div th:unless="${comments.isEmpty()}" class="container-sm">
     <label> Current comments</label>
     <table class="table table-sm shadow table-condensed table-hover">
         <thead>
         <tr class="table-light">
-            <th class="text-center">Reviewer name</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Content</th>
             <th class="text-center">Date</th>
         </tr>
         </thead>
         <tbody class="table-hover">
         <tr th:each="comment : ${comments}">
+            <span>
+                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
+                <small>Reply</small>
+            </button>
+            </span>
+            <td class="text-center" th:text="${comment.user.username}">Username</td>
             <td class="text-center" th:text="${comment.content}">Comment</td>
             <td class="text-center" th:text="${comment.user.username}">Username</td>
-            <td class="text-center">
-                <th:block th:switch="${comment.workItem.status.name.toUpperCase()}">
-                    <div th:case="'PENDING'">
-                        <span class="badge bg-info rounded-pill">pending</span>
-                    </div>
-                    <div th:case="'UNDER REVIEW'">
-                        <span class="badge bg-secondary rounded-pill">under review</span>
-                    </div>
-                    <div th:case="'CHANGE REQUESTED'">
-                        <span class="badge bg-warning rounded-pill">change requested</span>
-                    </div>
-                    <div th:case="'ACCEPTED'">
-                        <span class="badge bg-success rounded-pill">accepted</span>
-                    </div>
-                    <div th:case="'REJECTED'">
-                        <span class="badge bg-danger rounded-pill">rejected</span>
-                    </div>
-                </th:block>
-            </td>
-
         </tr>
         </tbody>
     </table>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Your comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/modal.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

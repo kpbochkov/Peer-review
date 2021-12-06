@@ -16,9 +16,10 @@ public class RegisterDto {
             "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
     private String password;
 
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
+
 
     @NotEmpty(message = "Password confirmation can't be empty")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
     private String passwordConfirm;
 
     @NotEmpty(message = "Email can't be empty")
