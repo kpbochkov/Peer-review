@@ -7,6 +7,7 @@ import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.*;
 import com.finalproject.peerreview2021.models.dto.CommentDto;
+import com.finalproject.peerreview2021.models.dto.NewCommentDto;
 import com.finalproject.peerreview2021.models.dto.ReviewerDto;
 import com.finalproject.peerreview2021.models.dto.WorkItemDto;
 import com.finalproject.peerreview2021.services.contracts.*;
@@ -126,6 +127,7 @@ public class WorkItemMvcController {
             model.addAttribute("members", userService.getPossibleAssignees(workItem));
             model.addAttribute("assignees", reviewerService.getAllReviewersForWorkItem(workItem));
             model.addAttribute("comments", commentService.getAllWorkItemComments(workItem));
+            model.addAttribute("newComment", new NewCommentDto());
             return "workitem";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
@@ -228,22 +230,29 @@ public class WorkItemMvcController {
     }
 
     @PostMapping("/comment/{workItemId}")
-    public String addComment(@Valid @ModelAttribute("comment") CommentDto commentDto,
-                              @PathVariable int workItemId,
-                              BindingResult errors, Model model,
-                              HttpSession session) {
+    public String addComment(@Valid @ModelAttribute("newComment") NewCommentDto commentDto,
+                             @PathVariable int workItemId,
+                             BindingResult errors, Model model,
+                             HttpSession session) {
         if (errors.hasErrors()) {
             return "workitem";
         }
-
+        User user;
+        try {
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        }
         try {
             WorkItem workItem = workItemService.getById(workItemId);
-            commentDto.setWorkItemId(workItemId);
-            Comment comment = commentModelMapper.fromDto(commentDto);
+            Comment comment = new Comment();
+            comment.setUser(user);
+            comment.setWorkItem(workItem);
+            comment.setContent(commentDto.getContent());
             commentService.create(comment);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
-            errors.rejectValue("createdBy", "not_allowed", e.getMessage());
+            errors.rejectValue("comment", "not_allowed", e.getMessage());
             return "access-denied";
         }
     }

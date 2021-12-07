@@ -13,8 +13,8 @@ public class UserDto {
 
     @NotBlank
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*)(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$")
-    @Size(min = 8, max = 500, message = "Password must be at least 8 symbols and should contain " +
-            "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
+    @Size(min = 8, max = 50, message = "Password must be at least 8 symbols and should contain " +
+            "capital letter, lowercase letter, digit, and special symbol (+, -, *, &, ^, )")
     private String password;
 
     @NotBlank
@@ -22,6 +22,7 @@ public class UserDto {
     private String email;
 
     @Positive(message = "Phone number should contain positive digits")
+    @Size(min = 10, max = 10, message = "Phone number must be 10 digits")
     private int phoneNumber;
 
     private byte[] photo;

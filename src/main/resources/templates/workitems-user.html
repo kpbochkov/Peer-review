@@ -13,34 +13,66 @@
     <link href="css/sb-admin-2.min.css" th:href="@{../css/sb-admin-2.min.css}" rel="stylesheet">
 </head>
 <body>
-<ul>
-    <li><h3><a href="/" th:href="@{/dashboard}">Dashboard</a></h3></li>
-</ul>
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <div th:replace="fragments.html :: navbar"></div>
 
-<div th:if="${workitems.isEmpty()}">
-    <h2>No Open Work Items yet</h2>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:if="${workitems.isEmpty()}">
+            <h2>No Open Work Items yet</h2>
+        </div>
+        <table class="table table-hover" th:unless="${workitems.isEmpty()}">
+            <h2 th:text="#{workitems.title}">All Work Items</h2>
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Created by</th>
+                <th scope="col">Team</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody th:each="workitem : ${workitems}">
+            <tr>
+                <td class="cell">
+                    <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}" th:text="${workitem.title}">Work
+                        Item
+                        title</a>
+                </td>
+                <td th:text="${workitem.createdBy.username}">Created by</td>
+                <td th:text="${workitem.team.name}">Team</td>
+                <td th:text="${workitem.status.name}">Status</td>
+            </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <div th:if="${workitems.isEmpty()}">
+            <h2>No Work Items for review</h2>
+        </div>
+        <table class="table table-hover" th:unless="${workitems.isEmpty()}">
+            <h2 th:text="#{workitems.title}">All Work Items</h2>
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Created by</th>
+                <th scope="col">Team</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody th:each="workitem : ${workitems}">
+            <tr>
+                <td class="cell">
+                    <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}" th:text="${workitem.title}">Work
+                        Item
+                        title</a>
+                </td>
+                <td th:text="${workitem.createdBy.username}">Created by</td>
+                <td th:text="${workitem.team.name}">Team</td>
+                <td th:text="${workitem.status.name}">Status</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<table class="table table-hover" th:unless="${workitems.isEmpty()}">
-    <h2 th:text="#{workitems.title}">All Work Items</h2>
-    <thead>
-    <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Created by</th>
-        <th scope="col">Team</th>
-        <th scope="col">Status</th>
-    </tr>
-    </thead>
-    <tbody th:each="workitem : ${workitems}">
-    <tr>
-        <td class="cell">
-            <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}" th:text="${workitem.title}">Work Item
-                title</a>
-        </td>
-        <td th:text="${workitem.createdBy.username}">Created by</td>
-        <td th:text="${workitem.team.name}">Team</td>
-        <td th:text="${workitem.status.name}">Status</td>
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>
