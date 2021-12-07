@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Work Item</title>
-    <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{/vendor/fontawesome-free/css/all.min.css}"
+          rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
@@ -12,36 +13,59 @@
     <link href="css/sb-admin-2.min.css" th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
 </head>
 <body>
-<ul>
-    <li><h3><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work Items</a></h3></li>
-</ul>
+<div id="wrapper">
+    <div th:replace="fragments.html :: navbar"></div>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="fragments.html :: topbar-simple"></div>
 
-<h2>Edit Work Item</h2>
+        <div id="content">
+            <div class="container-fluid">
+                <h3>Edit Work Item</h3>
 
-<form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${workitem}"
-      method="post">
+                <form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${workitem}"
+                      method="post">
 
-    <label >Title</label>
-    <br/>
-    <input type="text" th:field="*{title}"/>
-    <label class="error-custom" th:errors="*{title}">Title error placeholder</label>
-    <br/><br/>
+                    <label>Title</label>
+                    <br/>
+                    <input type="text" th:field="*{title}"/>
+                    <label class="error-custom" th:errors="*{title}">Title error placeholder</label>
+                    <br/><br/>
 
-    <label >Description</label>
-    <br/>
-    <input type="text" th:field="*{description}"/>
-    <label class="error-custom" th:errors="*{description}">Description error placeholder</label>
-    <br/><br/>
+                    <label>Description</label>
+                    <br/>
+                    <input type="text" th:field="*{description}"/>
+                    <label class="error-custom" th:errors="*{description}">Description error placeholder</label>
+                    <br/><br/>
 
-    <label >Team</label>
-    <div class="col-2 float-left">
-        <select class="form-select" aria-label="Default select example" th:field="*{teamId}">
-            <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name</option>
-        </select>
-        <label class="error-custom" th:errors="*{teamId}">Team error placeholder</label>
+                    <label>Team</label>
+                    <div class="col-2 float-left">
+                        <select class="form-select" aria-label="Default select example" th:field="*{teamId}">
+                            <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name
+                            </option>
+                        </select>
+                        <label class="error-custom" th:errors="*{teamId}">Team error placeholder</label>
+                    </div>
+
+                    <input type="submit" value="Save"/>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <input type="submit" value="Save"/>
-</form>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
 </body>
 </html>
