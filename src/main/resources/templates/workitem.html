@@ -68,13 +68,25 @@
                                         <span class="badge bg-danger rounded-pill">rejected</span>
                                     </div>
                                 </th:block>
+                                <div class="dropdown" th:if="${currentUser.equals(assignee.user)}">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" style="width: 80%">
+                                        Change status
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" th:each="status : ${statuses}"
+                                           th:href="@{/workitems/{id}/reviewer/{reviewerId}/status/{statusId}(id=${workitem.id},reviewerId=${assignee.id},statusId = ${status.id})}"
+                                           th:text="${status.name}"></a>
+                                    </div>
+                                </div>
                             </td>
 
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <form th:unless="${members.isEmpty()}" action="#"
+                <form th:unless="${members.isEmpty() || !currentUser.equals(workitem.getCreatedBy())}" action="#"
                       th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}"
                       th:object="${reviewer}"
                       method="post">
@@ -96,11 +108,7 @@
             </span>
         <div th:unless="${comments.isEmpty()}" class="container-sm">
             <label> Current comments</label>
-            <span>
-                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
-                <small>Reply</small>
-            </button>
-            </span>
+
             <table class="table table-sm shadow table-condensed table-hover">
                 <thead>
                 <tr class="table-light">
@@ -117,6 +125,11 @@
                 </tbody>
             </table>
         </div>
+                <span>
+                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
+                <small>Add comment</small>
+                </button>
+            </span>
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -133,7 +146,6 @@
                               th:action="@{/workitems/comment/{id}(id=${workitem.id})}"
                               th:object="${newComment}"
                               method="post">
-                            <label for="exampleFormControlTextarea1">Example textarea</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                       th:field="*{content}"
                             ></textarea>

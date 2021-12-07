@@ -20,4 +20,6 @@ public interface WorkItemService extends BaseCRUDService<WorkItem> {
     List<WorkItem> getAllWorkItemsForUser(User user);
 
     List<WorkItem> getAllWorkItemsForTeam(Team team);
+
+    List<WorkItem> getAllWorkItemsForReviewer(User user);
 }

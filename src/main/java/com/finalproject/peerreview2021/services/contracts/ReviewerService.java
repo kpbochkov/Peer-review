@@ -1,6 +1,7 @@
 package com.finalproject.peerreview2021.services.contracts;
 
 import com.finalproject.peerreview2021.models.Reviewer;
+import com.finalproject.peerreview2021.models.Status;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 
@@ -10,4 +11,6 @@ public interface ReviewerService extends BaseCRUDService<Reviewer> {
     List<User> getAllReviewersForWorkItemAsUsers(WorkItem workItem);
 
     List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem);
+
+    void setStatus(Reviewer reviewer, Status status);
 }

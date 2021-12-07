@@ -103,4 +103,9 @@ public class WorkItemServiceImpl implements WorkItemService {
     public List<WorkItem> getAllWorkItemsForTeam(Team team) {
         return workItemRepository.showAllWorkItemsForTeam(team);
     }
+
+    @Override
+    public List<WorkItem> getAllWorkItemsForReviewer(User user) {
+        return workItemRepository.getAllWorkItemsForReviewer(user);
+    }
 }

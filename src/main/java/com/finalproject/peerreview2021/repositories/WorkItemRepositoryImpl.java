@@ -93,6 +93,19 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
     }
 
     @Override
+    public List<WorkItem> getAllWorkItemsForReviewer(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<WorkItem> query = session.createQuery(
+                    "select w from WorkItem w join Reviewer r " +
+                            "on w.id=r.workItem.id " +
+                            "where r.user.id = :userId", WorkItem.class);
+            query.setParameter("userId", user.getId());
+
+            return query.list();
+        }
+    }
+
+    @Override
     public List<WorkItem> showAllWorkItemsForTeam(Team team) {
         try (Session session = sessionFactory.openSession()) {
             Query<WorkItem> query = session.createQuery(

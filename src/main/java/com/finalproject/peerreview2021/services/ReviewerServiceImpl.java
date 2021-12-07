@@ -2,21 +2,29 @@ package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.Reviewer;
+import com.finalproject.peerreview2021.models.Status;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
+import com.finalproject.peerreview2021.repositories.contracts.StatusRepository;
+import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
 import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewerServiceImpl implements ReviewerService {
     private final ReviewerRepository reviewerRepository;
+    private final StatusRepository statusRepository;
+    private final WorkItemRepository workItemRepository;
 
 
-    public ReviewerServiceImpl(ReviewerRepository reviewerRepository) {
+    public ReviewerServiceImpl(ReviewerRepository reviewerRepository, StatusRepository statusRepository, WorkItemRepository workItemRepository) {
         this.reviewerRepository = reviewerRepository;
+        this.statusRepository = statusRepository;
+        this.workItemRepository = workItemRepository;
     }
 
     @Override
@@ -63,6 +71,32 @@ public class ReviewerServiceImpl implements ReviewerService {
     @Override
     public List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem) {
         return reviewerRepository.getAllReviewersForWorkItem(workItem);
+    }
+
+    @Override
+    public void setStatus(Reviewer reviewer, Status status) {
+        if (reviewer.getStatus().getId().equals(status.getId())){
+            return;
+        }
+        reviewer.setStatus(status);
+        reviewerRepository.update(reviewer);
+        WorkItem workItem = reviewer.getWorkItem();
+        List<Reviewer> reviewers = reviewerRepository.getAllReviewersForWorkItem(workItem);
+        List<Integer> statuses = reviewers.stream()
+                .map(r -> r.getStatus().getId())
+                .collect(Collectors.toList());
+        if (statuses.contains(5)){
+            workItem.setStatus(statusRepository.getById(5));
+        } else if (statuses.stream().allMatch(s -> s.equals(4))){
+            workItem.setStatus(statusRepository.getById(4));
+        } else if (!statuses.contains(5) && statuses.contains(3)){
+            workItem.setStatus(statusRepository.getById(3));
+        } else if (statuses.contains(2)){
+            workItem.setStatus(statusRepository.getById(2));
+        } else {
+            workItem.setStatus(statusRepository.getById(1));
+        }
+        workItemRepository.update(workItem);
     }
 
     @Override

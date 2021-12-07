@@ -111,8 +111,9 @@ public class WorkItemMvcController {
     public String showSingleWorkItem(@ModelAttribute("reviewer") ReviewerDto reviewerDto,
                                      @PathVariable int id, Model model,
                                      HttpSession session) {
+        User user;
         try {
-            authenticationHelper.tryGetUser(session);
+            user = authenticationHelper.tryGetUser(session);
         } catch (AuthenticationFailureException e) {
             return "redirect:/";
         } catch (UnauthorizedOperationException e) {
@@ -128,6 +129,8 @@ public class WorkItemMvcController {
             model.addAttribute("assignees", reviewerService.getAllReviewersForWorkItem(workItem));
             model.addAttribute("comments", commentService.getAllWorkItemComments(workItem));
             model.addAttribute("newComment", new NewCommentDto());
+            model.addAttribute("currentUser", user);
+            model.addAttribute("statuses", statusService.getAll());
             return "workitem";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
@@ -253,6 +256,26 @@ public class WorkItemMvcController {
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
             errors.rejectValue("comment", "not_allowed", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @GetMapping("/{workItemId}/reviewer/{reviewerId}/status/{statusId}")
+    public String changeStatus(@PathVariable int workItemId,
+                             @PathVariable int reviewerId,
+                             @PathVariable int statusId,
+                             HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        }
+        try {
+            Reviewer reviewer = reviewerService.getById(reviewerId);
+            reviewerService.setStatus(reviewer, statusService.getById(statusId));
+            return "redirect:/workitems/" + workItemId;
+        } catch (UnauthorizedOperationException e) {
             return "access-denied";
         }
     }

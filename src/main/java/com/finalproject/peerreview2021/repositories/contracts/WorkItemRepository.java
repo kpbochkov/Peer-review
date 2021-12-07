@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface WorkItemRepository extends BaseCRUDRepository<WorkItem> {
 
-    //ToDo add method "assign additional reviewers"
-
     List<WorkItem> filter(Optional<String> title, Optional<String> status,
                           Optional<String> reviewer, Optional<String> sortParam);
 
@@ -18,4 +16,5 @@ public interface WorkItemRepository extends BaseCRUDRepository<WorkItem> {
 
     List<WorkItem> getAllWorkItemsForUser(User user);
 
+    List<WorkItem> getAllWorkItemsForReviewer(User user);
 }
