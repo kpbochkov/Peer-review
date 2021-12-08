@@ -13,4 +13,6 @@ public interface TeamService extends BaseCRUDService<Team> {
     List<Team> getUserTeams(User user);
 
     void deleteTeamMember(User user, Team team);
+
+    void leaveTeam(User user, Team team);
 }

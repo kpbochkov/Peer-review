@@ -3,6 +3,7 @@ package com.finalproject.peerreview2021.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Table(name = "teams")
@@ -60,5 +61,18 @@ public class Team {
 
     public void setMembers(Set<User> members) {
         this.members = members;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equals(id, team.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, user, members);
     }
 }
