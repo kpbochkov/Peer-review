@@ -31,7 +31,7 @@ public class ReviewerServiceImpl implements ReviewerService {
     public void create(Reviewer entity) {
         if (entity.getWorkItem().getCreatedBy().getId().equals(entity.getUser().getId())) {
             throw new UnauthorizedOperationException("Creator of work item cannot be assigned as" +
-                    " a reviewer thereof");
+                    " a reviewer");
         }
         if (!entity.getWorkItem().getTeam().getMembers().contains(entity.getUser())) {
             throw new UnauthorizedOperationException("Reviewers must be part of the team" +

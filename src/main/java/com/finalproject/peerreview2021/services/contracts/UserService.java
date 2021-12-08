@@ -11,4 +11,5 @@ public interface UserService extends BaseCRUDService<User> {
     List<User> filter(Optional<String> username, Optional<String> email, Optional<Integer> phone);
 
     List<User> getPossibleAssignees(WorkItem workItem);
+
 }

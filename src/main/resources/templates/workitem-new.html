@@ -22,7 +22,8 @@
         <div id="content">
             <div class="container-fluid">
                 <ul>
-                    <li><h4><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work Items</a>
+                    <li><h4><a href="#" th:href="@{/workitems}" th:text="#{navigation.all-workitems}">Browse all Work
+                        Items</a>
                     </h4>
                     </li>
                 </ul>
@@ -45,11 +46,11 @@
                     <label>Team</label>
                     <div class="col-2 float-left">
                         <select class="form-select" aria-label="Default select example" th:field="*{teamId}">
-                            <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name</option>
+                            <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name
+                            </option>
                         </select>
                         <label class="error-custom" th:errors="*{teamId}">Team error placeholder</label>
                     </div>
-
                     <input type="submit" value="Save"/>
                 </form>
             </div>

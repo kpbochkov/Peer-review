@@ -26,7 +26,7 @@
         <div id="content">
             <div class="container-fluid">
                 <h2 th:text="${workitem.getTitle}">Work Item Title</h2>
-                <div class="container-xl" style="height: 300px; overflow-y: scroll">
+                <div class="container-xl" style="height: 200px; overflow-y: scroll">
                     <p th:text="${workitem.getDescription}">Work Item Description</p>
                 </div>
                 <h3>
@@ -101,66 +101,67 @@
                         <label class="error-custom" th:errors="*{reviewerId}">Reviewer error placeholder</label>
                     </div>
 
-            <input type="submit" value="Assign"/>
-        </form>
-        <span th:if="${comments.isEmpty()}">
+                    <input type="submit" value="Assign"/>
+                </form>
+                <span th:if="${comments.isEmpty()}">
     <i><h5>No comments</h5></i>
             </span>
-        <div th:unless="${comments.isEmpty()}" class="container-sm">
-            <label> Current comments</label>
+                <div th:unless="${comments.isEmpty()}" class="container-sm">
+                    <label> Current comments</label>
 
-            <table class="table table-sm shadow table-condensed table-hover">
-                <thead>
-                <tr class="table-light">
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Content</th>
-                </tr>
-                </thead>
-                <tbody class="table-hover">
-                <tr th:each="comment : ${comments}">
+                    <table class="table table-sm shadow table-condensed table-hover">
+                        <thead>
+                        <tr class="table-light">
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Content</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-hover">
+                        <tr th:each="comment : ${comments}">
 
-                    <td class="text-center" th:text="${comment.user.username}">Username</td>
-                    <td class="text-center" th:text="${comment.content}">Comment</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                            <td class="text-center" th:text="${comment.user.username}">Username</td>
+                            <td class="text-center" th:text="${comment.content}">Comment</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <span>
                 <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
                 <small>Add comment</small>
                 </button>
             </span>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Your comment</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#"
-                              th:action="@{/workitems/comment/{id}(id=${workitem.id})}"
-                              th:object="${newComment}"
-                              method="post">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Your comment</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="#"
+                                      th:action="@{/workitems/comment/{id}(id=${workitem.id})}"
+                                      th:object="${newComment}"
+                                      method="post">
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                       th:field="*{content}"
                             ></textarea>
-                            <div class="modal-footer">
+                                    <div class="modal-footer">
 
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-secondary" value="Save"/>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <input type="submit" class="btn btn-secondary" value="Save"/>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        </h3>
-        <br>
+                <br>
 
             </div>
         </div>

@@ -10520,7 +10520,7 @@ a:focus {
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item, .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
     padding: .5rem 1rem;
-    margin: 0 .5rem;
+    /*margin: 0 .5rem;*/
     display: block;
     color: #3a3b45;
     text-decoration: none;
@@ -10686,7 +10686,7 @@ a:focus {
 
     .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
         width: 1rem;
-        text-align: center;
+        /*text-align: center;*/
         float: right;
         vertical-align: 0;
         border: 0;
