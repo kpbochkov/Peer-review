@@ -12,6 +12,7 @@ import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.modelmappers.TeamModelMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -49,9 +50,10 @@ public class TeamController {
 
     @ApiOperation(value = "Create new Team")
     @PostMapping
-    public Team create(@Valid @RequestBody TeamDto teamDto) {
+    public Team create(@Valid @RequestBody TeamDto teamDto, HttpHeaders headers) {
         try {
-            Team team = teamModelMapper.fromDto(teamDto);
+            User user = authenticationHelper.tryGetUser(headers);
+            Team team = teamModelMapper.fromDto(teamDto, user);
             teamService.create(team);
             return team;
         } catch (DuplicateEntityException e) {

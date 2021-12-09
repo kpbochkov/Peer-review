@@ -41,7 +41,7 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">My Teams</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" th:href="@{/workitems/new}"><i
+                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" th:href="@{/teams/new}"><i
                             class="fas fa-download fa-sm text-white-50" ></i> Create Team</a>
                 </div>
 
@@ -55,8 +55,9 @@
                             <!-- Card Header - Dropdown -->
                             <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary" th:text="${teamWorkItems.team.name}">Team placeholder</h6>
+                                <a href="#" th:href="@{/teams/{id}(id=${teamWorkItems.team.id})}" class="m-0 font-weight-bold text-primary" th:text="${teamWorkItems.team.name}">Team placeholder</a>
                                 <!--- form begin -->
+
                                 <div class=" dropdown-menu-right">
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -79,7 +80,6 @@
                                         <span>
                                         <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
                                             <a  th:href="@{teams/leave/{teamId}(teamId=${teamWorkItems.team.id})}">Leave team</a>
-
                                         </button>
                                         </span>
                                     </div>

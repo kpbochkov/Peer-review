@@ -1,5 +1,6 @@
 package com.finalproject.peerreview2021.services.contracts;
 
+import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 
@@ -11,5 +12,7 @@ public interface UserService extends BaseCRUDService<User> {
     List<User> filter(Optional<String> username, Optional<String> email, Optional<Integer> phone);
 
     List<User> getPossibleAssignees(WorkItem workItem);
+
+    List<User> getMembersWithoutCurrentUser(Team team, User user);
 
 }
