@@ -75,6 +75,7 @@ public class TeamMvcController {
             wrapper.setWorkItems(workItemService.getAllWorkItemsForTeam(team));
             List<User> possibleInvitees = new ArrayList<>(allUsers);
             possibleInvitees.removeAll(team.getMembers());
+            possibleInvitees.removeAll(teamInvitationService.getInvitedUsers(team));
             wrapper.setPossibleInvitees(possibleInvitees);
             teamsWorkItems.add(wrapper);
         }
