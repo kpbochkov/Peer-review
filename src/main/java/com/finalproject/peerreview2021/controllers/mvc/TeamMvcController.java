@@ -2,7 +2,6 @@ package com.finalproject.peerreview2021.controllers.mvc;
 
 import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
-import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.Team;
@@ -15,8 +14,10 @@ import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -60,20 +61,23 @@ public class TeamMvcController {
             return "redirect:/";
         }
         List<TeamWorkItemsWrapper> teamsWorkItems = new ArrayList<>();
+        List<User> allUsers = userService.getAll();
         for (Team team : teamService.getUserTeams(user)) {
             TeamWorkItemsWrapper wrapper = new TeamWorkItemsWrapper();
             wrapper.setTeam(team);
             wrapper.setWorkItems(workItemService.getAllWorkItemsForTeam(team));
+            List<User> possibleInvitees = new ArrayList<>(allUsers);
+            possibleInvitees.removeAll(team.getMembers());
+            wrapper.setPossibleInvitees(possibleInvitees);
             teamsWorkItems.add(wrapper);
         }
         model.addAttribute("teamsWorkItems", teamsWorkItems);
         return "teams";
     }
 
-    @PostMapping("/{teamId}/invite/{userId}")
+    @GetMapping("/{teamId}/invite/{userId}")
     public String inviteUser(@PathVariable int teamId,
                              @PathVariable int userId,
-                             BindingResult errors,
                              Model model,
                              HttpSession session) {
         User user;
@@ -87,12 +91,54 @@ public class TeamMvcController {
             return "redirect:/teams";
         } catch (AuthenticationFailureException e) {
             return "redirect:/";
-        } catch (DuplicateEntityException e) {
-            errors.rejectValue("name", "duplicate_workitem", e.getMessage());
-            return "workitem-update";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
             return "not-found";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @GetMapping("/accept/{invitationId}")
+    public String acceptInvitation(@PathVariable int invitationId, HttpSession session, Model model) {
+        try {
+            User user = authenticationHelper.tryGetUser(session);
+            TeamInvitation teamInvitation = teamInvitationService.getById(invitationId);
+            teamInvitationService.accept(user, teamInvitation);
+            return "redirect:/dashboard";
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @GetMapping("/decline/{invitationId}")
+    public String declineInvitation(@PathVariable int invitationId, HttpSession session, Model model) {
+        try {
+            User user = authenticationHelper.tryGetUser(session);
+            TeamInvitation teamInvitation = teamInvitationService.getById(invitationId);
+            teamInvitationService.decline(user, teamInvitation);
+            return "redirect:/dashboard";
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
+    @GetMapping("/leave/{teamId}")
+    public String leaveTeam(@PathVariable int teamId, HttpSession session, Model model) {
+        try {
+            User user = authenticationHelper.tryGetUser(session);
+            Team team = teamService.getById(teamId);
+            teamService.leaveTeam(user, team);
+            return "redirect:/teams";
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
         } catch (UnauthorizedOperationException e) {
             model.addAttribute("error", e.getMessage());
             return "access-denied";

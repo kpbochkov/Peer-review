@@ -1,6 +1,7 @@
 package com.finalproject.peerreview2021.models.wrappers;
 
 import com.finalproject.peerreview2021.models.Team;
+import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 
 import java.util.List;
@@ -15,6 +16,16 @@ public class TeamWorkItemsWrapper {
     Team team;
 
     List<WorkItem> workItems;
+
+    List<User> possibleInvitees;
+
+    public List<User> getPossibleInvitees() {
+        return possibleInvitees;
+    }
+
+    public void setPossibleInvitees(List<User> possibleInvitees) {
+        this.possibleInvitees = possibleInvitees;
+    }
 
     public Team getTeam() {
         return team;

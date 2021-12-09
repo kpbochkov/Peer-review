@@ -178,7 +178,7 @@ public class WorkItemMvcController {
     }
 
     @PostMapping("/{id}/update")
-    public String updateShipment(@PathVariable int id,
+    public String updateWorkItem(@PathVariable int id,
                                  @Valid @ModelAttribute("workitem") WorkItemDto workItemDto,
                                  BindingResult errors,
                                  Model model,
@@ -201,7 +201,7 @@ public class WorkItemMvcController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteShipment(@PathVariable int id, Model model,
+    public String deleteWorkItem(@PathVariable int id, Model model,
                                  HttpSession session) {
         try {
             workItemService.delete(id);

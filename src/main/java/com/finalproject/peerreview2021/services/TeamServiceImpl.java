@@ -95,14 +95,17 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void deleteTeamMember(User user, Team team) {
-        for (User o : team.getMembers()) {
-            System.out.println("+++++++++");
-            System.out.println(o.getUsername());
-            System.out.println("++++++++++");
-        }
         team.getMembers().remove(user);
         teamRepository.update(team);
     }
 
-
+    @Override
+    public void leaveTeam(User user, Team team) {
+        if (team.getUser().equals(user)) {
+            throw new UnauthorizedOperationException("You are the owner, " +
+                    "you cannot leave your own team!");
+        }
+        team.getMembers().remove(user);
+        teamRepository.update(team);
+    }
 }

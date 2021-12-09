@@ -26,7 +26,7 @@
         <div id="content">
             <div class="container-fluid">
                 <h2 th:text="${workitem.getTitle}">Work Item Title</h2>
-                <div class="container-xl" style="height: 200px; overflow-y: scroll">
+                <div class="container-xl" style="height: 200px; overflow-y: scroll; background-color: #fff">
                     <p th:text="${workitem.getDescription}">Work Item Description</p>
                 </div>
                 <h3>
@@ -36,8 +36,8 @@
                 </h3>
                 <br>
                 <span th:if="${assignees.isEmpty()}">
-    <i><h5>Currently no reviewers are assigned to this work item</h5></i>
-</span>
+                    <i><h5>Currently no reviewers are assigned to this work item</h5></i>
+                </span>
                 <div th:unless="${assignees.isEmpty()}" class="container-sm">
                     <label> Current reviewers</label>
                     <table class="table table-sm shadow table-condensed table-hover">
@@ -76,7 +76,8 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" th:each="status : ${statuses}"
-                                           th:href="@{/workitems/{id}/reviewer/{reviewerId}/status/{statusId}(id=${workitem.id},reviewerId=${assignee.id},statusId = ${status.id})}"
+                                           th:href="@{/workitems/{id}/reviewer/{reviewerId}/status/
+                                           {statusId}(id=${workitem.id},reviewerId=${assignee.id},statusId = ${status.id})}"
                                            th:text="${status.name}"></a>
                                     </div>
                                 </div>
@@ -104,8 +105,8 @@
                     <input type="submit" value="Assign"/>
                 </form>
                 <span th:if="${comments.isEmpty()}">
-    <i><h5>No comments</h5></i>
-            </span>
+                <i><h5>No comments</h5></i>
+                </span>
                 <div th:unless="${comments.isEmpty()}" class="container-sm">
                     <label> Current comments</label>
 
@@ -129,7 +130,7 @@
                 <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
                 <small>Add comment</small>
                 </button>
-            </span>
+                </span>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel"
@@ -148,10 +149,8 @@
                                       th:object="${newComment}"
                                       method="post">
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                      th:field="*{content}"
-                            ></textarea>
+                                      th:field="*{content}"></textarea>
                                     <div class="modal-footer">
-
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
                                         </button>
                                         <input type="submit" class="btn btn-secondary" value="Save"/>
@@ -162,7 +161,6 @@
                     </div>
                 </div>
                 <br>
-
             </div>
         </div>
     </div>
