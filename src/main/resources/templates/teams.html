@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-<!--    <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">-->
+    <!--    <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">-->
 
 </head>
 
@@ -41,21 +41,25 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">My Teams</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" th:href="@{/teams/new}"><i
-                            class="fas fa-download fa-sm text-white-50" ></i> Create Team</a>
+                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                       th:href="@{/teams/new}"><i
+                            class="fas fa-download fa-sm text-white-50"></i> Create Team</a>
                 </div>
 
                 <div class="row">
                     <span th:if="${teamsWorkItems.isEmpty()}">
                          <i><h5>You are not part of any teams yet</h5></i>
                     </span>
+
                     <!-- Area Chart -->
                     <div th:each="teamWorkItems : ${teamsWorkItems}" class="col-xl-8 col-lg-7">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
-                            <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <a href="#" th:href="@{/teams/{id}(id=${teamWorkItems.team.id})}" class="m-0 font-weight-bold text-primary" th:text="${teamWorkItems.team.name}">Team placeholder</a>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <!--                                <a href="#" th:href="@{/teams/{id}(id=${teamWorkItems.team.id})}" class="m-0 font-weight-bold text-primary" th:text="${teamWorkItems.team.name}">Team placeholder</a>-->
+                                <a data-toggle="collapse" th:href="'#collapse'+${teamWorkItems.team.id}"
+                                   class="m-0 font-weight-bold text-primary" th:text="${teamWorkItems.team.name}">Team
+                                    placeholder</a>
                                 <!--- form begin -->
 
                                 <div class=" dropdown-menu-right">
@@ -64,7 +68,7 @@
                                             aria-expanded="false" style="width: 80%">
                                         Invite user
                                     </button>
-                                    <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" th:each="user : ${teamWorkItems.possibleInvitees}"
                                            th:href="@{/teams/{teamId}/invite/{userId}(teamId=${teamWorkItems.team.id},userId=${user.id})}"
                                            th:text="${user.username}"></a>
@@ -78,20 +82,27 @@
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <span>
-                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
-                                            <a  th:href="@{teams/leave/{teamId}(teamId=${teamWorkItems.team.id})}">Leave team</a>
+                                        <button type="button" class="dropdown-item" data-toggle="modal"
+                                                data-target="#exampleModal">
+                                            <a th:href="@{teams/leave/{teamId}(teamId=${teamWorkItems.team.id})}">Leave team</a>
                                         </button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <!-- Card Body -->
-                            <div class="card-body">
-                                <div>
-                                    <span th:each="member : ${teamWorkItems.team.members}" th:text="${member.username} + ' '"></span>
-                                    <hr>
-                                    <a th:each="workitem : ${teamWorkItems.workItems}" th:text="${workitem.title} + ' '"
-                                       th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>
+                            <div th:id="'collapse'+${teamWorkItems.team.id}" class="panel-collapse collapse">
+                                <div class="card-body">
+                                    <div>
+                                        <span th:each="member : ${teamWorkItems.team.members}"
+                                              th:text="${member.username} + ' '"></span>
+                                        <hr>
+                                        <div th:unless="${teamWorkItems.workItems.isEmpty()}">Work Items:</div>
+                                        <div th:each="workitem : ${teamWorkItems.workItems}">
+                                            <a th:text="${workitem.title} + ' '"
+                                               th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
