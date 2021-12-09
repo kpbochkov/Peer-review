@@ -2,11 +2,13 @@ package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
+import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.CommentRepository;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
+import com.finalproject.peerreview2021.services.contracts.TeamService;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final ReviewerRepository reviewerRepository;
+    private final TeamService teamService;
 
-    public UserServiceImpl(UserRepository userRepository, CommentRepository commentRepository, ReviewerRepository reviewerRepository) {
+    public UserServiceImpl(UserRepository userRepository, CommentRepository commentRepository,
+                           ReviewerRepository reviewerRepository, TeamService teamService) {
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
         this.reviewerRepository = reviewerRepository;
+        this.teamService = teamService;
     }
 
 
@@ -82,6 +87,13 @@ public class UserServiceImpl implements UserService {
         possibleAssignees.remove(workItem.getCreatedBy());
         possibleAssignees.removeAll(reviewerRepository.getAllReviewersForWorkItemAsUsers(workItem));
         return possibleAssignees;
+    }
+
+    @Override
+    public List<User> getMembersWithoutCurrentUser(Team team,User user) {
+        List<User> membersWithoutCurrentUser = teamService.getTeamMembers(team);
+        membersWithoutCurrentUser.remove(user);
+        return membersWithoutCurrentUser;
     }
 
     private boolean duplicateExist(User user) {

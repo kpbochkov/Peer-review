@@ -11,9 +11,7 @@ import com.finalproject.peerreview2021.services.contracts.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -36,6 +34,7 @@ public class TeamServiceImpl implements TeamService {
             throw new DuplicateEntityException("Team", "name", entity.getName());
         }
         teamRepository.create(entity);
+        addUserToTeam(entity.getUser(), entity);
     }
 
     @Override
@@ -48,9 +47,6 @@ public class TeamServiceImpl implements TeamService {
         Team entityInRepository = teamRepository.getById(entity.getId());
         if (!Objects.equals(entityInRepository.getUser().getId(), entity.getUser().getId())) {
             throw new UpdateEntityException("Team", "owner");
-        }
-        if (!Objects.equals(entityInRepository.getName(), entity.getName())) {
-            throw new UpdateEntityException("Team", "name");
         }
         teamRepository.update(entity);
     }
@@ -73,10 +69,18 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void addUserToTeam(User user, Team team) {
         var newMembers = team.getMembers();
+        if (newMembers == null) {
+            Set<User> newMembersWithOwner = new HashSet<>();
+            newMembersWithOwner.add(user);
+            team.setMembers(newMembersWithOwner);
+            teamRepository.update(team);
+            return;
+        }
         if (newMembers.contains(user)) {
             throw new DuplicateEntityException(
                     String.format("User with username %s is already in the team", user.getUsername()));
         }
+
 
         newMembers.add(user);
         team.setMembers(newMembers);

@@ -39,14 +39,6 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <div class="alert alert-secondary" role="alert" th:each="invitation : ${teamInvitations}"
-                     th:text="'You have been invited to join team ' + ${invitation.team.name}">
-                    <div><a href="#" class="button" th:href="@{teams/accept/{invitationId}(invitationId=${invitation.id})}">Accept</a></div>
-                    <div><a href="#" class="button" th:href="@{teams/accept/{invitationId}(invitationId=${invitation.id})}">Decline</a></div>
-                    <a href="#" class="button" th:href="@{teams/accept/{invitationId}(invitationId=${invitation.id})}">Accept</a>
-                    <a href="#" class="button" th:href="@{teams/accept/{invitationId}(invitationId=${invitation.id})}">Decline</a>
-                </div>
-
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>

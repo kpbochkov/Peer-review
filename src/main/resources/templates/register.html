@@ -41,7 +41,7 @@
                             <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleUsername"
                                            th:field="*{username}"
-                                           placeholder="Username">
+                                           placeholder="Username" >
                                 <label class="error-custom" th:errors="*{username}">Username error placeholder</label>
                             </div>
                             <div class="form-group">
@@ -52,7 +52,8 @@
                             </div>
                             <div class="form-group">
                                     <input type="tel" class="form-control form-control-user" id="examplePhoneNumber"
-                                           th:field="*{phoneNumber}" placeholder="Phone number" pattern="[0-9]{10}">
+                                           th:field="*{phoneNumber}" placeholder="Phone number">
+                                <label class="error-custom" th:errors="*{phoneNumber}">Phone Number error placeholder</label>
                             </div>
 <!--                            <div class="form-group">-->
 <!--                                    <input type="file" accept="application/json"  class="form-control form-control-user" id="examplePhoto"-->
@@ -64,10 +65,12 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="password" class="form-control form-control-user"
                                            id="exampleInputPassword" th:field="*{password}" placeholder="Password">
+                                    <label class="error-custom" th:errors="*{password}">Password error placeholder</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control form-control-user"
                                            id="exampleRepeatPassword" th:field="*{passwordConfirm}" placeholder="Repeat Password">
+                                    <label class="error-custom" th:errors="*{passwordConfirm}">Password confirm error placeholder</label>
                                 </div>
                             </div>
                             <input class="btn btn-primary btn-user btn-block" type="submit" value="Register Account"/>

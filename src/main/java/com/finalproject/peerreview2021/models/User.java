@@ -3,7 +3,10 @@ package com.finalproject.peerreview2021.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,6 +21,8 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Integer id;
 
+    @NotBlank
+    @Size(min = 2, max = 20, message = "Username should be between 2 and 20 symbols")
     @Column(name = "username", nullable = false, length = 20)
     private String username;
 
@@ -41,6 +46,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
+
     private Set<Team> teams;
 
     public Set<Team> getTeams() {
@@ -98,6 +104,11 @@ public class User {
     public void setId(Integer id) {
         this.id = id;
     }
+
+//    public String getStringPhoto(byte[] photo) {
+//        String newString = Base64.getEncoder().encodeToString(photo);
+//        return newString;
+//    }
 
     @Override
     public boolean equals(Object o) {

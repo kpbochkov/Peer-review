@@ -9,6 +9,7 @@ import com.finalproject.peerreview2021.services.contracts.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,11 @@ public class DashboardMvcController {
         this.teamInvitationService = teamInvitationService;
     }
 
+//    @ModelAttribute("getPhoto")
+//    public String getPhoto(HttpSession session) {
+//        User user = authenticationHelper.tryGetUser(session);
+//        return user.getStringPhoto(user.getPhoto());
+//    }
 
     @GetMapping
     public String showDashboardPage(Model model,
@@ -56,6 +62,8 @@ public class DashboardMvcController {
         }
         return "profile";
     }
+
+
 
 //    @GetMapping("/search")
 //    public String search(@ModelAttribute SearchWorkItemDto searchWorkItemDto, Model model) {

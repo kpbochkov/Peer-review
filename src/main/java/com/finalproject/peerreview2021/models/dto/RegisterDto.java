@@ -10,12 +10,11 @@ public class RegisterDto {
     @Size(min = 2, max = 20, message = "Username should be between 2 and 20 symbols")
     private String username;
 
-    @NotBlank
+    @NotEmpty(message = "Password confirmation can't be empty")
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
     @Size(min = 8, max = 500, message = "Password must be at least 8 symbols and should contain " +
             "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
     private String password;
-
 
 
     @NotEmpty(message = "Password confirmation can't be empty")
@@ -25,16 +24,18 @@ public class RegisterDto {
     @NotEmpty(message = "Email can't be empty")
     private String email;
 
-    @Positive(message = "Phone number should contain positive digits")
-    private int phoneNumber;
+    @Size(min = 10, max = 10, message = "Phone number should be 10 digits")
+    @NotNull
+    @Pattern(regexp = "([0-9]{10})")
+    private String phoneNumber;
 
     private byte[] photo;
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

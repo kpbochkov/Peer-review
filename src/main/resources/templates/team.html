@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${team.getName()}">Team</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{../vendor/fontawesome-free/css/all.min.css}"
+          rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" th:href="@{../css/sb-admin-2.min.css}" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <div th:replace="fragments.html :: navbar"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="fragments.html :: topbar-simple"></div>
+
+        <div id="content">
+            <div class="container-fluid">
+                <h2 th:text="${team.getName()}">Team Name</h2>
+<!--                <div class="container-xl" style="height: 200px; overflow-y: scroll; background-color: #fff">-->
+<!--                    <p th:text="${team.getDescription}">Work Item Description</p>-->
+<!--                </div>-->
+                <h3>
+
+                    <a href="#" th:if="${currentUser.equals(team.user)}" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
+                    <a href="#" th:if="${currentUser.equals(team.user)}" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
+                </h3>
+                <br>
+                <span th:if="${members.isEmpty()}">
+                    <i><h5>Currently you are the only member of the team</h5></i>
+                </span>
+                <div th:unless="${members.isEmpty()}" class="container-sm">
+                    <label> Current members</label>
+                    <table class="table table-sm shadow table-condensed table-hover">
+                        <thead>
+                        <tr class="table-light">
+                            <th class="text-center">User name</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-hover">
+                        <tr th:each="member : ${members}">
+                            <td class="text-center" th:text="${member.username}">Username</td>
+                            <td class="text-center">
+                                <div>
+                                    <span>
+                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
+                                            <a th:if="${currentUser.equals(team.user)}" th:href="@{/teams/{teamId}/delete/{teamId}(teamId=${team.id},userId=${member.id})}">Delete member</a>
+                                        </button>
+                                    </span>
+                                </div>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+<!--                <form th:unless="${members.isEmpty() || !currentUser.equals(workitem.getCreatedBy())}" action="#"-->
+<!--                      th:action="@{/workitems/reviewer/{id}(id=${workitem.id})}"-->
+<!--                      th:object="${reviewer}"-->
+<!--                      method="post">-->
+
+<!--                    <label>Reviewer</label>-->
+<!--                    <div class="col-2 float-left">-->
+<!--                        <select class="form-select" aria-label="Default select example" th:field="*{reviewerId}">-->
+<!--                            <option th:each="user : ${members}" th:text="${user.username}" th:value="${user.id}">-->
+<!--                                Reviewer name-->
+<!--                            </option>-->
+<!--                        </select>-->
+<!--                        <label class="error-custom" th:errors="*{reviewerId}">Reviewer error placeholder</label>-->
+<!--                    </div>-->
+
+<!--                    <input type="submit" value="Assign"/>-->
+<!--                </form>-->
+<!--                <span th:if="${comments.isEmpty()}">-->
+<!--                <i><h5>No comments</h5></i>-->
+<!--                </span>-->
+<!--                <div th:unless="${comments.isEmpty()}" class="container-sm">-->
+<!--                    <label> Current comments</label>-->
+
+<!--                    <table class="table table-sm shadow table-condensed table-hover">-->
+<!--                        <thead>-->
+<!--                        <tr class="table-light">-->
+<!--                            <th class="text-center">Name</th>-->
+<!--                            <th class="text-center">Content</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody class="table-hover">-->
+<!--                        <tr th:each="comment : ${comments}">-->
+
+<!--                            <td class="text-center" th:text="${comment.user.username}">Username</td>-->
+<!--                            <td class="text-center" th:text="${comment.content}">Comment</td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--                <span>-->
+<!--                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">-->
+<!--                <small>Add comment</small>-->
+<!--                </button>-->
+<!--                </span>-->
+<!--                &lt;!&ndash; Modal &ndash;&gt;-->
+<!--                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"-->
+<!--                     aria-labelledby="exampleModalLabel"-->
+<!--                     aria-hidden="true">-->
+<!--                    <div class="modal-dialog" role="document">-->
+<!--                        <div class="modal-content">-->
+<!--                            <div class="modal-header">-->
+<!--                                <h5 class="modal-title" id="exampleModalLabel">Your comment</h5>-->
+<!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                    <span aria-hidden="true">&times;</span>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                            <div class="modal-body">-->
+<!--                                <form action="#"-->
+<!--                                      th:action="@{/workitems/comment/{id}(id=${workitem.id})}"-->
+<!--                                      th:object="${newComment}"-->
+<!--                                      method="post">-->
+<!--                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"-->
+<!--                                      th:field="*{content}"></textarea>-->
+<!--                                    <div class="modal-footer">-->
+<!--                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close-->
+<!--                                        </button>-->
+<!--                                        <input type="submit" class="btn btn-secondary" value="Save"/>-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <br>-->
+            </div>
+        </div>
+    </div>
+    <br>
+    <script src="js/modal.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</div>
+<br>
+<script src="js/modal.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

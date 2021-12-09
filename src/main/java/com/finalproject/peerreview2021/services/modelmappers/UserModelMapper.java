@@ -47,7 +47,7 @@ public class UserModelMapper {
         user.setUsername(registerDto.getUsername());
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());
-        user.setPhoneNumber(registerDto.getPhoneNumber());
+        user.setPhoneNumber(Integer.parseInt(registerDto.getPhoneNumber()));
  //       user.setPhoto(registerDto.getPhoto());
 
         return user;
