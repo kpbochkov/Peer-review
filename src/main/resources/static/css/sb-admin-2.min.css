@@ -1909,9 +1909,9 @@ pre code {
 
 .form-control {
     display: block;
-    width: 100%;
+    width: 50%;
     height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
+    padding: .1rem .3rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -2390,7 +2390,7 @@ textarea.form-control {
     user-select: none;
     background-color: transparent;
     border: 1px solid transparent;
-    padding: .375rem .75rem;
+    padding: .1rem .3rem;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .35rem;
@@ -2736,8 +2736,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-outline-secondary {
-    color: #858796;
-    border-color: #858796
+    color: #4e73df;
+    /*border-color: #858796*/
 }
 
 .btn-outline-secondary:hover {
@@ -2974,7 +2974,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-group-sm > .btn, .btn-sm {
     padding: .25rem .5rem;
-    font-size: .875rem;
+    font-size: 1.2rem;
     line-height: 1.5;
     border-radius: .2rem
 }

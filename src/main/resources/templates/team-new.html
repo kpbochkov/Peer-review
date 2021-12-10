@@ -21,11 +21,6 @@
 
         <div id="content">
             <div class="container-fluid">
-                <ul>
-                    <li><h4><a href="#" th:href="@{/teams}" >Browse all Teams</a>
-                    </h4>
-                    </li>
-                </ul>
                 <h4>New Team</h4>
                 <form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${team}"
                       method="post">
