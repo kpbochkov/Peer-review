@@ -515,7 +515,7 @@ pre code {
     padding-right: .75rem;
     padding-left: .75rem;
     margin-right: auto;
-    margin-left: auto
+    /*margin-left: auto*/
 }
 
 @media (min-width: 576px) {
@@ -538,7 +538,7 @@ pre code {
 
 @media (min-width: 1200px) {
     .container, .container-lg, .container-md, .container-sm, .container-xl {
-        max-width: 1140px
+        max-width: 900px
     }
 }
 
@@ -2737,7 +2737,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-outline-secondary {
     color: #4e73df;
-    /*border-color: #858796*/
+    border-color: #c6c6c9
 }
 
 .btn-outline-secondary:hover {
