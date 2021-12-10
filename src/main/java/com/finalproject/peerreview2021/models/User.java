@@ -40,7 +40,7 @@ public class User implements SoftDeletable{
     private byte[] photo;
 
     @Column(name = "active", nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)

@@ -33,7 +33,7 @@ public class WorkItem implements SoftDeletable {
     private Status status;
 
     @Column(name = "active", nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
     public Status getStatus() {
         return status;

@@ -74,6 +74,11 @@ public class ReviewerServiceImpl implements ReviewerService {
     }
 
     @Override
+    public List<Reviewer> getAllReviewersForUser(User user) {
+        return reviewerRepository.getAllReviewersForUser(user);
+    }
+
+    @Override
     public void setStatus(Reviewer reviewer, Status status) {
         if (reviewer.getStatus().getId().equals(status.getId())){
             return;

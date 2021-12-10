@@ -3,8 +3,10 @@ package com.finalproject.peerreview2021.controllers.mvc;
 import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
+import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
+import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import com.finalproject.peerreview2021.services.contracts.TeamInvitationService;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
@@ -24,13 +26,15 @@ public class DashboardMvcController {
     private final AuthenticationHelper authenticationHelper;
     private final TeamInvitationService teamInvitationService;
     private final WorkItemService workItemService;
+    private final ReviewerService reviewerService;
 
     public DashboardMvcController(AuthenticationHelper authenticationHelper,
                                   UserService userService, TeamInvitationService teamInvitationService,
-                                  WorkItemService workItemService) {
+                                  WorkItemService workItemService, ReviewerService reviewerService) {
         this.authenticationHelper = authenticationHelper;
         this.teamInvitationService = teamInvitationService;
         this.workItemService = workItemService;
+        this.reviewerService = reviewerService;
     }
 
 //    @ModelAttribute("getPhoto")
@@ -51,10 +55,19 @@ public class DashboardMvcController {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
-        List<WorkItem> recentWorkItems = workItemService.getAllWorkItemsForUser(user);
+        List<WorkItem> userWorkItems = workItemService.getAllWorkItemsForUser(user);
+        List<Reviewer> allReviewsForUserWorkItems = userWorkItems.stream()
+                .map(reviewerService::getAllReviewersForWorkItem)
+                .flatMap(List::stream).collect(Collectors.toList());
+        List<Reviewer> userReviews = reviewerService.getAllReviewersForUser(user);
+        long completedReviews = userReviews.stream().filter(r -> r.getStatus().getId()>2).count();
         model.addAttribute("teamInvitations", teamInvitationService.getUserInvitations(user));
-        model.addAttribute("pendingWorkitems", workItemService.getAllWorkItemsForReviewer(user).
+        model.addAttribute("pendingWorkitems", userReviews.
                 stream().filter(w -> w.getStatus().getId()==1).count());
+        model.addAttribute("completedReviews", completedReviews);
+        model.addAttribute("completedReviewsPercentage", Math.round(((float)completedReviews/userReviews.size())*100));
+        model.addAttribute("timesChangeRequested", allReviewsForUserWorkItems.stream()
+                .filter(r -> r.getStatus().getId()==3).count());
         model.addAttribute("currentUser", user);
 
         return "index";

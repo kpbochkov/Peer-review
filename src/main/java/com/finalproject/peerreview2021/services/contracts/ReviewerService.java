@@ -12,5 +12,7 @@ public interface ReviewerService extends BaseCRUDService<Reviewer> {
 
     List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem);
 
+    List<Reviewer> getAllReviewersForUser(User user);
+
     void setStatus(Reviewer reviewer, Status status);
 }

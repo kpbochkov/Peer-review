@@ -22,7 +22,7 @@ public class Team implements SoftDeletable{
     private User user;
 
     @Column(name = "active", nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
