@@ -88,10 +88,33 @@
                                         <span th:each="member : ${teamWorkItems.team.members}"
                                               th:text="${member.username} + ' '"></span>
                                         <hr>
-                                        <div th:unless="${teamWorkItems.workItems.isEmpty()}">Work Items:</div>
-                                        <div th:each="workitem : ${teamWorkItems.workItems}">
-                                            <a th:text="${workitem.title} + ' '"
-                                               th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>
+<!--                                        <div th:unless="${teamWorkItems.workItems.isEmpty()}">Work Items:</div>-->
+<!--                                        <div th:each="workitem : ${teamWorkItems.workItems}">-->
+<!--                                            <a th:text="${workitem.title} + ' '"-->
+<!--                                               th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>-->
+<!--                                        </div>-->
+                                        <div th:unless="${teamWorkItems.workItems.isEmpty()}">
+                                            <table class="table table-hover" th:unless="${teamWorkItems.workItems.isEmpty()}">
+                                                <h3>Work Items</h3>
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Title</th>
+                                                    <th scope="col">Created by</th>
+                                                    <th scope="col">Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody th:each="workitem : ${teamWorkItems.workItems}">
+                                                <tr>
+                                                    <td class="cell">
+                                                        <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}"
+                                                           th:text="${workitem.title}">Work Item
+                                                            title</a>
+                                                    </td>
+                                                    <td th:text="${workitem.createdBy.username}">Created by</td>
+                                                    <td th:text="${workitem.status.name}">Status</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

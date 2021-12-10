@@ -22,6 +22,7 @@
         <div id="content">
             <div class="container-fluid">
                 <h4>New Team</h4>
+                <hr>
                 <form action="#" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${team}"
                       method="post">
 
@@ -30,7 +31,7 @@
                     <input type="text" th:field="*{name}"/>
                     <label class="error-custom" th:errors="*{name}">Name error placeholder</label>
                     <br/><br/>
-                    <input type="submit" value="Save"/>
+                    <input type="submit" value="Save" style="color: #337ab7;"/>
                 </form>
             </div>
         </div>
