@@ -4,7 +4,6 @@ import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.User;
-import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.services.contracts.TeamInvitationService;
 import com.finalproject.peerreview2021.services.contracts.UserService;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -51,11 +48,12 @@ public class DashboardMvcController {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
-        List<WorkItem> recentWorkItems = workItemService.getAllWorkItemsForUser(user);
         model.addAttribute("teamInvitations", teamInvitationService.getUserInvitations(user));
         model.addAttribute("pendingWorkitems", workItemService.getAllWorkItemsForReviewer(user).
-                stream().filter(w -> w.getStatus().getId()==1).count());
+                stream().filter(w -> w.getStatus().getId() == 1).count());
         model.addAttribute("currentUser", user);
+        model.addAttribute("workitems", workItemService.getAllWorkItemsForUser(user).size());
+
 
         return "index";
     }
