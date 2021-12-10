@@ -67,8 +67,9 @@ public class WorkItemMvcController {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
-        model.addAttribute("workitem", new WorkItemDto());
         model.addAttribute("teams", user.getTeams());
+        model.addAttribute("workitem", new WorkItemDto());
+
         return "workitem-new";
     }
 
@@ -87,6 +88,7 @@ public class WorkItemMvcController {
         }
 
         if (errors.hasErrors()) {
+            model.addAttribute("teams", user.getTeams());
             return "workitem-new";
         }
 

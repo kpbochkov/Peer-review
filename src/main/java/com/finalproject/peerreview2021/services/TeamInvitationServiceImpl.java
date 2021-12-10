@@ -92,5 +92,9 @@ public class TeamInvitationServiceImpl implements TeamInvitationService {
         teamInvitationRepository.delete(teamInvitation.getId());
     }
 
-
+    @Override
+    public List<User> getInvitedUsers(Team team) {
+        List<TeamInvitation> teamInvitations = teamInvitationRepository.getListByField("team.id",team.getId());
+        return teamInvitations.stream().map(TeamInvitation::getUser).collect(Collectors.toList());
+    }
 }

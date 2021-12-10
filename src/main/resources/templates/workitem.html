@@ -25,15 +25,15 @@
 
         <div id="content">
             <div class="container-fluid">
-                <h2 th:text="${workitem.getTitle}">Work Item Title</h2>
+                <h3 th:text="${workitem.getTitle}">Work Item Title</h3>
                 <div class="container-xl" style="height: 200px; overflow-y: scroll; background-color: #fff">
                     <p th:text="${workitem.getDescription}">Work Item Description</p>
                 </div>
-                <h3>
+                <h4>
 
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
-                </h3>
+                </h4>
                 <br>
                 <span th:if="${assignees.isEmpty()}">
                     <i><h5>Currently no reviewers are assigned to this work item</h5></i>
@@ -71,7 +71,7 @@
                                 <div class="dropdown" th:if="${currentUser.equals(assignee.user)}">
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" style="width: 80%">
+                                            aria-expanded="false">
                                         Change status
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

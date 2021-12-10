@@ -4,15 +4,18 @@ import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.services.contracts.TeamInvitationService;
 import com.finalproject.peerreview2021.services.contracts.UserService;
+import com.finalproject.peerreview2021.services.contracts.WorkItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -20,11 +23,14 @@ public class DashboardMvcController {
 
     private final AuthenticationHelper authenticationHelper;
     private final TeamInvitationService teamInvitationService;
+    private final WorkItemService workItemService;
 
     public DashboardMvcController(AuthenticationHelper authenticationHelper,
-                                  UserService userService, TeamInvitationService teamInvitationService) {
+                                  UserService userService, TeamInvitationService teamInvitationService,
+                                  WorkItemService workItemService) {
         this.authenticationHelper = authenticationHelper;
         this.teamInvitationService = teamInvitationService;
+        this.workItemService = workItemService;
     }
 
 //    @ModelAttribute("getPhoto")
@@ -45,7 +51,12 @@ public class DashboardMvcController {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
+        List<WorkItem> recentWorkItems = workItemService.getAllWorkItemsForUser(user);
         model.addAttribute("teamInvitations", teamInvitationService.getUserInvitations(user));
+        model.addAttribute("pendingWorkitems", workItemService.getAllWorkItemsForReviewer(user).
+                stream().filter(w -> w.getStatus().getId()==1).count());
+        model.addAttribute("currentUser", user);
+
         return "index";
     }
 
@@ -62,8 +73,6 @@ public class DashboardMvcController {
         }
         return "profile";
     }
-
-
 
 //    @GetMapping("/search")
 //    public String search(@ModelAttribute SearchWorkItemDto searchWorkItemDto, Model model) {
