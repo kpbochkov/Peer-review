@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Table(name = "workitems")
 @Entity
-public class WorkItem {
+public class WorkItem implements SoftDeletable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "work_item_id", nullable = false)
@@ -32,6 +32,8 @@ public class WorkItem {
     @JoinColumn(name = "status_id")
     private Status status;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active;
 
     public Status getStatus() {
         return status;
@@ -79,5 +81,15 @@ public class WorkItem {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

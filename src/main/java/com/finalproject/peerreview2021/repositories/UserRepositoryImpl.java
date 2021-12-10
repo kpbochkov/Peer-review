@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class UserRepositoryImpl extends AbstractCRUDRepository<User> implements UserRepository {
+public class UserRepositoryImpl extends AbstractCRUDSoftDeleteRepository<User> implements UserRepository {
 
     private final SessionFactory sessionFactory;
 

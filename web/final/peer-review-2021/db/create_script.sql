@@ -18,6 +18,7 @@ create table users
     email varchar(50) not null,
     phone_number int not null,
     photo longblob null,
+    active tinyint(1) default 1 not null,
     constraint users_email_uindex
         unique (email),
     constraint users_phone_number_uindex
@@ -42,6 +43,7 @@ create table teams
         primary key,
     name varchar(30) not null,
     owner int not null,
+    active tinyint(1) default 1 not null,
     constraint teams_name_uindex
         unique (name),
     constraint teams_users_user_id_fk
@@ -78,7 +80,8 @@ create table workitems
     description longtext not null,
     created_by int null,
     team_id int null,
-    status_id int not null,
+    status_id int default 1 not null,
+    active tinyint(1) default 1 not null,
     constraint workitems_statuses_status_id_fk
         foreign key (status_id) references statuses (status_id),
     constraint workitems_teams_team_id_fk

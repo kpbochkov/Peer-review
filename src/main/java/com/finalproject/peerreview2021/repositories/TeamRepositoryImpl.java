@@ -17,7 +17,7 @@ import java.util.List;
  * Time: 14:23
  */
 @Repository
-public class TeamRepositoryImpl extends AbstractCRUDRepository<Team> implements TeamRepository {
+public class TeamRepositoryImpl extends AbstractCRUDSoftDeleteRepository<Team> implements TeamRepository {
     public TeamRepositoryImpl(SessionFactory sessionFactory) {
         super(Team.class, sessionFactory);
     }

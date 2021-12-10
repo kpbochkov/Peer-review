@@ -15,7 +15,7 @@ import java.util.Set;
         @Index(name = "users_email_uindex", columnList = "email", unique = true)
 })
 @Entity
-public class User {
+public class User implements SoftDeletable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -38,6 +38,9 @@ public class User {
     @Lob
     @Column(name = "photo")
     private byte[] photo;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -103,6 +106,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 //    public String getStringPhoto(byte[] photo) {

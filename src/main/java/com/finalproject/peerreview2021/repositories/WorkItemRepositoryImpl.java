@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> implements WorkItemRepository {
+public class WorkItemRepositoryImpl extends AbstractCRUDSoftDeleteRepository<WorkItem> implements WorkItemRepository {
 
     private final SessionFactory sessionFactory;
 

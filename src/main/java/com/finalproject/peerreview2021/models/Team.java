@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Table(name = "teams")
 @Entity
-public class Team {
+public class Team implements SoftDeletable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id", nullable = false)
@@ -21,6 +21,8 @@ public class Team {
     @JoinColumn(name = "owner")
     private User user;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -61,6 +63,16 @@ public class Team {
 
     public void setMembers(Set<User> members) {
         this.members = members;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
