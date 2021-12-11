@@ -71,7 +71,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" th:each="user : ${teamWorkItems.possibleInvitees}"
                                            th:href="@{/teams/{teamId}/invite/{userId}(teamId=${teamWorkItems.team.id},userId=${user.id})}"
-                                           th:text="${user.username}"></a>
+                                           th:text="${user.username}" ></a>
                                     </div>
                                 </div>
                                 <span>
@@ -147,4 +147,3 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
-

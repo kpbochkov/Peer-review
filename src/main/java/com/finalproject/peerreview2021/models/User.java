@@ -1,10 +1,14 @@
 package com.finalproject.peerreview2021.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
@@ -120,6 +124,20 @@ public class User implements SoftDeletable{
 //        String newString = Base64.getEncoder().encodeToString(photo);
 //        return newString;
 //    }
+
+    public String getImage() {
+        String image;
+        if (this.getPhoto() == null) {
+            image = null;
+        } else {
+            image = "data:image/png/pdf/doc;base64," + Base64.getEncoder().encodeToString(this.getPhoto());
+        }
+        return image;
+    }
+
+    public void store(MultipartFile photo) throws IOException {
+        this.photo = photo.getBytes();
+    }
 
     @Override
     public boolean equals(Object o) {

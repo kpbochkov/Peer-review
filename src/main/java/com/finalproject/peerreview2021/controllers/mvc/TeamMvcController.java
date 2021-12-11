@@ -59,6 +59,12 @@ public class TeamMvcController {
         return session.getAttribute("currentUser") != null;
     }
 
+    @ModelAttribute("getPhoto")
+    public String getPhoto(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        return user.getImage();
+    }
+
     @GetMapping()
     public String showTeamsPage(Model model, HttpSession session) {
         User user;

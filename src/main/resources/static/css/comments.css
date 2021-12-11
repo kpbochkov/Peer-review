@@ -15,12 +15,12 @@
     display: inline-block
 }
 
-.badge {
-    padding: 7px;
-    padding-right: 9px;
-    padding-left: 16px;
-    box-shadow: 5px 6px 6px 2px #e9ecef
-}
+/*.badge {*/
+/*    padding: 7px;*/
+/*    padding-right: 9px;*/
+/*    padding-left: 16px;*/
+/*    box-shadow: 5px 6px 6px 2px #e9ecef*/
+/*}*/
 
 .user-img {
     margin-top: 4px
@@ -87,9 +87,9 @@ audio:not([controls]) {
     display: none
 }
 
-a {
-    background-color: transparent
-}
+/*a {*/
+/*    background-color: transparent*/
+/*}*/
 
 a:active, a:hover {
     outline: 0
@@ -1412,10 +1412,10 @@ html {
 /*    line-height: inherit*/
 /*}*/
 
-a {
-    color: #337ab7;
-    text-decoration: none
-}
+/*a {*/
+/*    color: #337ab7;*/
+/*    text-decoration: none*/
+/*}*/
 
 a:focus, a:hover {
     color: #23527c;
@@ -1539,9 +1539,9 @@ p {
     }
 }
 
-.small, small {
-    font-size: 85%
-}
+/*.small, small {*/
+/*    font-size: 85%*/
+/*}*/
 
 .mark, mark {
     padding: .2em;
@@ -5315,20 +5315,20 @@ a.label:focus, a.label:hover {
     background-color: #c9302c
 }
 
-.badge {
-    display: inline-block;
-    min-width: 10px;
-    padding: 3px 7px;
-    /*font-size: 12px;*/
-    font-weight: 700;
-    line-height: 1;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: #777;
-    border-radius: 10px
-}
+/*.badge {*/
+/*    display: inline-block;*/
+/*    min-width: 10px;*/
+/*    padding: 3px 7px;*/
+/*    !*font-size: 12px;*!*/
+/*    font-weight: 700;*/
+/*    line-height: 1;*/
+/*    color: #fff;*/
+/*    text-align: center;*/
+/*    white-space: nowrap;*/
+/*    vertical-align: middle;*/
+/*    background-color: #777;*/
+/*    border-radius: 10px*/
+/*}*/
 
 .badge:empty {
     display: none
