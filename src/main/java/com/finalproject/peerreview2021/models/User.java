@@ -1,10 +1,14 @@
 package com.finalproject.peerreview2021.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
@@ -15,7 +19,7 @@ import java.util.Set;
         @Index(name = "users_email_uindex", columnList = "email", unique = true)
 })
 @Entity
-public class User {
+public class User implements SoftDeletable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -38,6 +42,9 @@ public class User {
     @Lob
     @Column(name = "photo")
     private byte[] photo;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -105,10 +112,32 @@ public class User {
         this.id = id;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 //    public String getStringPhoto(byte[] photo) {
 //        String newString = Base64.getEncoder().encodeToString(photo);
 //        return newString;
 //    }
+
+    public String getImage() {
+        String image;
+        if (this.getPhoto() == null) {
+            image = null;
+        } else {
+            image = "data:image/png/pdf/doc;base64," + Base64.getEncoder().encodeToString(this.getPhoto());
+        }
+        return image;
+    }
+
+    public void store(MultipartFile photo) throws IOException {
+        this.photo = photo.getBytes();
+    }
 
     @Override
     public boolean equals(Object o) {

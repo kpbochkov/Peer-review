@@ -44,4 +44,15 @@ public class ReviewerRepositoryImpl extends AbstractCRUDRepository<Reviewer> imp
             return query.list();
         }
     }
+
+    @Override
+    public List<Reviewer> getAllReviewersForUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Reviewer> query = session.createQuery(
+                    "from Reviewer where user.id = :userId", Reviewer.class);
+            query.setParameter("userId", user.getId());
+
+            return query.list();
+        }
+    }
 }

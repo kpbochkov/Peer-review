@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class UserRepositoryImpl extends AbstractCRUDRepository<User> implements UserRepository {
+public class UserRepositoryImpl extends AbstractCRUDSoftDeleteRepository<User> implements UserRepository {
 
     private final SessionFactory sessionFactory;
 
@@ -45,7 +45,7 @@ public class UserRepositoryImpl extends AbstractCRUDRepository<User> implements 
                 filter.add(" phoneNumber = :phone ");
                 params.put("phone", value);
             });
-            stringBuilder.append(" from User where ").append(String.join(" and ", filter));
+            stringBuilder.append(" from User where active = true and ").append(String.join(" and ", filter));
 
             Query<User> query = session.createQuery(stringBuilder.toString(), User.class);
             query.setProperties(params);

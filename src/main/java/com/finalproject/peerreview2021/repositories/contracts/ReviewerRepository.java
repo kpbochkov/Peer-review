@@ -10,4 +10,6 @@ public interface ReviewerRepository extends BaseCRUDRepository<Reviewer> {
     List<User> getAllReviewersForWorkItemAsUsers(WorkItem workItem);
 
     List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem);
+
+    List<Reviewer> getAllReviewersForUser(User user);
 }

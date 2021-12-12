@@ -3,6 +3,7 @@ package com.finalproject.peerreview2021.services.modelmappers;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.dto.RegisterDto;
 import com.finalproject.peerreview2021.models.dto.UserDto;
+import com.finalproject.peerreview2021.models.dto.UserPhotoDto;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,9 @@ public class UserModelMapper {
         this.userRepository = userRepository;
     }
 
-    public User fromDto(UserDto userDto, MultipartFile photo) throws IOException {
+    public User fromDto(UserDto userDto,MultipartFile photo) throws IOException {
         User user = new User();
-        userDto.store(photo);
+        user.store(photo);
         dtoToObject(userDto, user);
         return user;
     }
@@ -33,17 +34,21 @@ public class UserModelMapper {
         return user;
     }
 
+
     private void dtoToObject(UserDto userDto, User user) {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setPhoto(userDto.getPhoto());
+        user.setPhoneNumber(Integer.parseInt(userDto.getPhoneNumber()));
+    }
+
+    private void dtoToObject(User userToUpdate, User user) {
+        user.setPhoto(userToUpdate.getPhoto());
     }
 
     public User dtoToObject(RegisterDto registerDto) {
         User user = new User();
-   //     registerDto.store(photo);
+//        registerDto.store(photo);
         user.setUsername(registerDto.getUsername());
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());

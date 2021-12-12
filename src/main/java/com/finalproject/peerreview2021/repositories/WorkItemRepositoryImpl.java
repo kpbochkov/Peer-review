@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> implements WorkItemRepository {
+public class WorkItemRepositoryImpl extends AbstractCRUDSoftDeleteRepository<WorkItem> implements WorkItemRepository {
 
     private final SessionFactory sessionFactory;
 
@@ -50,7 +50,7 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
             }
 
             stringBuilder.append(" select w from WorkItem w left join Reviewer r on w.id=r.workItem " +
-                    "left join User u on r.user=u.id where ").append(String.join(" and ", filter));
+                    "left join User u on r.user=u.id where w.active = true and ").append(String.join(" and ", filter));
             stringBuilder.append(sortParamStr);
 
             Query<WorkItem> query = session.createQuery(stringBuilder.toString(), WorkItem.class);
@@ -85,7 +85,7 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
     public List<WorkItem> getAllWorkItemsForUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             Query<WorkItem> query = session.createQuery(
-                    "from WorkItem" + " where createdBy.id = :userId", WorkItem.class);
+                    "from WorkItem" + " where createdBy.id = :userId and active = TRUE", WorkItem.class);
             query.setParameter("userId", user.getId());
 
             return query.list();
@@ -98,7 +98,7 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
             Query<WorkItem> query = session.createQuery(
                     "select w from WorkItem w join Reviewer r " +
                             "on w.id=r.workItem.id " +
-                            "where r.user.id = :userId", WorkItem.class);
+                            "where r.user.id = :userId and w.active = TRUE", WorkItem.class);
             query.setParameter("userId", user.getId());
 
             return query.list();
@@ -109,7 +109,7 @@ public class WorkItemRepositoryImpl extends AbstractCRUDRepository<WorkItem> imp
     public List<WorkItem> showAllWorkItemsForTeam(Team team) {
         try (Session session = sessionFactory.openSession()) {
             Query<WorkItem> query = session.createQuery(
-                    "from WorkItem" + " where team.id = :teamId and status.name like 'Pending'", WorkItem.class);
+                    "from WorkItem" + " where team.id = :teamId and active = TRUE", WorkItem.class);
             query.setParameter("teamId", team.getId());
 
             return query.list();
