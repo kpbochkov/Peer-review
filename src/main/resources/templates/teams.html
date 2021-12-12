@@ -71,7 +71,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" th:each="user : ${teamWorkItems.possibleInvitees}"
                                            th:href="@{/teams/{teamId}/invite/{userId}(teamId=${teamWorkItems.team.id},userId=${user.id})}"
-                                           th:text="${user.username}" ></a>
+                                           th:text="${user.username}"></a>
                                     </div>
                                 </div>
                                 <span>
@@ -88,13 +88,14 @@
                                         <span th:each="member : ${teamWorkItems.team.members}"
                                               th:text="${member.username} + ' '"></span>
                                         <hr>
-<!--                                        <div th:unless="${teamWorkItems.workItems.isEmpty()}">Work Items:</div>-->
-<!--                                        <div th:each="workitem : ${teamWorkItems.workItems}">-->
-<!--                                            <a th:text="${workitem.title} + ' '"-->
-<!--                                               th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>-->
-<!--                                        </div>-->
+                                        <!--                                        <div th:unless="${teamWorkItems.workItems.isEmpty()}">Work Items:</div>-->
+                                        <!--                                        <div th:each="workitem : ${teamWorkItems.workItems}">-->
+                                        <!--                                            <a th:text="${workitem.title} + ' '"-->
+                                        <!--                                               th:href="@{/workitems/{id}(id = ${workitem.getId()})}"></a>-->
+                                        <!--                                        </div>-->
                                         <div th:unless="${teamWorkItems.workItems.isEmpty()}">
-                                            <table class="table table-hover" th:unless="${teamWorkItems.workItems.isEmpty()}">
+                                            <table class="table table-hover"
+                                                   th:unless="${teamWorkItems.workItems.isEmpty()}">
                                                 <h3>Work Items</h3>
                                                 <thead>
                                                 <tr>

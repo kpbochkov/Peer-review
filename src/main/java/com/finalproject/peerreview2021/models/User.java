@@ -9,10 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Table(name = "users", indexes = {
         @Index(name = "users_phone_number_uindex", columnList = "phone_number", unique = true),
@@ -53,8 +50,32 @@ public class User implements SoftDeletable{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
-
     private Set<Team> teams;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "notifications_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "notification_id")
+    )
+    private List<Notification> notifications;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     public Set<Team> getTeams() {
         return teams;
@@ -119,11 +140,6 @@ public class User implements SoftDeletable{
     public void setActive(boolean active) {
         this.active = active;
     }
-
-//    public String getStringPhoto(byte[] photo) {
-//        String newString = Base64.getEncoder().encodeToString(photo);
-//        return newString;
-//    }
 
     public String getImage() {
         String image;

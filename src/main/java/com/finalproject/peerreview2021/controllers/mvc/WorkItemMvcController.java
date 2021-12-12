@@ -6,12 +6,10 @@ import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.models.*;
-import com.finalproject.peerreview2021.models.dto.CommentDto;
 import com.finalproject.peerreview2021.models.dto.NewCommentDto;
 import com.finalproject.peerreview2021.models.dto.ReviewerDto;
 import com.finalproject.peerreview2021.models.dto.WorkItemDto;
 import com.finalproject.peerreview2021.services.contracts.*;
-import com.finalproject.peerreview2021.services.modelmappers.CommentModelMapper;
 import com.finalproject.peerreview2021.services.modelmappers.WorkItemModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.Instant;
+import java.util.List;
 
 @Controller
 @RequestMapping("/workitems")
@@ -32,13 +32,13 @@ public class WorkItemMvcController {
     private final UserService userService;
     private final StatusService statusService;
     private final CommentService commentService;
-    private final CommentModelMapper commentModelMapper;
+    private final NotificationService notificationService;
 
 
     public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper,
                                  WorkItemService workItemService, ReviewerService reviewerService,
                                  UserService userService, StatusService statusService,
-                                 CommentService commentService, CommentModelMapper commentModelMapper) {
+                                 CommentService commentService, NotificationService notificationService) {
         this.authenticationHelper = authenticationHelper;
         this.workItemModelMapper = workItemModelMapper;
         this.workItemService = workItemService;
@@ -46,7 +46,7 @@ public class WorkItemMvcController {
         this.userService = userService;
         this.statusService = statusService;
         this.commentService = commentService;
-        this.commentModelMapper = commentModelMapper;
+        this.notificationService = notificationService;
     }
 
     @GetMapping()
@@ -276,6 +276,16 @@ public class WorkItemMvcController {
         try {
             Reviewer reviewer = reviewerService.getById(reviewerId);
             reviewerService.setStatus(reviewer, statusService.getById(statusId));
+
+            WorkItem workItem = workItemService.getById(workItemId);
+            Notification notification = new Notification();
+            Instant time = Instant.now();
+            List<User> notificationReceivers = reviewerService.getAllReviewersForWorkItemAsUsers(workItem);
+            notificationReceivers.add(workItem.getCreatedBy());
+            notification.setDescription(String.format("The status of the Work Item" +
+                    " with title \"%s\" has been changed" , workItem.getTitle()));
+            notification.setTime(time);
+            notificationService.create(notification, notificationReceivers);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
             return "access-denied";

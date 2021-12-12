@@ -6,21 +6,14 @@ import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException
 import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
-import com.finalproject.peerreview2021.models.dto.UserDto;
 import com.finalproject.peerreview2021.models.dto.UserPhotoDto;
-import com.finalproject.peerreview2021.services.contracts.ReviewerService;
-import com.finalproject.peerreview2021.services.contracts.TeamInvitationService;
-import com.finalproject.peerreview2021.services.contracts.UserService;
-import com.finalproject.peerreview2021.services.contracts.WorkItemService;
-import com.finalproject.peerreview2021.services.modelmappers.UserModelMapper;
+import com.finalproject.peerreview2021.services.contracts.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,18 +27,19 @@ public class DashboardMvcController {
     private final WorkItemService workItemService;
     private final ReviewerService reviewerService;
     private final UserService userService;
-    private final UserModelMapper userModelMapper;
+    private final NotificationService notificationService;
+
 
     public DashboardMvcController(AuthenticationHelper authenticationHelper,
                                   UserService userService, TeamInvitationService teamInvitationService,
                                   WorkItemService workItemService, ReviewerService reviewerService,
-                                  UserService userService1, UserModelMapper userModelMapper) {
+                                  NotificationService notificationService) {
         this.authenticationHelper = authenticationHelper;
         this.teamInvitationService = teamInvitationService;
         this.workItemService = workItemService;
         this.reviewerService = reviewerService;
-        this.userService = userService1;
-        this.userModelMapper = userModelMapper;
+        this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     @ModelAttribute("getPhoto")
@@ -80,6 +74,7 @@ public class DashboardMvcController {
         model.addAttribute("timesChangeRequested", allReviewsForUserWorkItems.stream()
                 .filter(r -> r.getStatus().getId() == 3).count());
         model.addAttribute("currentUser", user);
+        model.addAttribute("notifications", notificationService.getAll());
 
         return "index";
     }
