@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Table(name = "notifications")
@@ -76,11 +78,12 @@ public class Notification implements Comparable<Notification> {
 
     @Override
     public int compareTo(Notification o) {
-        return getTime().compareTo(o.getTime());
+        return o.getTime().compareTo(getTime());
     }
 
-//    public String timeAsString(){
-//        String instantStr = time.toString().replaceAll("[TZ]", " ");
-//        return instantStr;
-//    }
+    public String timeAsString(){
+        // String instantStr = time.toString().replaceAll("[TZ]", " ");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.ofHours(2));
+        return fmt.format(time);
+    }
 }

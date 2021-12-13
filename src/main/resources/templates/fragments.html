@@ -174,19 +174,41 @@
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                 aria-labelledby="alertsDropdown" th:each="notification : ${notifications}">
+                 aria-labelledby="alertsDropdown" >
                 <h6 class="dropdown-header">
                     Notifications
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" >
+                <a class="dropdown-item d-flex align-items-center" th:if="${#lists.size(notifications)>0}">
                     <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
                         </div>
                     </div>
                     <div>
-                        <div class="small text-gray-500"  th:text="${{notification.time}}"></div>
-                        <span class="font-weight-bold" href="#" th:text="${notification.description}"></span>
+                        <div class="small text-gray-500"  th:text="${notifications[0].timeAsString()}"></div>
+                        <span class="font-weight-bold" href="#" th:text="${notifications[0].description}"></span>
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" th:if="${#lists.size(notifications)>1}">
+                    <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                            <i class="fas fa-file-alt text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-500"  th:text="${notifications[1].timeAsString()}"></div>
+                        <span class="font-weight-bold" href="#" th:text="${notifications[1].description}"></span>
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" th:if="${#lists.size(notifications)>2}">
+                    <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                            <i class="fas fa-file-alt text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-500"  th:text="${notifications[2].timeAsString()}"></div>
+                        <span class="font-weight-bold" href="#" th:text="${notifications[2].description}"></span>
                     </div>
                 </a>
 <!--                <a class="dropdown-item d-flex align-items-center" href="#">-->

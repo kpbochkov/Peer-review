@@ -3,6 +3,7 @@ package com.finalproject.peerreview2021.controllers.mvc;
 import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
+import com.finalproject.peerreview2021.models.Notification;
 import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,21 @@ public class DashboardMvcController {
     public String getPhoto(HttpSession session) {
         User user = authenticationHelper.tryGetUser(session);
         return user.getImage();
+    }
+
+    @ModelAttribute("notifications")
+    public List<Notification> getNotifications(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        List<Notification> notifications = notificationService.getUserNotifications(user);
+        Collections.sort(notifications);
+        return notifications;
+    }
+
+    @ModelAttribute("newNotificationsCount")
+    public long newNotificationsCount(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        List<Notification> notifications = notificationService.getUserNotifications(user);
+        return notifications.stream().filter(n -> n.getSeen().equals(false)).count();
     }
 
     @GetMapping
@@ -126,7 +143,6 @@ public class DashboardMvcController {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
-        model.addAttribute("notifications", notificationService.getUserNotifications(user));
 
         return "notifications-user";
     }

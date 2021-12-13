@@ -33,15 +33,15 @@
                         <th scope="col">Date</th>
                     </tr>
                     </thead>
-                    <tbody th:each="notification : ${notifications}">
-                    <tr>
+                    <tbody>
+                    <tr th:each="notification : ${notifications}">
 <!--                        <td class="cell">-->
 <!--                            <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}"-->
 <!--                               th:text="${workitem.title}">Work Item-->
 <!--                                title</a>-->
 <!--                        </td>-->
                         <td th:text="${notification.description}">Created by</td>
-                        <td th:text="${notification.time}">Team</td>
+                        <td th:text="${notification.timeAsString()}">Team</td>
 <!--                        <td th:text="${workitem.status.name}">Status</td>-->
                     </tr>
                     </tbody>
