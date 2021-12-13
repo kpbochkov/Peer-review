@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -41,6 +42,16 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setDescription(notificationContent);
         notification.setTime(time);
         create(notification, users);
+    }
+
+    @Override
+    public void markUserNotificationsSeen(User user) {
+        List<Notification> notifications = getUserNotifications(user).
+                stream().filter(n -> n.getSeen().equals(false)).collect(Collectors.toList());
+        for (Notification notification : notifications) {
+            notification.setSeen(true);
+            update(notification);
+        }
     }
 
     @Override

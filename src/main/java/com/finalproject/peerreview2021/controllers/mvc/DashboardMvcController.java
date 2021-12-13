@@ -143,7 +143,7 @@ public class DashboardMvcController {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
-
+        notificationService.markUserNotificationsSeen(user);
         return "notifications-user";
     }
 
