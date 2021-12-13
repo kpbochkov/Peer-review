@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CommentService extends BaseCRUDService<Comment> {
     List<Comment> getAllWorkItemComments(WorkItem workitem);
+
 }

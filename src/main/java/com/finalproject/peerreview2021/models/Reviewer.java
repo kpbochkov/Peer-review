@@ -24,6 +24,13 @@ public class Reviewer {
     @JoinColumn(name = "status_id")
     private Status status;
 
+    public Reviewer() {
+    }
+
+    public Reviewer(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

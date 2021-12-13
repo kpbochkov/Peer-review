@@ -8,6 +8,7 @@ import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
 import com.finalproject.peerreview2021.repositories.contracts.StatusRepository;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
+import com.finalproject.peerreview2021.services.contracts.NotificationService;
 import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,14 @@ public class ReviewerServiceImpl implements ReviewerService {
     private final ReviewerRepository reviewerRepository;
     private final StatusRepository statusRepository;
     private final WorkItemRepository workItemRepository;
+    private final NotificationService notificationService;
 
 
-    public ReviewerServiceImpl(ReviewerRepository reviewerRepository, StatusRepository statusRepository, WorkItemRepository workItemRepository) {
+    public ReviewerServiceImpl(ReviewerRepository reviewerRepository, StatusRepository statusRepository, WorkItemRepository workItemRepository, NotificationService notificationService) {
         this.reviewerRepository = reviewerRepository;
         this.statusRepository = statusRepository;
         this.workItemRepository = workItemRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -80,7 +83,7 @@ public class ReviewerServiceImpl implements ReviewerService {
 
     @Override
     public void setStatus(Reviewer reviewer, Status status) {
-        if (reviewer.getStatus().getId().equals(status.getId())){
+        if (reviewer.getStatus().getId().equals(status.getId())) {
             return;
         }
         reviewer.setStatus(status);
@@ -90,18 +93,25 @@ public class ReviewerServiceImpl implements ReviewerService {
         List<Integer> statuses = reviewers.stream()
                 .map(r -> r.getStatus().getId())
                 .collect(Collectors.toList());
-        if (statuses.contains(5)){
+        if (statuses.contains(5)) {
             workItem.setStatus(statusRepository.getById(5));
-        } else if (statuses.stream().allMatch(s -> s.equals(4))){
+        } else if (statuses.stream().allMatch(s -> s.equals(4))) {
             workItem.setStatus(statusRepository.getById(4));
-        } else if (!statuses.contains(5) && statuses.contains(3)){
+        } else if (!statuses.contains(5) && statuses.contains(3)) {
             workItem.setStatus(statusRepository.getById(3));
-        } else if (statuses.contains(2)){
+        } else if (statuses.contains(2)) {
             workItem.setStatus(statusRepository.getById(2));
         } else {
             workItem.setStatus(statusRepository.getById(1));
         }
         workItemRepository.update(workItem);
+
+        List<User> usersToNotify = reviewerRepository.getAllReviewersForWorkItemAsUsers(workItem);
+        usersToNotify.add(workItem.getCreatedBy());
+        notificationService.notify(String.format("\"%s\" changed the review status for Work Item" +
+                        " with title \"%s\" to \"%s\"", reviewer.getUser().getUsername(), workItem.getTitle(), status.getName()),
+                usersToNotify);
+
     }
 
     @Override

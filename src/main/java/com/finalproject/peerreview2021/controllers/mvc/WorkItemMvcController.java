@@ -34,7 +34,6 @@ public class WorkItemMvcController {
     private final CommentService commentService;
     private final NotificationService notificationService;
 
-
     public WorkItemMvcController(AuthenticationHelper authenticationHelper, WorkItemModelMapper workItemModelMapper,
                                  WorkItemService workItemService, ReviewerService reviewerService,
                                  UserService userService, StatusService statusService,
@@ -255,6 +254,11 @@ public class WorkItemMvcController {
             comment.setWorkItem(workItem);
             comment.setContent(commentDto.getContent());
             commentService.create(comment);
+            List<User> usersToNotify = reviewerService.getAllReviewersForWorkItemAsUsers(workItem);
+            usersToNotify.add(workItem.getCreatedBy());
+            notificationService.notify(String.format("\"%s\" commented on Work Item" +
+                            " with title \"%s\"", user.getUsername(), workItem.getTitle()),
+                    usersToNotify);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
             errors.rejectValue("comment", "not_allowed", e.getMessage());
@@ -277,15 +281,6 @@ public class WorkItemMvcController {
             Reviewer reviewer = reviewerService.getById(reviewerId);
             reviewerService.setStatus(reviewer, statusService.getById(statusId));
 
-            WorkItem workItem = workItemService.getById(workItemId);
-            Notification notification = new Notification();
-            Instant time = Instant.now();
-            List<User> notificationReceivers = reviewerService.getAllReviewersForWorkItemAsUsers(workItem);
-            notificationReceivers.add(workItem.getCreatedBy());
-            notification.setDescription(String.format("Status of Work Item" +
-                    " with title \"%s\" has been changed" , workItem.getTitle()));
-            notification.setTime(time);
-            notificationService.create(notification, notificationReceivers);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
             return "access-denied";

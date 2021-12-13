@@ -15,10 +15,6 @@ public class Notification implements Comparable<Notification> {
     @Column(name = "notification_id", nullable = false)
     private Integer id;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-
     @Column(name = "description", nullable = false, length = 50)
     private String description;
 
@@ -82,4 +78,9 @@ public class Notification implements Comparable<Notification> {
     public int compareTo(Notification o) {
         return getTime().compareTo(o.getTime());
     }
+
+//    public String timeAsString(){
+//        String instantStr = time.toString().replaceAll("[TZ]", " ");
+//        return instantStr;
+//    }
 }

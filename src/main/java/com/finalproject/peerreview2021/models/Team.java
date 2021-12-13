@@ -33,6 +33,14 @@ public class Team implements SoftDeletable{
     )
     private Set<User> members;
 
+    public Team() {
+    }
+
+    public Team(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

@@ -11,4 +11,6 @@ public interface NotificationService extends BaseCRUDService<Notification> {
     void create(Notification entity, List<User> usersToReceiveNotification);
 
     List<Notification> getUserNotifications(User user);
+
+    void notify(String notification, List<User> users);
 }

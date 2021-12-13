@@ -4,10 +4,12 @@ import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.models.Notification;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.NotificationRepository;
 import com.finalproject.peerreview2021.services.contracts.NotificationService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,15 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> getUserNotifications(User user) {
         return new ArrayList<>(user.getNotifications());
+    }
+
+    @Override
+    public void notify(String notificationContent, List<User> users) {
+        Notification notification = new Notification();
+        Instant time = Instant.now();
+        notification.setDescription(notificationContent);
+        notification.setTime(time);
+        create(notification, users);
     }
 
     @Override
@@ -61,4 +72,6 @@ public class NotificationServiceImpl implements NotificationService {
     public void delete(int id) {
         notificationRepository.delete(id);
     }
+
+
 }
