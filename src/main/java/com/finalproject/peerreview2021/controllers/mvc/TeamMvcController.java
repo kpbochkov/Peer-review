@@ -5,15 +5,13 @@ import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException
 import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
+import com.finalproject.peerreview2021.models.Notification;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.TeamInvitation;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.dto.TeamDto;
 import com.finalproject.peerreview2021.models.wrappers.TeamWorkItemsWrapper;
-import com.finalproject.peerreview2021.services.contracts.TeamInvitationService;
-import com.finalproject.peerreview2021.services.contracts.TeamService;
-import com.finalproject.peerreview2021.services.contracts.UserService;
-import com.finalproject.peerreview2021.services.contracts.WorkItemService;
+import com.finalproject.peerreview2021.services.contracts.*;
 import com.finalproject.peerreview2021.services.modelmappers.TeamModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,17 +39,19 @@ public class TeamMvcController {
     private final WorkItemService workItemService;
     private final UserService userService;
     private final TeamInvitationService teamInvitationService;
+    private final NotificationService notificationService;
     private final TeamModelMapper teamModelMapper;
 
     public TeamMvcController(AuthenticationHelper authenticationHelper,
                              TeamService teamService, WorkItemService workItemService,
                              UserService userService, TeamInvitationService teamInvitationService,
-                             TeamModelMapper teamModelMapper) {
+                             NotificationService notificationService, TeamModelMapper teamModelMapper) {
         this.authenticationHelper = authenticationHelper;
         this.teamService = teamService;
         this.workItemService = workItemService;
         this.userService = userService;
         this.teamInvitationService = teamInvitationService;
+        this.notificationService = notificationService;
         this.teamModelMapper = teamModelMapper;
     }
 
@@ -63,6 +64,21 @@ public class TeamMvcController {
     public String getPhoto(HttpSession session) {
         User user = authenticationHelper.tryGetUser(session);
         return user.getImage();
+    }
+
+    @ModelAttribute("notifications")
+    public List<Notification> getNotifications(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        List<Notification> notifications = notificationService.getUserNotifications(user);
+        Collections.sort(notifications);
+        return notifications;
+    }
+
+    @ModelAttribute("newNotificationsCount")
+    public long newNotificationsCount(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        List<Notification> notifications = notificationService.getUserNotifications(user);
+        return notifications.stream().filter(n -> n.getSeen().equals(false)).count();
     }
 
     @GetMapping()
