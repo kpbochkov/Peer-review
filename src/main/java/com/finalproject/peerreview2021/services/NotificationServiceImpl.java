@@ -8,6 +8,7 @@ import com.finalproject.peerreview2021.repositories.contracts.NotificationReposi
 import com.finalproject.peerreview2021.services.contracts.NotificationService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,11 @@ public class NotificationServiceImpl implements NotificationService {
     public void create(Notification entity, List<User> usersToReceiveNotification) {
         entity.setUsersWithNotification(usersToReceiveNotification);
         notificationRepository.create(entity);
+    }
+
+    @Override
+    public List<Notification> getUserNotifications(User user) {
+        return new ArrayList<>(user.getNotifications());
     }
 
     @Override

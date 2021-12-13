@@ -29,7 +29,7 @@ create table notifications
 (
     notification_id int auto_increment
         primary key,
-    description varchar(50) not null,
+    description varchar(500) not null,
     seen tinyint(1) default 0 not null,
     time timestamp default current_timestamp() not null on update current_timestamp()
 );
@@ -119,8 +119,9 @@ create table notifications_users
 (
     notification_id int not null,
     user_id int not null,
-    constraint users_teams_notifications_notification_id_fk
+    constraint notifications_users_notifications_notification_id_fk
         foreign key (notification_id) references notifications (notification_id),
-    constraint users_teams_users_user_id_fk
+    constraint notifications_users_users_user_id_fk
         foreign key (user_id) references users (user_id)
 );
+

@@ -74,7 +74,7 @@ public class DashboardMvcController {
         model.addAttribute("timesChangeRequested", allReviewsForUserWorkItems.stream()
                 .filter(r -> r.getStatus().getId() == 3).count());
         model.addAttribute("currentUser", user);
-        model.addAttribute("notifications", notificationService.getAll());
+        model.addAttribute("notifications", notificationService.getUserNotifications(user));
 
         return "index";
     }
@@ -112,6 +112,23 @@ public class DashboardMvcController {
             e.printStackTrace();
         }
         return "redirect:/dashboard/profile";
+    }
+
+    @GetMapping("/notifications")
+    public String showNotificationsPage(Model model,
+                                        HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+        model.addAttribute("notifications", notificationService.getUserNotifications(user));
+
+        return "notifications-user";
     }
 
 //    @GetMapping("/search")

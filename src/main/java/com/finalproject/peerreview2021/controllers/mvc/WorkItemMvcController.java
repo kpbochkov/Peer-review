@@ -282,7 +282,7 @@ public class WorkItemMvcController {
             Instant time = Instant.now();
             List<User> notificationReceivers = reviewerService.getAllReviewersForWorkItemAsUsers(workItem);
             notificationReceivers.add(workItem.getCreatedBy());
-            notification.setDescription(String.format("The status of the Work Item" +
+            notification.setDescription(String.format("Status of Work Item" +
                     " with title \"%s\" has been changed" , workItem.getTitle()));
             notification.setTime(time);
             notificationService.create(notification, notificationReceivers);
