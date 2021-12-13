@@ -86,6 +86,7 @@ public class TeamMvcController {
             teamsWorkItems.add(wrapper);
         }
         model.addAttribute("teamsWorkItems", teamsWorkItems);
+        model.addAttribute("currentUser", user);
         return "teams";
     }
 

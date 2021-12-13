@@ -52,19 +52,20 @@
                             <td class="text-center">
                                 <th:block th:switch="${assignee.status.name.toUpperCase()}">
                                     <div th:case="'PENDING'">
-                                        <span class="badge bg-info rounded-pill">pending</span>
+                                        <span class="badge bg-info rounded-pill" style="color:whitesmoke">pending</span>
                                     </div>
                                     <div th:case="'UNDER REVIEW'">
-                                        <span class="badge bg-secondary rounded-pill">under review</span>
+                                        <span class="badge bg-secondary rounded-pill" style="color:whitesmoke">under review</span>
                                     </div>
                                     <div th:case="'CHANGE REQUESTED'">
-                                        <span class="badge bg-warning rounded-pill">change requested</span>
+                                        <span class="badge bg-warning rounded-pill" style="color:whitesmoke">change requested</span>
                                     </div>
                                     <div th:case="'ACCEPTED'">
-                                        <span class="badge bg-success rounded-pill">accepted</span>
+                                        <span class="badge bg-success rounded-pill"
+                                              style="color:whitesmoke">accepted</span>
                                     </div>
                                     <div th:case="'REJECTED'">
-                                        <span class="badge bg-danger rounded-pill">rejected</span>
+                                        <span class="badge bg-danger rounded-pill" style="color:whitesmoke">rejected</span>
                                     </div>
                                     <span class="dropdown" th:if="${currentUser.equals(assignee.user)}">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -93,7 +94,8 @@
 
                     <label>Reviewer</label>
                     <div class="col-2 float-left">
-                        <select class="form-select" aria-label="Default select example" th:field="*{reviewerId}" style="color: #337ab7;">
+                        <select class="form-select" aria-label="Default select example" th:field="*{reviewerId}"
+                                style="color: #337ab7;">
                             <option th:each="user : ${members}" th:text="${user.username}" th:value="${user.id}">
                                 Reviewer name
                             </option>
