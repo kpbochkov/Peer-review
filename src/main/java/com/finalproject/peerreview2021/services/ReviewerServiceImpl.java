@@ -52,11 +52,6 @@ public class ReviewerServiceImpl implements ReviewerService {
     }
 
     @Override
-    public <V> Reviewer getByField(String name, V value) {
-        return reviewerRepository.getByField(name, value);
-    }
-
-    @Override
     public Reviewer getById(int id) {
         return reviewerRepository.getById(id);
     }

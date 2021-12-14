@@ -23,28 +23,8 @@ public class TeamInvitationServiceImpl implements TeamInvitationService {
     }
 
     @Override
-    public void create(TeamInvitation entity) {
-        teamInvitationRepository.create(entity);
-    }
-
-    @Override
-    public List<TeamInvitation> getAll() {
-        return teamInvitationRepository.getAll();
-    }
-
-    @Override
-    public <V> TeamInvitation getByField(String name, V value) {
-        return teamInvitationRepository.getByField(name, value);
-    }
-
-    @Override
     public TeamInvitation getById(int id) {
         return teamInvitationRepository.getById(id);
-    }
-
-    @Override
-    public void update(TeamInvitation entity) {
-        teamInvitationRepository.update(entity);
     }
 
     @Override

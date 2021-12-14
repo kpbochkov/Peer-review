@@ -6,8 +6,12 @@ import com.finalproject.peerreview2021.models.User;
 
 import java.util.List;
 
-public interface TeamInvitationService extends BaseCRUDService<TeamInvitation> {
+public interface TeamInvitationService {
     void create(User inviter, TeamInvitation teamInvitation);
+
+    TeamInvitation getById(int id);
+
+    void delete(int id);
 
     List<TeamInvitation> getUserInvitations(User user);
 

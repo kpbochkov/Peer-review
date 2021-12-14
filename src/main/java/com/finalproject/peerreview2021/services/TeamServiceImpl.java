@@ -52,18 +52,8 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Team> getAll() {
-        return teamRepository.getAll();
-    }
-
-    @Override
     public void delete(int id) {
         teamRepository.delete(id);
-    }
-
-    @Override
-    public <V> Team getByField(String name, V value) {
-        return teamRepository.getByField(name, value);
     }
 
     @Override
