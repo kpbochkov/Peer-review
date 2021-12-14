@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public class TeamServiceImplTest {
     TeamServiceImpl service;
 
     @Test
-    void create_shouldThrow_when_duplicateNameExists(){
+    void create_shouldThrow_when_duplicateNameExists() {
         // Arrange
         Team teamInRepo = Helpers.createMockTeam();
         Team teamToBeCreated = Helpers.createMockTeam();
@@ -46,7 +47,7 @@ public class TeamServiceImplTest {
     }
 
     @Test
-    void create_shouldCreate_when_noDuplicateExists(){
+    void create_shouldCreate_when_noDuplicateExists() {
         // Arrange
         Team teamToBeCreated = Helpers.createMockTeam();
         teamToBeCreated.setId(0);
@@ -60,7 +61,7 @@ public class TeamServiceImplTest {
     }
 
     @Test
-    void addUserToTeam_should_throw_when_userAlreadyInTeam(){
+    void addUserToTeam_should_throw_when_userAlreadyInTeam() {
         // Arrange
         User user = Helpers.createMockUser();
         Team team = Helpers.createMockTeam();
@@ -82,4 +83,21 @@ public class TeamServiceImplTest {
         Mockito.verify(mockRepository, Mockito.times(1))
                 .update(team);
     }
+
+
+    @Test
+    public void getById_should_ReturnTeam_When_MatchExists() {
+        //Arrange
+        Mockito.when(mockRepository.getById(1))
+                .thenReturn(new Team(1, "TestTeam"));
+
+        //Act
+        Team result = service.getById(1);
+
+        //Assert
+        Assertions.assertEquals(1, result.getId());
+        Assertions.assertEquals("TestTeam", result.getName());
+    }
+
+
 }
