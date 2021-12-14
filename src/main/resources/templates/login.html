@@ -59,17 +59,16 @@
                                                id="exampleInputPassword" placeholder="Password">
                                         <label class="error-custom" th:errors="*{password}">Password error placeholder</label>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">Remember
-                                                Me</label>
-                                        </div>
-                                    </div>
+<!--                                    <div class="form-group">-->
+<!--                                        <div class="custom-control custom-checkbox small">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="customCheck">-->
+<!--                                            <label class="custom-control-label" for="customCheck">Remember-->
+<!--                                                Me</label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <input class="btn btn-primary btn-user btn-block" type="submit" value="Login"/>
                                     <hr>
                                 </form>
-                                <hr>
                                 <div class="text-center">
                                     <a class="small" href="Register" th:href="@{/auth/register}">Create an Account!</a>
                                 </div>
