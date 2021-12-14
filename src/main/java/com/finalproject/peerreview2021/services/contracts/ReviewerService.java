@@ -7,7 +7,18 @@ import com.finalproject.peerreview2021.models.WorkItem;
 
 import java.util.List;
 
-public interface ReviewerService extends BaseCRUDService<Reviewer> {
+public interface ReviewerService {
+
+    void create(Reviewer entity);
+
+    Reviewer getById(int id);
+
+    List<Reviewer> getAll();
+
+    void update(Reviewer entity);
+
+    void delete(int id);
+
     List<User> getAllReviewersForWorkItemAsUsers(WorkItem workItem);
 
     List<Reviewer> getAllReviewersForWorkItem(WorkItem workItem);

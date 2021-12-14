@@ -33,15 +33,15 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void create(WorkItem entity) {
-        boolean titleAlreadyTaken = true;
-        try {
-            workItemRepository.getByField("title", entity.getTitle());
-        } catch (EntityNotFoundException e) {
-            titleAlreadyTaken = false;
-        }
-        if (titleAlreadyTaken) {
-            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
-        }
+//        boolean titleAlreadyTaken = true;
+//        try {
+//            workItemRepository.getByField("title", entity.getTitle());
+//        } catch (EntityNotFoundException e) {
+//            titleAlreadyTaken = false;
+//        }
+//        if (titleAlreadyTaken) {
+//            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
+//        }
         workItemRepository.create(entity);
     }
 
@@ -51,29 +51,24 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public <V> WorkItem getByField(String name, V value) {
-        return workItemRepository.getByField(name, value);
-    }
-
-    @Override
     public WorkItem getById(int id) {
         return workItemRepository.getById(id);
     }
 
     @Override
     public void update(WorkItem entity) {
-        boolean titleAlreadyTaken = true;
-        try {
-            WorkItem entityInRepository = workItemRepository.getByField("title", entity.getTitle());
-            if(Objects.equals(entityInRepository.getId(), entity.getId())){
-                titleAlreadyTaken = false;
-            }
-        } catch (EntityNotFoundException e) {
-            titleAlreadyTaken = false;
-        }
-        if (titleAlreadyTaken) {
-            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
-        }
+//        boolean titleAlreadyTaken = true;
+//        try {
+//            WorkItem entityInRepository = workItemRepository.getByField("title", entity.getTitle());
+//            if(Objects.equals(entityInRepository.getId(), entity.getId())){
+//                titleAlreadyTaken = false;
+//            }
+//        } catch (EntityNotFoundException e) {
+//            titleAlreadyTaken = false;
+//        }
+//        if (titleAlreadyTaken) {
+//            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
+//        }
         WorkItem entityInRepository = workItemRepository.getById(entity.getId());
         if (!Objects.equals(entityInRepository.getCreatedBy().getId(), entity.getCreatedBy().getId())) {
             throw new UpdateEntityException("WorkItem", "createdBy");

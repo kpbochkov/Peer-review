@@ -13,7 +13,18 @@ import java.util.Optional;
  * Date: 23.11.2021
  * Time: 11:28
  */
-public interface WorkItemService extends BaseCRUDService<WorkItem> {
+public interface WorkItemService{
+
+    void create(WorkItem entity);
+
+    List<WorkItem> getAll();
+
+    WorkItem getById(int id);
+
+    void update(WorkItem entity);
+
+    void delete(int id);
+
     List<WorkItem> filter(Optional<String> title, Optional<String> status,
                           Optional<String> reviewer, Optional<String> sortParam);
 

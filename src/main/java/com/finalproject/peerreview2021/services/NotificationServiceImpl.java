@@ -50,26 +50,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void create(Notification entity) {
-        notificationRepository.create(entity);
-    }
-
-    @Override
-    public List<Notification> getAll() {
-        return notificationRepository.getAll();
-    }
-
-    @Override
-    public <V> Notification getByField(String name, V value) {
-        return notificationRepository.getByField(name, value);
-    }
-
-    @Override
-    public Notification getById(int id) {
-        return notificationRepository.getById(id);
-    }
-
-    @Override
     public void update(Notification entity) {
         notificationRepository.update(entity);
     }
