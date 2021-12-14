@@ -1,7 +1,6 @@
 package com.finalproject.peerreview2021.services.modelmappers;
 
 import com.finalproject.peerreview2021.models.Reviewer;
-import com.finalproject.peerreview2021.models.Status;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.ReviewerDto;

@@ -1,11 +1,9 @@
 package com.finalproject.peerreview2021.services.modelmappers;
 
 import com.finalproject.peerreview2021.models.Comment;
-import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.CommentDto;
-import com.finalproject.peerreview2021.models.dto.ReviewerDto;
 import com.finalproject.peerreview2021.repositories.contracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

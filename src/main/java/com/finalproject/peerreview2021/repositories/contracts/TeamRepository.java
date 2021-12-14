@@ -1,9 +1,6 @@
 package com.finalproject.peerreview2021.repositories.contracts;
 
 import com.finalproject.peerreview2021.models.Team;
-import com.finalproject.peerreview2021.models.WorkItem;
-
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

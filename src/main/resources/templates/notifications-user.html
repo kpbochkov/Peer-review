@@ -13,6 +13,7 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" th:href="@{../css/sb-admin-2.min.css}" rel="stylesheet">
     <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">
+    <link href="css/notifications.css" th:href="@{../css/notifications.css}" rel="stylesheet">
 </head>
 <body>
 <div id="wrapper">
@@ -20,38 +21,61 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div th:replace="fragments.html :: topbar-simple"></div>
 
-        <div id="content">
-            <div class="container-fluid">
-                <div th:if="${notifications.isEmpty()}">
-                    <h4>No notifications yet</h4>
+        <!--        <div id="content">-->
+        <!--            <div class="container-fluid">-->
+        <!--                <div th:if="${notifications.isEmpty()}">-->
+        <!--                    <h4>No notifications yet</h4>-->
+        <!--                </div>-->
+        <!--                <table class="table table-hover" th:unless="${notifications.isEmpty()}">-->
+        <!--                    <h3>Notifications</h3>-->
+        <!--                    <thead>-->
+        <!--                    <tr>-->
+        <!--                        <th scope="col">Title</th>-->
+        <!--                        <th scope="col">Date</th>-->
+        <!--                    </tr>-->
+        <!--                    </thead>-->
+        <!--                    <tbody>-->
+        <!--                    <tr th:each="notification : ${notifications}">-->
+        <!--&lt;!&ndash;                        <td class="cell">&ndash;&gt;-->
+        <!--&lt;!&ndash;                            <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}"&ndash;&gt;-->
+        <!--&lt;!&ndash;                               th:text="${workitem.title}">Work Item&ndash;&gt;-->
+        <!--&lt;!&ndash;                                title</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;                        </td>&ndash;&gt;-->
+        <!--                        <td th:text="${notification.description}">Created by</td>-->
+        <!--                        <td th:text="${notification.timeAsString()}">Team</td>-->
+        <!--&lt;!&ndash;                        <td th:text="${workitem.status.name}">Status</td>&ndash;&gt;-->
+        <!--                    </tr>-->
+        <!--                    </tbody>-->
+        <!--                </table>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <div class="row-notifications notification-container-notifications" style="height: 500px; overflow-y: scroll;">
+            <div th:if="${notifications.isEmpty()}">
+                <h4>No notifications yet</h4>
+            </div>
+            <h2 class="text-center" th:unless="${notifications.isEmpty()}">My Notifications</h2>
+            <p class="dismiss text-right"><a id="dismiss-all" href="#">Dismiss All</a></p>
+            <div class="card-notifications notification-card-notifications notification-invitation-notifications" th:each="notification : ${notifications}">
+                <div class="card-body-notifications">
+                    <table>
+                        <tr>
+                            <td style="width:100%">
+                                <div class="card-title-notifications" th:text="${notification.description}"></div>
+                                <div th:text="${notification.timeAsString()}" style="font-size: smaller;font-style: italic;"></div>
+                            </td>
+                            <td style="width:30%">
+                                <a href="#" class="btn btn-success">View</a>
+                                <a href="#" class="btn btn-danger dismiss-notification">Dismiss</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <table class="table table-hover" th:unless="${notifications.isEmpty()}">
-                    <h3>Notifications</h3>
-                    <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="notification : ${notifications}">
-<!--                        <td class="cell">-->
-<!--                            <a href="#" th:href="@{/workitems/{id}(id=${workitem.getId()})}"-->
-<!--                               th:text="${workitem.title}">Work Item-->
-<!--                                title</a>-->
-<!--                        </td>-->
-                        <td th:text="${notification.description}">Created by</td>
-                        <td th:text="${notification.timeAsString()}">Team</td>
-<!--                        <td th:text="${workitem.status.name}">Status</td>-->
-                    </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 </div>
-
-
 <!-- Bootstrap core JavaScript-->
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -62,6 +86,32 @@
 
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
+<script>
+    const dismissAll = document.getElementById('dismiss-all');
+    const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
+
+    const notificationCards = document.querySelectorAll('.notification-card');
+
+    dismissBtns.forEach(btn => {
+        btn.addEventListener('click', function(e){
+            e.preventDefault;
+            var parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            parent.classList.add('display-none');
+        })
+    });
+
+    dismissAll.addEventListener('click', function(e){
+        e.preventDefault;
+        notificationCards.forEach(card => {
+            card.classList.add('display-none');
+        });
+        const row = document.querySelector('.notification-container');
+        const message = document.createElement('h4');
+        message.classList.add('text-center');
+        message.innerHTML = 'All caught up!';
+        row.appendChild(message);
+    })
+</script>
 
 <!-- Page level plugins -->
 <script src="vendor/chart.js/Chart.min.js"></script>
@@ -75,5 +125,8 @@
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+    src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"
+</script>
 </body>
 </html>

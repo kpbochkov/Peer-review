@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.Instant;
 import java.util.List;
 
 @Controller
@@ -50,7 +49,12 @@ public class WorkItemMvcController {
 
     @GetMapping()
     public String showAllWorkItems(Model model, HttpSession session) {
-        User user = authenticationHelper.tryGetUser(session);
+        User user;
+        try {
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        }
         model.addAttribute("workitems", workItemService.getAllWorkItemsForUser(user));
         return "workitems-user";
     }
@@ -124,7 +128,7 @@ public class WorkItemMvcController {
         try {
             WorkItem workItem = workItemService.getById(id);
             Team team = workItem.getTeam();
-            
+
             model.addAttribute("workitem", workItem);
             model.addAttribute("members", userService.getPossibleAssignees(workItem));
             model.addAttribute("assignees", reviewerService.getAllReviewersForWorkItem(workItem));
@@ -219,7 +223,7 @@ public class WorkItemMvcController {
 
     @GetMapping("/comment/{workItemId}")
     public String showAddCommentPage(@PathVariable int id, Model model,
-                                 HttpSession session) {
+                                     HttpSession session) {
         try {
             workItemService.delete(id);
 
@@ -268,9 +272,9 @@ public class WorkItemMvcController {
 
     @GetMapping("/{workItemId}/reviewer/{reviewerId}/status/{statusId}")
     public String changeStatus(@PathVariable int workItemId,
-                             @PathVariable int reviewerId,
-                             @PathVariable int statusId,
-                             HttpSession session) {
+                               @PathVariable int reviewerId,
+                               @PathVariable int statusId,
+                               HttpSession session) {
         User user;
         try {
             user = authenticationHelper.tryGetUser(session);

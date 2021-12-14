@@ -1,7 +1,5 @@
 package com.finalproject.peerreview2021.repositories.contracts;
 
-import org.hibernate.Session;
-
 /**
  * Created with IntelliJ IDEA.
  * User: gog

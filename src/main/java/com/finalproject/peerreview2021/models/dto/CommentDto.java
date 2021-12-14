@@ -3,7 +3,6 @@ package com.finalproject.peerreview2021.models.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class CommentDto {
     @JsonIgnore

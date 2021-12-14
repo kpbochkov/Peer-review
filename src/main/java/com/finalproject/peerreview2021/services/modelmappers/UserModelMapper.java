@@ -3,7 +3,6 @@ package com.finalproject.peerreview2021.services.modelmappers;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.dto.RegisterDto;
 import com.finalproject.peerreview2021.models.dto.UserDto;
-import com.finalproject.peerreview2021.models.dto.UserPhotoDto;
 import com.finalproject.peerreview2021.repositories.contracts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

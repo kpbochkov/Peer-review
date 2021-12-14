@@ -58,6 +58,13 @@ public class DashboardMvcController {
         return notifications;
     }
 
+    @ModelAttribute("workitems")
+    public List<WorkItem> getWorkItems(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        List<WorkItem> workitems = workItemService.getAllWorkItemsForUser(user);
+        return workitems;
+    }
+
     @ModelAttribute("newNotificationsCount")
     public long newNotificationsCount(HttpSession session) {
         User user = authenticationHelper.tryGetUser(session);

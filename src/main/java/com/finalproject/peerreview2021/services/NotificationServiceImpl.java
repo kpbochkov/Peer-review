@@ -1,19 +1,14 @@
 package com.finalproject.peerreview2021.services;
 
-import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.models.Notification;
-import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
-import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.NotificationRepository;
 import com.finalproject.peerreview2021.services.contracts.NotificationService;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

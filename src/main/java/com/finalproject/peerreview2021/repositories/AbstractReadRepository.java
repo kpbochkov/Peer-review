@@ -1,7 +1,6 @@
 package com.finalproject.peerreview2021.repositories;
 
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
-import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.repositories.contracts.BaseReadRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

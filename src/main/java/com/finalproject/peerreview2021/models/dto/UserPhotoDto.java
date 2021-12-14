@@ -1,9 +1,5 @@
 package com.finalproject.peerreview2021.models.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-
 public class UserPhotoDto {
     private byte[] photo;
 
