@@ -3,10 +3,7 @@ package com.finalproject.peerreview2021.controllers.mvc;
 import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
-import com.finalproject.peerreview2021.models.Notification;
-import com.finalproject.peerreview2021.models.Reviewer;
-import com.finalproject.peerreview2021.models.User;
-import com.finalproject.peerreview2021.models.WorkItem;
+import com.finalproject.peerreview2021.models.*;
 import com.finalproject.peerreview2021.models.dto.UserPhotoDto;
 import com.finalproject.peerreview2021.services.contracts.*;
 import org.springframework.stereotype.Controller;
@@ -56,13 +53,6 @@ public class DashboardMvcController {
         List<Notification> notifications = notificationService.getUserNotifications(user);
         Collections.sort(notifications);
         return notifications;
-    }
-
-    @ModelAttribute("workitems")
-    public List<WorkItem> getWorkItems(HttpSession session) {
-        User user = authenticationHelper.tryGetUser(session);
-        List<WorkItem> workitems = workItemService.getAllWorkItemsForUser(user);
-        return workitems;
     }
 
     @ModelAttribute("newNotificationsCount")
@@ -152,6 +142,20 @@ public class DashboardMvcController {
         }
         notificationService.markUserNotificationsSeen(user);
         return "notifications-user";
+    }
+
+    @GetMapping("/notification/{notificationId}")
+    public String deleteNotification(@PathVariable int notificationId, HttpSession session, Model model) {
+        try {
+            User user = authenticationHelper.tryGetUser(session);
+            notificationService.delete(notificationService.getById(notificationId).getId());
+            return "redirect:/dashboard/notifications";
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
     }
 
 //    @GetMapping("/search")

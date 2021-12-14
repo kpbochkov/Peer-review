@@ -105,7 +105,7 @@ public class ReviewerServiceImpl implements ReviewerService {
         usersToNotify.add(workItem.getCreatedBy());
         notificationService.notify(String.format("\"%s\" changed the review status for Work Item" +
                         " with title \"%s\" to \"%s\"", reviewer.getUser().getUsername(), workItem.getTitle(), status.getName()),
-                usersToNotify);
+                usersToNotify, workItem);
 
     }
 
