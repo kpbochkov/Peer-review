@@ -27,6 +27,10 @@ public class Notification implements Comparable<Notification> {
     @Column(name = "time", nullable = false)
     private Instant time;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "work_item_id", nullable = false)
+    private WorkItem workItem;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -42,6 +46,14 @@ public class Notification implements Comparable<Notification> {
 
     public void setUsersWithNotification(List<User> usersWithNotification) {
         this.usersWithNotification = usersWithNotification;
+    }
+
+    public WorkItem getWorkItem() {
+        return workItem;
+    }
+
+    public void setWorkItem(WorkItem workItem) {
+        this.workItem = workItem;
     }
 
     public Instant getTime() {

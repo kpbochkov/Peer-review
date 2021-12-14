@@ -262,7 +262,7 @@ public class WorkItemMvcController {
             usersToNotify.add(workItem.getCreatedBy());
             notificationService.notify(String.format("\"%s\" commented on Work Item" +
                             " with title \"%s\"", user.getUsername(), workItem.getTitle()),
-                    usersToNotify);
+                    usersToNotify, workItem);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
             errors.rejectValue("comment", "not_allowed", e.getMessage());

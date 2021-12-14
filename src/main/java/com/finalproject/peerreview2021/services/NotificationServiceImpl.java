@@ -2,6 +2,7 @@ package com.finalproject.peerreview2021.services;
 
 import com.finalproject.peerreview2021.models.Notification;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.NotificationRepository;
 import com.finalproject.peerreview2021.services.contracts.NotificationService;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void notify(String notificationContent, List<User> users) {
+    public void notify(String notificationContent, List<User> users, WorkItem workItem) {
         Notification notification = new Notification();
         Instant time = Instant.now();
         notification.setDescription(notificationContent);
         notification.setTime(time);
+        notification.setWorkItem(workItem);
         create(notification, users);
     }
 
@@ -57,6 +59,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void delete(int id) {
         notificationRepository.delete(id);
+    }
+
+    @Override
+    public Notification getById(int id) {
+        return notificationRepository.getById(id);
     }
 
 
