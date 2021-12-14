@@ -6,6 +6,9 @@ import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.ReviewerRepository;
+import com.finalproject.peerreview2021.repositories.contracts.StatusRepository;
+import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
+import com.finalproject.peerreview2021.services.contracts.NotificationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -79,4 +83,42 @@ public class ReviewerServiceImplTests {
         Assertions.assertThrows(UnauthorizedOperationException.class,
                 () -> service.create(reviewer));
     }
+
+
+    @Test
+    public void getById_should_ReturnReviewer_When_MatchExists(){
+        //Arrange
+        ReviewerRepository mockRepository = Mockito.mock(ReviewerRepository.class);
+        StatusRepository mockRepository1 = Mockito.mock(StatusRepository.class);
+        WorkItemRepository mockRepository2 = Mockito.mock(WorkItemRepository.class);
+        NotificationService mockRepository3 = Mockito.mock(NotificationService.class);
+        ReviewerServiceImpl service = new ReviewerServiceImpl(mockRepository, mockRepository1, mockRepository2, mockRepository3);
+
+        Mockito.when(mockRepository.getById(1))
+                .thenReturn(new Reviewer(1));
+
+        //Act
+        Reviewer result = service.getById(1);
+
+        //Assert
+        Assertions.assertEquals(1, result.getId());
+    }
+
+
+    @Test
+    void getAll_should_callRepository() {
+        // Arrange
+        Mockito.when(mockRepository.getAll())
+                .thenReturn(new ArrayList<>());
+
+        // Act
+        service.getAll();
+
+        // Assert
+        Mockito.verify(mockRepository, Mockito.times(1))
+                .getAll();
+    }
+
+
+
 }
