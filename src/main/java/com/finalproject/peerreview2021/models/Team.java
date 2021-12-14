@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Table(name = "teams")
 @Entity
-public class Team implements SoftDeletable{
+public class Team implements SoftDeletable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id", nullable = false)
@@ -93,6 +93,6 @@ public class Team implements SoftDeletable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, user, members);
+        return Objects.hash(id, name, user);
     }
 }

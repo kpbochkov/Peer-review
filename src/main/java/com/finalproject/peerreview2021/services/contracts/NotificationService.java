@@ -22,4 +22,6 @@ public interface NotificationService {
     void notify(String notification, List<User> users, WorkItem workItem);
 
     void markUserNotificationsSeen(User user);
+
+    void dismissAll(User user);
 }

@@ -25,7 +25,7 @@
                 <h4>No notifications yet</h4>
             </div>
             <h2 class="text-center" th:unless="${notifications.isEmpty()}">My Notifications</h2>
-            <p class="dismiss text-right"><a id="dismiss-all" href="#">Dismiss All</a></p>
+            <p class="dismiss text-right"><a id="dismiss-all" href="#" th:href="@{/dashboard/notification/dismissAll}">Dismiss All</a></p>
             <div class="card-notifications notification-card-notifications notification-invitation-notifications" th:each="notification : ${notifications}">
                 <div class="card-body-notifications">
                     <table>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -159,6 +160,11 @@ public class WorkItemMvcController {
             reviewer.setUser(userService.getById(reviewerDto.getReviewerId()));
             reviewer.setStatus(statusService.getById(1));
             reviewerService.create(reviewer);
+            List<User> userToNotify = new ArrayList<>();
+            userToNotify.add(reviewer.getUser());
+            notificationService.notify(String.format("You have been assigned to review Work Item" +
+                            " with title \"%s\"", workItem.getTitle()),
+                    userToNotify, workItem);
             return "redirect:/workitems/" + workItemId;
         } catch (UnauthorizedOperationException e) {
             errors.rejectValue("reviewerId", "not_allowed", e.getMessage());

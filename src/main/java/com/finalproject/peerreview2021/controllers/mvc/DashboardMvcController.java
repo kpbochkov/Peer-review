@@ -158,6 +158,21 @@ public class DashboardMvcController {
         }
     }
 
+    @GetMapping("/notification/dismissAll")
+    public String dismissNotifications(Model model,
+                                       HttpSession session) {
+        try {
+            User user = authenticationHelper.tryGetUser(session);
+            notificationService.dismissAll(user);
+            return "redirect:/dashboard/notifications";
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("error", e.getMessage());
+            return "access-denied";
+        }
+    }
+
 //    @GetMapping("/search")
 //    public String search(@ModelAttribute SearchWorkItemDto searchWorkItemDto, Model model) {
 //        try {

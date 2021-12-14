@@ -69,6 +69,7 @@
                                         Invite user
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" th:if="${teamWorkItems.possibleInvitees.isEmpty()}">No users to invite</a>
                                         <a class="dropdown-item" th:each="user : ${teamWorkItems.possibleInvitees}"
                                            th:href="@{/teams/{teamId}/invite/{userId}(teamId=${teamWorkItems.team.id},userId=${user.id})}"
                                            th:text="${user.username}"></a>
