@@ -6,27 +6,22 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 
 public class RegisterDto {
-    @NotBlank
     @Size(min = 2, max = 20, message = "Username should be between 2 and 20 symbols")
     private String username;
 
-    @NotEmpty(message = "Password confirmation can't be empty")
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
-    @Size(min = 8, max = 500, message = "Password must be at least 8 symbols and should contain " +
-            "capital letter, digit, and special symbol (+, -, *, &, ^, …)")
+
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,500}$", message = "Password must be at least 8 symbols and" +
+            " should contain capital letter, digit, and special symbol (+, -, *, &, ^,#,?,!,@,$,%,^,&,*,-)")
     private String password;
 
-
-    @NotEmpty(message = "Password confirmation can't be empty")
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,500}$", message = "Password must be at least 8 symbols and" +
+            " should contain capital letter, digit, and special symbol (+, -, *, &, ^,#,?,!,@,$,%,^,&,*,-)")
     private String passwordConfirm;
 
     @NotEmpty(message = "Email can't be empty")
     private String email;
 
-    @Size(min = 10, max = 10, message = "Phone number should be 10 digits")
-    @NotNull
-    @Pattern(regexp = "([0-9]{10})")
+    @Pattern(regexp = "([0-9]{10})", message = "Phone number should be 10 digits")
     private String phoneNumber;
 
     private byte[] photo;

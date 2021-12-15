@@ -137,7 +137,8 @@
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter" th:text="${newNotificationsCount}">3+</span>
+                <span th:if="${newNotificationsCount} == 0" class="badge badge-success badge-counter" th:text="${newNotificationsCount}">3+</span>
+                <span th:unless="${newNotificationsCount} == 0" class="badge badge-danger badge-counter" th:text="${newNotificationsCount}">3+</span>
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"

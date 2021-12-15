@@ -19,24 +19,168 @@
 <div id="wrapper">
     <div th:replace="fragments.html :: navbar"></div>
     <div id="content-wrapper" class="d-flex flex-column">
-        <div th:replace="fragments.html :: topbar-simple"></div>
+        <nav th:fragment="topbar" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Search -->
+            <!--    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" th:action="@{/parcels}" th:method="post"-->
+            <!--            th:object="${searchUserDto}">-->
+            <!--        <div class="input-group">-->
+            <!--            <input type="text" th:field="*{username}" class="form-control bg-light border-0 small" placeholder="Search for..."-->
+            <!--                   aria-label="Search" aria-describedby="basic-addon2">-->
+            <!--            <div class="input-group-append">-->
+            <!--                <button class="btn btn-primary" type="submit">-->
+            <!--                    <i class="fas fa-search fa-sm"></i>-->
+            <!--                </button>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </form>-->
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                <li class="nav-item dropdown no-arrow d-sm-none">
+                    <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-search fa-fw"></i>
+                    </a>
+                    <!-- Dropdown - Messages -->
+                    <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                         aria-labelledby="searchDropdown">
+                        <form class="form-inline mr-auto w-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small"
+                                       placeholder="Search for..." aria-label="Search"
+                                       aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+
+                <!-- Nav Item - Alerts -->
+                <div class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bell fa-fw"></i>
+                        <!-- Counter - Alerts -->
+                        <span th:if="${newNotificationsCount} == 0" class="badge badge-success badge-counter"
+                              th:text="${newNotificationsCount}">3+</span>
+                        <span th:unless="${newNotificationsCount} == 0" class="badge badge-danger badge-counter"
+                              th:text="${newNotificationsCount}">3+</span>
+                    </a>
+                    <!-- Dropdown - Alerts -->
+                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                         aria-labelledby="alertsDropdown">
+                        <h6 class="dropdown-header">
+                            Notifications
+                        </h6>
+                        <a class="dropdown-item d-flex align-items-center"
+                           th:if="${#lists.size(notifications)>0 AND notifications[#lists.size(notifications)-1].getSeen().equals(false)}">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500"
+                                     th:text="${notifications[#lists.size(notifications)-1].timeAsString()}"></div>
+                                <span class="font-weight-bold" href="#"
+                                      th:text="${notifications[#lists.size(notifications)-1].description}"></span>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center"
+                           th:if="${#lists.size(notifications)>1 AND notifications[#lists.size(notifications)-2].getSeen().equals(false)}">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500"
+                                     th:text="${notifications[#lists.size(notifications)-2].timeAsString()}"></div>
+                                <span class="font-weight-bold" href="#"
+                                      th:text="${notifications[#lists.size(notifications)-2].description}"></span>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center"
+                           th:if="${#lists.size(notifications)>2 AND notifications[#lists.size(notifications)-3].getSeen().equals(false)}">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500"
+                                     th:text="${notifications[#lists.size(notifications)-3].timeAsString()}"></div>
+                                <span class="font-weight-bold" href="#"
+                                      th:text="${notifications[#lists.size(notifications)-3].description}"></span>
+                            </div>
+                        </a>
+                        <a class="dropdown-item text-center small text-gray-500" href="#"
+                           th:href="@{dashboard/notifications}">Show All Notifications</a>
+                    </div>
+                </div>
+
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                                  th:text="${session.currentUser}"></span>
+                        <img th:if="${getPhoto==null}" th:src="@{../img/TrollllPeerReviewwww.png}"
+                             class="img-profile rounded-circle">
+                        <img th:unless="${getPhoto==null}" th:src="${getPhoto}" class="img-profile rounded-circle">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                         aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#" th:href="@{/dashboard/profile}">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" th:href="@{/auth/logout}">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
         <div class="row-notifications notification-container-notifications" style="height: 500px; overflow-y: scroll;">
             <div th:if="${notifications.isEmpty()}">
-                <h4>No notifications yet</h4>
+                <h3>No new notifications</h3>
             </div>
             <h2 class="text-center" th:unless="${notifications.isEmpty()}">My Notifications</h2>
-            <p class="dismiss text-right"><a id="dismiss-all" href="#" th:href="@{/dashboard/notification/dismissAll}">Dismiss All</a></p>
-            <div class="card-notifications notification-card-notifications notification-invitation-notifications" th:each="notification : ${notifications}">
+            <p class="dismiss text-right"><a id="dismiss-all" href="#" th:href="@{/dashboard/notification/dismissAll}">Dismiss
+                All</a></p>
+            <div class="card-notifications notification-card-notifications notification-invitation-notifications"
+                 th:each="notification : ${notifications}">
                 <div class="card-body-notifications">
                     <table>
                         <tr>
                             <td style="width:100%">
                                 <div class="card-title-notifications" th:text="${notification.description}"></div>
-                                <div th:text="${notification.timeAsString()}" style="font-size: smaller;font-style: italic;"></div>
+                                <div th:text="${notification.timeAsString()}"
+                                     style="font-size: smaller;font-style: italic;"></div>
                             </td>
                             <td style="width:30%">
-                                <a href="#" class="btn btn-success" th:href="@{/workitems/{id}(id=${notification.workItem.getId()})}">View</a>
-                                <a href="#" class="btn btn-danger dismiss-notification" th:href="@{/dashboard/notification/{notificationId}(notificationId=${notification.id})}">Dismiss</a>
+                                <a href="#" class="btn btn-success"
+                                   th:href="@{/workitems/{id}(id=${notification.workItem.getId()})}">View</a>
+                                <a href="#" class="btn btn-danger dismiss-notification"
+                                   th:href="@{/dashboard/notification/{notificationId}(notificationId=${notification.id})}">Dismiss</a>
                             </td>
                         </tr>
                     </table>
@@ -62,14 +206,14 @@
     const notificationCards = document.querySelectorAll('.notification-card');
 
     dismissBtns.forEach(btn => {
-        btn.addEventListener('click', function(e){
+        btn.addEventListener('click', function (e) {
             e.preventDefault;
             var parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             parent.classList.add('display-none');
         })
     });
 
-    dismissAll.addEventListener('click', function(e){
+    dismissAll.addEventListener('click', function (e) {
         e.preventDefault;
         notificationCards.forEach(card => {
             card.classList.add('display-none');
@@ -83,6 +227,18 @@
 </script>
 
 <!-- Page level plugins -->
+<script src="js/modal.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
 <script src="vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
@@ -90,12 +246,8 @@
 <script src="js/demo/chart-pie-demo.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/modal.js"></script>
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
-    src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"
+    src = "https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"
 </script>
 </body>
 </html>

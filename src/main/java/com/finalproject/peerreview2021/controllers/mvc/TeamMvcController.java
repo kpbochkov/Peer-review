@@ -66,14 +66,6 @@ public class TeamMvcController {
         return user.getImage();
     }
 
-    @ModelAttribute("notifications")
-    public List<Notification> getNotifications(HttpSession session) {
-        User user = authenticationHelper.tryGetUser(session);
-        List<Notification> notifications = notificationService.getUserNotifications(user);
-        Collections.sort(notifications);
-        return notifications;
-    }
-
     @ModelAttribute("newNotificationsCount")
     public long newNotificationsCount(HttpSession session) {
         User user = authenticationHelper.tryGetUser(session);
@@ -103,6 +95,7 @@ public class TeamMvcController {
         }
         model.addAttribute("teamsWorkItems", teamsWorkItems);
         model.addAttribute("currentUser", user);
+        model.addAttribute("notifications", notificationService.getUserNotifications(user));
         return "teams";
     }
 
@@ -304,7 +297,7 @@ public class TeamMvcController {
 
     @GetMapping("{teamId}/delete/{userId}")
     public String deleteUser(@PathVariable int userId,
-                             @PathVariable int teamId,HttpSession session, Model model) {
+                             @PathVariable int teamId, HttpSession session, Model model) {
         try {
             User user = authenticationHelper.tryGetUser(session);
             Team team = teamService.getById(teamId);
