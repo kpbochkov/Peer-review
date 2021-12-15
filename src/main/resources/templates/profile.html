@@ -32,7 +32,7 @@
             <div class="container-fluid">
                 <div class="wrapper bg-white mt-sm-5">
                     <h4 class="pb-4 border-bottom">Profile Photo</h4>
-                    <img th:if="${getPhoto==null}" th:src="@{../img/TrollllPeerReviewwww.png}" src="img\TrollllPeerReviewwww.png" class="img-profile ">
+                    <img th:if="${getPhoto==null}" th:src="@{../img/user.png}" class="img-profile ">
                     <img th:unless="${getPhoto==null}" th:src="${getPhoto}" class="img-profile ">
                     <div class="d-flex align-items-start py-3 border-bottom">
                         <form action="#" th:action="@{/dashboard/profile}" method="post"

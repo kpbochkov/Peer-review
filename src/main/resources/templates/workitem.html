@@ -25,25 +25,21 @@
         <div id="content">
             <div class="container-fluid">
                 <h3 th:text="${workitem.getTitle}">Work Item Title</h3>
+                <h4 style="color: #888" th:text="${'Team: ' + workitem.getTeam().getName()}">Work Item Title</h4>
                 <div class="container-custom" style="height: 200px; overflow-y: scroll; background-color: #fff">
                     <p th:text="${workitem.getDescription}">Work Item Description</p>
                 </div>
                 <h4>
-
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
                 </h4>
-
-
                 <br>
                 <div>
                     <form action="https://www.google.com/search" method="GET" target="_blank">
-                        <input type="text" name="q"  placeholder="Google Search">
+                        <input type="text" name="q" placeholder="Google Search">
                         <input type="Submit" value="Google Search">
                     </form>
                 </div>
-
-
                 <br>
                 <span th:if="${assignees.isEmpty()}">
                     <i><h5>Currently no reviewers are assigned to this work item</h5></i>
@@ -76,7 +72,8 @@
                                               style="color:whitesmoke">accepted</span>
                                     </div>
                                     <div th:case="'REJECTED'">
-                                        <span class="badge bg-danger rounded-pill" style="color:whitesmoke">rejected</span>
+                                        <span class="badge bg-danger rounded-pill"
+                                              style="color:whitesmoke">rejected</span>
                                     </div>
                                     <span class="dropdown" th:if="${currentUser.equals(assignee.user)}">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"

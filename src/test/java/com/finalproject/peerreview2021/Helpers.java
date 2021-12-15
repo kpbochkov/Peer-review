@@ -17,7 +17,7 @@ public class Helpers {
         mockUser.setEmail("mock@user.com");
         mockUser.setUsername("MockUsername");
         mockUser.setPassword("Testparola-123");
-        mockUser.setPhoneNumber((long)1234567890);
+        mockUser.setPhoneNumber("1234567890");
         return mockUser;
     }
 

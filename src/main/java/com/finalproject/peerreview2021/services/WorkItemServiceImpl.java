@@ -1,12 +1,12 @@
 package com.finalproject.peerreview2021.services;
 
-import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
-import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
+import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
+import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import com.finalproject.peerreview2021.services.contracts.WorkItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,23 +25,16 @@ import java.util.Optional;
 public class WorkItemServiceImpl implements WorkItemService {
 
     private final WorkItemRepository workItemRepository;
+    private final ReviewerService reviewerService;
 
     @Autowired
-    public WorkItemServiceImpl(WorkItemRepository workItemRepository) {
+    public WorkItemServiceImpl(WorkItemRepository workItemRepository, ReviewerService reviewerService) {
         this.workItemRepository = workItemRepository;
+        this.reviewerService = reviewerService;
     }
 
     @Override
     public void create(WorkItem entity) {
-//        boolean titleAlreadyTaken = true;
-//        try {
-//            workItemRepository.getByField("title", entity.getTitle());
-//        } catch (EntityNotFoundException e) {
-//            titleAlreadyTaken = false;
-//        }
-//        if (titleAlreadyTaken) {
-//            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
-//        }
         workItemRepository.create(entity);
     }
 
@@ -57,18 +50,6 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void update(WorkItem entity) {
-//        boolean titleAlreadyTaken = true;
-//        try {
-//            WorkItem entityInRepository = workItemRepository.getByField("title", entity.getTitle());
-//            if(Objects.equals(entityInRepository.getId(), entity.getId())){
-//                titleAlreadyTaken = false;
-//            }
-//        } catch (EntityNotFoundException e) {
-//            titleAlreadyTaken = false;
-//        }
-//        if (titleAlreadyTaken) {
-//            throw new DuplicateEntityException("WorkItem", "title", entity.getTitle());
-//        }
         WorkItem entityInRepository = workItemRepository.getById(entity.getId());
         if (!Objects.equals(entityInRepository.getCreatedBy().getId(), entity.getCreatedBy().getId())) {
             throw new UpdateEntityException("WorkItem", "createdBy");
@@ -81,6 +62,11 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public void delete(int id) {
+        List<Reviewer> reviewersToBeRemoved = reviewerService.
+                getAllReviewersForWorkItem(workItemRepository.getById(id));
+        for (Reviewer reviewer : reviewersToBeRemoved) {
+            reviewerService.delete(reviewer.getId());
+        }
         workItemRepository.delete(id);
     }
 

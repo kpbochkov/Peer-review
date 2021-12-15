@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -54,14 +53,6 @@ public class WorkItemMvcController {
         User user = authenticationHelper.tryGetUser(session);
         return user.getImage();
     }
-
-//    @ModelAttribute("notifications")
-//    public List<Notification> getNotifications(HttpSession session) {
-//        User user = authenticationHelper.tryGetUser(session);
-//        List<Notification> notifications = notificationService.getUserNotifications(user);
-//        Collections.sort(notifications);
-//        return notifications;
-//    }
 
     @ModelAttribute("newNotificationsCount")
     public long newNotificationsCount(HttpSession session) {
@@ -197,7 +188,8 @@ public class WorkItemMvcController {
     }
 
     @GetMapping("/{id}/update")
-    public String showEditWorkItemPage(@PathVariable int id, Model model,
+    public String showEditWorkItemPage(@PathVariable int id,
+                                       Model model,
                                        HttpSession session) {
         try {
             WorkItem workItem = workItemService.getById(id);
@@ -213,11 +205,16 @@ public class WorkItemMvcController {
     }
 
     @PostMapping("/{id}/update")
-    public String updateWorkItem(@PathVariable int id,
-                                 @Valid @ModelAttribute("workitem") WorkItemDto workItemDto,
+    public String updateWorkItem(@Valid @ModelAttribute("workitem") WorkItemDto workItemDto,
                                  BindingResult errors,
+                                 @PathVariable int id,
                                  Model model,
                                  HttpSession session) {
+        if (errors.hasErrors()) {
+            model.addAttribute("teams", workItemService.getById(id).getCreatedBy().getTeams());
+            return "workitem-update";
+        }
+
         try {
             WorkItem workItem = workItemModelMapper.fromDto(workItemDto, id);
             workItemService.update(workItem);

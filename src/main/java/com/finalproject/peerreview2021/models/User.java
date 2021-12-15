@@ -32,7 +32,7 @@ public class User implements SoftDeletable{
     private String email;
 
     @Column(name = "phone_number", nullable = false)
-    private Long phoneNumber;
+    private String phoneNumber;
 
     @Lob
     @Column(name = "photo")
@@ -91,11 +91,11 @@ public class User implements SoftDeletable{
         this.photo = photo;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

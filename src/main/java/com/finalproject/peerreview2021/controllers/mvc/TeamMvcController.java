@@ -162,7 +162,6 @@ public class TeamMvcController {
         try {
             Team team = teamService.getById(id);
             model.addAttribute("team", team);
-            model.addAttribute("members", userService.getMembersWithoutCurrentUser(team, user));
             model.addAttribute("currentUser", user);
             return "team";
         } catch (EntityNotFoundException e) {

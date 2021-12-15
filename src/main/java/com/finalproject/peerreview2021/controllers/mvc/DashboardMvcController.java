@@ -44,12 +44,6 @@ public class DashboardMvcController {
         this.notificationService = notificationService;
     }
 
-    @ModelAttribute("getPhoto")
-    public String getPhoto(HttpSession session) {
-        User user = authenticationHelper.tryGetUser(session);
-        return user.getImage();
-    }
-
     @ModelAttribute("newNotificationsCount")
     public long newNotificationsCount(HttpSession session) {
         User user = authenticationHelper.tryGetUser(session);
@@ -84,6 +78,7 @@ public class DashboardMvcController {
                 .filter(r -> r.getStatus().getId() == 3).count());
         model.addAttribute("currentUser", user);
         model.addAttribute("notifications", notificationService.getUserNotifications(user));
+        model.addAttribute("getPhoto", user.getImage());
 
         return "index";
     }
@@ -91,15 +86,19 @@ public class DashboardMvcController {
     @GetMapping("/profile")
     public String profilePage(Model model,
                               HttpSession session) {
+        User user;
         try {
-            authenticationHelper.tryGetUser(session);
+            user = authenticationHelper.tryGetUser(session);
         } catch (AuthenticationFailureException e) {
             return "redirect:/";
         } catch (UnauthorizedOperationException e) {
             model.addAttribute("error", e.getMessage());
             return "access-denied";
         }
+        model.addAttribute("getPhoto", user.getImage());
         model.addAttribute("userPhotoDto", new UserPhotoDto());
+        model.addAttribute("notifications", notificationService.getUserNotifications(user));
+
         return "profile";
     }
 
@@ -120,6 +119,7 @@ public class DashboardMvcController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return "redirect:/dashboard/profile";
     }
 
@@ -139,6 +139,7 @@ public class DashboardMvcController {
         List<Notification> sortedNotifications = notificationService.getUserNotifications(user);
         Collections.sort(sortedNotifications);
         model.addAttribute("notifications", sortedNotifications);
+        model.addAttribute("getPhoto", user.getImage());
         return "notifications-user";
     }
 

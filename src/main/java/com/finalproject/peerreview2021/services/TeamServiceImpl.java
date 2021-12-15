@@ -4,22 +4,32 @@ import com.finalproject.peerreview2021.exceptions.DuplicateEntityException;
 import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
 import com.finalproject.peerreview2021.exceptions.UpdateEntityException;
+import com.finalproject.peerreview2021.models.Reviewer;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.TeamRepository;
+import com.finalproject.peerreview2021.services.contracts.ReviewerService;
 import com.finalproject.peerreview2021.services.contracts.TeamService;
+import com.finalproject.peerreview2021.services.contracts.WorkItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
+    private final ReviewerService reviewerService;
+    private final WorkItemService workItemService;
 
     @Autowired
-    public TeamServiceImpl(TeamRepository teamRepository) {
+    public TeamServiceImpl(TeamRepository teamRepository, ReviewerService reviewerService,
+                           WorkItemService workItemService) {
         this.teamRepository = teamRepository;
+        this.reviewerService = reviewerService;
+        this.workItemService = workItemService;
     }
 
     @Override
@@ -99,6 +109,21 @@ public class TeamServiceImpl implements TeamService {
             throw new UnauthorizedOperationException("You are the owner, " +
                     "you cannot leave your own team!");
         }
+        List<WorkItem> workitems = workItemService.getAllWorkItemsForTeam(team).
+                stream().filter(w -> w.getCreatedBy().equals(user)).collect(Collectors.toList());
+        for (WorkItem workitem : workitems) {
+            workItemService.delete(workitem.getId());
+        }
+
+        List<Reviewer> reviewers = workItemService.getAllWorkItemsForTeam(team).
+                stream().flatMap(workItem -> reviewerService.getAllReviewersForWorkItem(workItem).stream()).
+                collect(Collectors.toList());
+        for (Reviewer reviewer : reviewers) {
+            if (reviewer.getUser().equals(user)) {
+                reviewerService.delete(reviewer.getId());
+            }
+        }
+
         team.getMembers().remove(user);
         teamRepository.update(team);
     }

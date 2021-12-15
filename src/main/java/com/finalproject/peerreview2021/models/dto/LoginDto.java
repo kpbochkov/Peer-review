@@ -4,7 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class LoginDto {
-    @NotBlank(message = "Username field must not be blank!")
     @Size(min = 2, max = 20, message = "Username should be between 2 and 20 symbols!")
     private String username;
 

@@ -38,7 +38,7 @@ public class UserModelMapper {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
-        user.setPhoneNumber(Long.parseLong(userDto.getPhoneNumber()));
+        user.setPhoneNumber(userDto.getPhoneNumber());
     }
 
     private void dtoToObject(User userToUpdate, User user) {
@@ -47,12 +47,11 @@ public class UserModelMapper {
 
     public User dtoToObject(RegisterDto registerDto) {
         User user = new User();
-//        registerDto.store(photo);
         user.setUsername(registerDto.getUsername());
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());
-        user.setPhoneNumber(Long.parseLong(registerDto.getPhoneNumber()));
- //       user.setPhoto(registerDto.getPhoto());
+        user.setPhoneNumber(registerDto.getPhoneNumber());
+
 
         return user;
     }

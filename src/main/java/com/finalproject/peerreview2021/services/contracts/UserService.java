@@ -13,6 +13,5 @@ public interface UserService extends BaseCRUDService<User> {
 
     List<User> getPossibleAssignees(WorkItem workItem);
 
-    List<User> getMembersWithoutCurrentUser(Team team, User user);
 
 }

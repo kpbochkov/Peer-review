@@ -23,9 +23,9 @@ INSERT INTO users (user_id, username, password, email, phone_number, photo)
 VALUE (6, 'didi', 'Qwerty!123', 'didi@gmail.com', '0399112233', null);
 
 INSERT INTO teams (team_id, name, owner)
-VALUES (1, 'IT', 1);
+VALUES (1, 'IT Department', 1);
 INSERT INTO teams (team_id, name, owner)
-VALUES (2, 'HR', 2);
+VALUES (2, 'HR Department', 2);
 INSERT INTO teams (team_id, name, owner)
 VALUES (3, 'Finance', 3);
 INSERT INTO teams (team_id, name, owner)
@@ -33,7 +33,7 @@ VALUES (4, 'Telerik', 4);
 INSERT INTO teams (team_id, name, owner)
 VALUES (5, 'Engineers', 5);
 INSERT INTO teams (team_id, name, owner)
-VALUES (6, 'QA', 6);
+VALUES (6, 'Quality assurance', 6);
 
 INSERT INTO users_teams (user_id, team_id)
 VALUES (1, 1);
