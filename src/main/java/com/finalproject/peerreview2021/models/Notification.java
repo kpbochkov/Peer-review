@@ -94,7 +94,6 @@ public class Notification implements Comparable<Notification> {
     }
 
     public String timeAsString(){
-        // String instantStr = time.toString().replaceAll("[TZ]", " ");
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.ofHours(2));
         return fmt.format(time);
     }

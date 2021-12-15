@@ -20,7 +20,7 @@
     <div th:replace="fragments.html :: navbar"></div>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-        <div th:replace="fragments.html :: topbar-simple"></div>
+        <div th:replace="fragments.html :: topbar"></div>
 
         <div id="content">
             <div class="container-fluid">
@@ -121,7 +121,6 @@
                 </span>
                 <div th:unless="${comments.isEmpty()}" class="container-custom">
                     <label> Current comments</label>
-
                     <table class="table table-sm shadow table-condensed table-hover">
                         <thead>
                         <tr class="table-light">

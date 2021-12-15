@@ -3,7 +3,10 @@ package com.finalproject.peerreview2021.controllers.mvc;
 import com.finalproject.peerreview2021.controllers.AuthenticationHelper;
 import com.finalproject.peerreview2021.exceptions.AuthenticationFailureException;
 import com.finalproject.peerreview2021.exceptions.UnauthorizedOperationException;
-import com.finalproject.peerreview2021.models.*;
+import com.finalproject.peerreview2021.models.Notification;
+import com.finalproject.peerreview2021.models.Reviewer;
+import com.finalproject.peerreview2021.models.User;
+import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.models.dto.UserPhotoDto;
 import com.finalproject.peerreview2021.services.contracts.*;
 import org.springframework.stereotype.Controller;
@@ -45,14 +48,6 @@ public class DashboardMvcController {
     public String getPhoto(HttpSession session) {
         User user = authenticationHelper.tryGetUser(session);
         return user.getImage();
-    }
-
-    @ModelAttribute("notifications")
-    public List<Notification> getNotifications(HttpSession session) {
-        User user = authenticationHelper.tryGetUser(session);
-        List<Notification> notifications = notificationService.getUserNotifications(user);
-        Collections.sort(notifications);
-        return notifications;
     }
 
     @ModelAttribute("newNotificationsCount")
@@ -141,6 +136,9 @@ public class DashboardMvcController {
             return "access-denied";
         }
         notificationService.markUserNotificationsSeen(user);
+        List<Notification> sortedNotifications = notificationService.getUserNotifications(user);
+        Collections.sort(sortedNotifications);
+        model.addAttribute("notifications", sortedNotifications);
         return "notifications-user";
     }
 

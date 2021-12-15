@@ -91,6 +91,18 @@ create table notifications
 );
 
 
+create table notifications
+(
+    notification_id int auto_increment
+        primary key,
+    description varchar(500) not null,
+    seen tinyint(1) default 0 not null,
+    time timestamp default current_timestamp() not null on update current_timestamp(),
+    work_item_id int not null,
+    constraint notifications_workitems_work_item_id_fk
+        foreign key (work_item_id) references workitems (work_item_id)
+);
+
 create table comments
 (
     comment_id int auto_increment

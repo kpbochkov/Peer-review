@@ -51,7 +51,7 @@ public class HomeMvcController {
             return "redirect:/dashboard";
         } catch (AuthenticationFailureException e) {
             bindingResult.rejectValue("username", "auth_error", e.getMessage());
-            return "login";
+            return "redirect:/dashboard";
         }
     }
 }

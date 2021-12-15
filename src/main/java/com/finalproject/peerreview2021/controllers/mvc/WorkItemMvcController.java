@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -48,6 +49,27 @@ public class WorkItemMvcController {
         this.notificationService = notificationService;
     }
 
+    @ModelAttribute("getPhoto")
+    public String getPhoto(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        return user.getImage();
+    }
+
+//    @ModelAttribute("notifications")
+//    public List<Notification> getNotifications(HttpSession session) {
+//        User user = authenticationHelper.tryGetUser(session);
+//        List<Notification> notifications = notificationService.getUserNotifications(user);
+//        Collections.sort(notifications);
+//        return notifications;
+//    }
+
+    @ModelAttribute("newNotificationsCount")
+    public long newNotificationsCount(HttpSession session) {
+        User user = authenticationHelper.tryGetUser(session);
+        List<Notification> notifications = notificationService.getUserNotifications(user);
+        return notifications.stream().filter(n -> n.getSeen().equals(false)).count();
+    }
+
     @GetMapping()
     public String showAllWorkItems(Model model, HttpSession session) {
         User user;
@@ -57,6 +79,7 @@ public class WorkItemMvcController {
             return "redirect:/";
         }
         model.addAttribute("workitems", workItemService.getAllWorkItemsForUser(user));
+        model.addAttribute("notifications", notificationService.getUserNotifications(user));
         return "workitems-user";
     }
 
@@ -137,6 +160,7 @@ public class WorkItemMvcController {
             model.addAttribute("newComment", new NewCommentDto());
             model.addAttribute("currentUser", user);
             model.addAttribute("statuses", statusService.getAll());
+            model.addAttribute("notifications", notificationService.getUserNotifications(user));
             return "workitem";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
