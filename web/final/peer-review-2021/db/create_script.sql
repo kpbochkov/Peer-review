@@ -16,7 +16,7 @@ create table users
     username varchar(20) not null,
     password varchar(50) not null,
     email varchar(50) not null,
-    phone_number int not null,
+    phone_number bigint not null,
     photo longblob null,
     active tinyint(1) default 1 not null,
     constraint users_email_uindex
