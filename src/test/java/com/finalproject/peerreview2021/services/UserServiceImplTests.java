@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.finalproject.peerreview2021.Helpers;
 
+import java.util.ArrayList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: gog
@@ -114,4 +116,20 @@ public class UserServiceImplTests {
         Mockito.verify(mockRepository, Mockito.times(1))
                 .update(userToBeUpdated);
     }
+
+    @Test
+    void getAll_should_callRepository() {
+        // Arrange
+        Mockito.when(mockRepository.getAll())
+                .thenReturn(new ArrayList<>());
+
+        // Act
+        service.getAll();
+
+        // Assert
+        Mockito.verify(mockRepository, Mockito.times(1))
+                .getAll();
+    }
+
+
 }
