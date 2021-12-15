@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-<!--        <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">-->
+    <!--        <link href="css/sb-admin-2.min.css" th:href="@{../css/comments.css}" rel="stylesheet">-->
 
 </head>
 
@@ -61,26 +61,30 @@
                                    class="m-0 font-weight-bold text-primary" th:text="${teamWorkItems.team.name}">Team
                                     placeholder</a>
                                 <!--- form begin -->
-
-                                <div class=" dropdown-menu-right">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                        Invite user
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" th:if="${teamWorkItems.possibleInvitees.isEmpty()}">No users to invite</a>
-                                        <a class="dropdown-item" th:each="user : ${teamWorkItems.possibleInvitees}"
-                                           th:href="@{/teams/{teamId}/invite/{userId}(teamId=${teamWorkItems.team.id},userId=${user.id})}"
-                                           th:text="${user.username}"></a>
+                                <div class="Two buttons" style="margin-right: fill">
+                                    <div class=" dropdown-menu-right" style="display: inline-block">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Invite user
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item"
+                                               th:if="${teamWorkItems.possibleInvitees.isEmpty()}">No users to
+                                                invite</a>
+                                            <a class="dropdown-item" th:each="user : ${teamWorkItems.possibleInvitees}"
+                                               th:href="@{/teams/{teamId}/invite/{userId}(teamId=${teamWorkItems.team.id},userId=${user.id})}"
+                                               th:text="${user.username}"></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <span>
+                                    <span>
                                         <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
-                                                data-target="#exampleModal">
+                                                data-target="#exampleModal" style="display: inline-block">
                                             <a th:href="@{teams/leave/{teamId}(teamId=${teamWorkItems.team.id})}">Leave team</a>
                                         </button>
                                     </span>
+
+                                </div>
                             </div>
                             <!-- Card Body -->
                             <div th:id="'collapse'+${teamWorkItems.team.id}" class="panel-collapse collapse">
