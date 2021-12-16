@@ -24,7 +24,7 @@
 
         <div id="content">
             <div class="container-fluid">
-                <h3 th:text="${workitem.getTitle}">Work Item Title</h3>
+                <h3 th:text="${workitem.getTitle}" style="background-color: #347dbe; color: #ffffff">Work Item Title</h3>
                 <h4 style="color: #888" th:text="${'Team: ' + workitem.getTeam().getName()}">Work Item Title</h4>
                 <div class="container-custom" style="height: 200px; overflow-y: scroll; background-color: #fff">
                     <p th:text="${workitem.getDescription}">Work Item Description</p>
@@ -32,12 +32,14 @@
                 <h4>
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
+
                 </h4>
+
                 <br>
                 <div>
                     <form action="https://www.google.com/search" method="GET" target="_blank">
                         <input type="text" name="q" placeholder="Google Search">
-                        <input type="Submit" value="Google Search">
+                        <input type="Submit" value="Google Search" style="color: #1282e7">
                     </form>
                 </div>
                 <br>
@@ -49,8 +51,8 @@
                     <table class="table table-sm shadow table-condensed table-hover">
                         <thead>
                         <tr class="table-light">
-                            <th class="text-center">Reviewer name</th>
-                            <th class="text-center">Status</th>
+                            <th class="text-center" style="background-color: #347dbe; color: #ffffff">Reviewer name</th>
+                            <th class="text-center" style="background-color: #347dbe; color: #ffffff">Status</th>
                         </tr>
                         </thead>
                         <tbody class="table-hover">
@@ -135,7 +137,7 @@
                     </table>
                 </div>
                 <span>
-                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal" style="color: #1282e7">
                 <medium>Add comment</medium>
                 </button>
                 </span>
