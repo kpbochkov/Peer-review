@@ -57,6 +57,7 @@ public class ReviewMvcController {
         User user = authenticationHelper.tryGetUser(session);
         model.addAttribute("workitems", workItemService.getAllWorkItemsForReviewer(user));
         model.addAttribute("notifications", notificationService.getUserNotifications(user));
+
         return "workitems-user";
     }
 }

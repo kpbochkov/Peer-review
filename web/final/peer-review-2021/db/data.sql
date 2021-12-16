@@ -81,7 +81,7 @@ The fifth generation (5G) network communication systems operate in the millimete
 
 Graphical abstract
 A number of designs for scanning antennas are presented in this work to realize a one- or two-dimensional scan. The first of these is a Luneburg lens, together with a feed array, designed to realize a wide-angle scan The the second design is based on the use of an electronically reconfigurable phase shifter, which utilizes PIN or varactor diodes inserted between radiating slots in a curved waveguide to provide the desired phase shifts. Next, the paper introduces a novel design to realize both one- and two-dimensional scans, by using reconfigurable metasurface type of panels to provide a wide-angle beam-scanning performance, without compromising either the impedance match or the gain of the array. Additionally, the paper describes several techniques for enhancing the gain of the array to achieve gain levels as high as 30 dB, to render the scanning array competitive with reflectors, for instance.'
-, 1, 1, 1);
+, 1, 1, 2);
 INSERT INTO workitems (work_item_id, title, description, created_by, team_id, status_id)
 VALUES (2, 'Explosive Electric Actuator and Control for Legged Robots', 'Abstract
 Unmanned systems such as legged robots require fast-motion responses for operation in complex environments. These systems therefore require explosive actuators that can provide high peak speed or high peak torque at specific moments during dynamic motion. Although hydraulic actuators can provide a large force, they are relatively inefficient, large, and heavy. Industrial electric actuators are incapable of providing instant high power. In addition, the constant reduction ratio of the reducer makes it difficult to eliminate the tradeoff between high speed and high torque in a given system. This study proposes an explosive electric actuator and an associated control method for legged robots. First, a high-power-density variable transmission is designed to enable continuous adjustment of the output speed to torque ratio. A heat-dissipating structure based on a composite phase-change material (PCM) is used. An integral torque control method is used to achieve periodic and controllable explosive power output. Jumping experiments are conducted with typical legged robots to verify the effectiveness of the proposed actuator and control method. Single-legged, quadruped, and humanoid robots jumped to heights of 1.5, 0.8, and 0.5 m, respectively. These are the highest values reported to date for legged robots powered by electric actuators.
@@ -142,7 +142,7 @@ Download : Download high-res image (65KB)Download : Download full-size image
 Fig. 2. Relationship between the reduction ratio  and the velocity of the first-stage ring gear.
 
 To implement the designed power allocation unit, we used a small power motor and a high-ratio gearbox. We selected these components because the actuator does not require peak speeds during most of its operation, and the power allocation motor therefore rarely consumes energy. Unlike systems that use dual motors to control the sun and ring gears of a planetary reducer [24], [26], our power allocation motor is much smaller than the main actuator motor. Therefore, the energy efficiency of the proposed unit is higher than that of the previous dual motor systems, and there is no coupling between the two motors in the proposed system.'
-, 2, 2, 1);
+, 2, 2, 5);
 INSERT INTO workitems (work_item_id, title, description, created_by, team_id, status_id)
 VALUES (3, 'Progress of Brain Network Studies on Anesthesia and Consciousness',
         'Abstract
@@ -601,7 +601,7 @@ Till I put thine enemies underneath thy feet?
 
 [Index]   [Home]   [Report typo]
 
-HTML generated 27 September 2005. ', 4, 4, 1);
+HTML generated 27 September 2005. ', 4, 4, 3);
 INSERT INTO workitems (work_item_id, title, description, created_by, team_id, status_id)
 VALUES (5, 'Need to modify latest patch for GitLab', 'Error on line 344 after the if statement', 5, 5, 1);
 INSERT INTO workitems (work_item_id, title, description, created_by, team_id, status_id)

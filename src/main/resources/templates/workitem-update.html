@@ -27,24 +27,16 @@
 
                     <label>Title</label>
                     <br/>
-                    <input type="text" th:field="*{title}"/>
+                    <input type="text" th:field="*{title}" style="width: 65%"/>
                     <label class="error-custom" th:errors="*{title}">Title error placeholder</label>
                     <br/><br/>
 
                     <label>Description</label>
                     <br/>
-                    <textarea class="form-control-custom" id="exampleFormControlTextarea1" rows="3" th:field="*{description}"></textarea>
+                    <textarea class="form-control-custom" id="exampleFormControlTextarea1" rows="3"
+                              th:field="*{description}" style="width: 100%;height: 339px"></textarea>
                     <label class="error-custom" th:errors="*{description}">Description error placeholder</label>
                     <br/><br/>
-
-                    <label>Team</label>
-                    <div class="col-2 float-left">
-                        <select class="form-select" aria-label="Default select example" th:field="*{teamId}">
-                            <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name
-                            </option>
-                        </select>
-                        <label class="error-custom" th:errors="*{teamId}">Team error placeholder</label>
-                    </div>
 
                     <input type="submit" value="Save"/>
                 </form>

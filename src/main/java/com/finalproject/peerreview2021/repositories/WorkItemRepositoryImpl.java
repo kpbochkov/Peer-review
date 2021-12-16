@@ -1,11 +1,13 @@
 package com.finalproject.peerreview2021.repositories;
 
+import com.finalproject.peerreview2021.exceptions.EntityNotFoundException;
 import com.finalproject.peerreview2021.models.Team;
 import com.finalproject.peerreview2021.models.User;
 import com.finalproject.peerreview2021.models.WorkItem;
 import com.finalproject.peerreview2021.repositories.contracts.WorkItemRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.jdbc.Work;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -59,7 +61,6 @@ public class WorkItemRepositoryImpl extends AbstractCRUDSoftDeleteRepository<Wor
             return query.list();
         }
     }
-
 
     private String generateQueryStringFromSortParam(Optional<String> sortParam) {
         String paramStr = sortParam.get();

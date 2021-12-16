@@ -24,12 +24,15 @@
 
         <div id="content">
             <div class="container-fluid">
-                <h3 th:text="${workitem.getTitle}" style="background-color: #347dbe; color: #ffffff">Work Item Title</h3>
-                <h4 style="color: #888" th:text="${'Team: ' + workitem.getTeam().getName()}">Work Item Title</h4>
+                <h3 th:text="${workitem.getTitle}">Work
+                    Item Title</h3>
+
+                <h4 style="color: #888" th:text="${'Team: ' + workitem.getTeam().getName()}"></h4>
+                <h4 style="color: #888" th:text="${'Owner: ' + workitem.getCreatedBy().username}"></h4>
                 <div class="container-custom" style="height: 200px; overflow-y: scroll; background-color: #fff">
                     <p th:text="${workitem.getDescription}">Work Item Description</p>
                 </div>
-                <h4>
+                <h4 th:if="${currentUser.equals(workitem.createdBy)}">
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/update}">Update</a>
                     <a href="#" th:href="@{__${#httpServletRequest.requestURI}__/delete}">Delete</a>
 
@@ -137,7 +140,8 @@
                     </table>
                 </div>
                 <span>
-                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal" style="color: #1282e7">
+                <button type="button" class="reply px-4" data-toggle="modal" data-target="#exampleModal"
+                        style="color: #1282e7">
                 <medium>Add comment</medium>
                 </button>
                 </span>

@@ -71,6 +71,8 @@ public class WorkItemMvcController {
         }
         model.addAttribute("workitems", workItemService.getAllWorkItemsForUser(user));
         model.addAttribute("notifications", notificationService.getUserNotifications(user));
+        model.addAttribute("statuses", statusService.getAll());
+
         return "workitems-user";
     }
 

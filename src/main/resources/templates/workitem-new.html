@@ -28,19 +28,21 @@
 
                     <label>Title</label>
                     <br/>
-                    <input type="text" th:field="*{title}"/>
+                    <input type="text" th:field="*{title}" style="width: 65%"/>
                     <label class="error-custom" th:errors="*{title}">Title error placeholder</label>
                     <br/><br/>
 
                     <label>Description</label>
                     <br/>
-                    <textarea class="form-control-custom" id="exampleFormControlTextarea1" rows="3" th:field="*{description}"></textarea>
+                    <textarea class="form-control-custom" id="exampleFormControlTextarea1"
+                              style="width: 100%;height: 355px" rows="3" th:field="*{description}"></textarea>
                     <label class="error-custom" th:errors="*{description}">Description error placeholder</label>
                     <br/><br/>
 
                     <label>Team</label>
                     <div class="col-2 float-left">
-                        <select class="btn btn-outline-secondary" aria-label="Default select example" th:field="*{teamId}">
+                        <select class="btn btn-outline-secondary" aria-label="Default select example"
+                                th:field="*{teamId}">
                             <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}">Team name
                             </option>
                         </select>
@@ -52,7 +54,7 @@
                 <br>
                 <div>
                     <form action="https://www.google.com/search" method="GET" target="_blank">
-                        <input type="text" name="q"  placeholder="Google Search">
+                        <input type="text" name="q" placeholder="Google Search">
                         <input type="Submit" value="Google Search">
                     </form>
                 </div>

@@ -171,17 +171,6 @@ public class DashboardMvcController {
             return "access-denied";
         }
     }
-
-//    @GetMapping("/search")
-//    public String search(@ModelAttribute SearchWorkItemDto searchWorkItemDto, Model model) {
-//        try {
-//            userService.filter(Optional.of(searchWorkItemDto.getTitle()));
-//            return "user";
-//
-//        } catch (EntityNotFoundException e) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-//        }
-//    }
 }
 
 
