@@ -10,5 +10,4 @@ public class PeerReview2021Application {
     public static void main(String[] args) {
         SpringApplication.run(PeerReview2021Application.class, args);
     }
-
 }

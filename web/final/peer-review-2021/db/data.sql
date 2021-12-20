@@ -25,9 +25,9 @@ VALUE (6, 'didi', 'Qwerty!123', 'didi@gmail.com', '0399112233', null);
 INSERT INTO teams (team_id, name, owner)
 VALUES (1, 'IT Department', 1);
 INSERT INTO teams (team_id, name, owner)
-VALUES (2, 'HR Department', 2);
+VALUES (2, 'Backend', 2);
 INSERT INTO teams (team_id, name, owner)
-VALUES (3, 'Finance', 3);
+VALUES (3, 'DevOps', 3);
 INSERT INTO teams (team_id, name, owner)
 VALUES (4, 'Telerik', 4);
 INSERT INTO teams (team_id, name, owner)
